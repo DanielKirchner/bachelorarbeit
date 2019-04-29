@@ -1,0 +1,63 @@
+\documentclass[a4paper,12pt,onesided]{report}
+\input{macros.tex}
+\begin{document}
+
+% Titelseite
+\begin{titlepage}
+	\centering
+	\includegraphics[width=14.9cm]{img/logo}\\
+
+	\fontsize{18}{20}\selectfont
+	Hochschule für angewandte Wissenschaften Coburg\\[.1cm]
+	Fakultät Elektrotechnik und Informatik\\[1.2cm]
+	Studiengang: Informatik\\
+	Bachelorarbeit\\[1.2cm]
+	\fontsize{21}{23}\selectfont
+	\textbf{Entwicklung einer hardwarebeschleunigten Berechnung der 
+	Mandelbrotmenge auf einem FPGA}\\[1cm]
+	\fontsize{18}{20}\selectfont
+	von\\[1.2cm]
+	Daniel Kirchner\\
+	Matrikelnummer: 02219415\\[1.2cm]
+	Abgabe der Arbeit: 15.07.2019\\[1.2cm]
+
+	Betreut durch: Prof. Oliver Engel, Hochschule Coburg
+\end{titlepage}
+
+\begin{abstract}
+	Dieses Dokument befasst sich mit der Entwicklung einer 
+\end{abstract}
+
+
+% Inhaltsverzeichnis
+{
+  \setlength{\cftbeforechapskip}{-.5ex}
+  \tableofcontents
+  \addcontentsline{toc}{chapter}{Inhaltsverzeichnis}
+}
+
+% Abbildungsverzeichnis
+\newpage
+\listoffigures
+\addcontentsline{toc}{chapter}{Abbildungsverzeichnis}
+
+% Codeverzeichnis
+\newpage
+\lstlistoflistings
+\addcontentsline{toc}{chapter}{Codebeispielverzeichnis}
+
+% Abkuerzungsverzeichnis
+\newpage
+\section*{Abkürzungsverzeichnis}
+\addcontentsline{toc}{chapter}{Abkürzungsverzeichnis}
+\begin{tabular}{ll}
+  JAX-RS&Java API for RESTful Web Services\\
+\end{tabular}
+
+% Beginn Arbeit
+\newpage
+\chapter{Erstes Kapitel}
+Los gehts \cite{Nobody06}
+\bibliography{bib}{}
+\bibliographystyle{plain}
+\end{document}

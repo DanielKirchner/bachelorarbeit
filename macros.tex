@@ -1,0 +1,122 @@
+%Eigene Änderungen:
+\usepackage{cite}
+\usepackage[utf8]{inputenc}
+
+%===========================================================
+%== Definitionen fuer die Formatierung =====================
+%===========================================================
+
+% Use german names like "Literaturverzeichnis" instead of "Bibliography"
+\usepackage{ngerman}
+
+% Links inside of the document
+%\usepackage{hyperref}
+
+% Allows to use graphics
+\usepackage{graphicx}
+
+% Use times new roman and courier as fonts
+\usepackage{times}
+\usepackage{courier}
+
+% Allow forcing positioning of floating figures
+\usepackage{float}
+
+% Allow special tye of configurable tables
+\usepackage{tabularx}
+\usepackage{multirow}
+
+
+% Allows to change letter spcaing
+\usepackage{microtype}
+
+% Special table types
+\usepackage{longtable}
+\usepackage{colortbl}
+\definecolor{gray}{gray}{0.85}
+
+
+\usepackage[titles]{tocloft}
+
+
+\usepackage{url}
+
+\usepackage{listings}
+\renewcommand*{\lstlistlistingname}{Codebeispielverzeichnis}
+\renewcommand{\lstlistingname}{Code}
+\lstset{frame=single,basicstyle=\footnotesize\bfseries\ttfamily,breaklines=true}
+
+\usepackage{titlesec}
+\titlespacing*{\chapter}{0pt}{-35pt}{0pt}
+
+\lstset{numberbychapter=false}
+\usepackage{chngcntr}
+\counterwithout{figure}{chapter}
+\counterwithout{table}{chapter}
+\renewcommand{\tablename}{Tab.}
+
+% Glossary
+% More info here https://en.wikibooks.org/wiki/LaTeX/Glossary
+\usepackage[toc]{glossaries}
+\renewcommand*{\glossaryentrynumbers}[1]{}
+\makeglossaries
+
+% Some formatting stuff for "Praxisbericht"
+\linespread{1.4}
+\makeatletter
+ \renewcommand*\l@section{\@dottedtocline{1}{0em}{2.3em}}
+ \renewcommand*\l@subsection{\@dottedtocline{1}{1em}{2.3em}}
+\makeatother
+\usepackage[a4paper, left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm]{geometry}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyfoot{}
+\fancyfoot[R]{\thepage}
+\fancyhead{}
+\fancyhead[L]{\nouppercase{\leftmark}}
+\fancypagestyle{plain}{\pagestyle{fancy}}
+
+
+
+% for formatting titles of chapters
+\usepackage{titlesec}
+
+\titleformat{\chapter} % command
+{\bfseries} % format
+{\fontsize{16}{18}\selectfont \thechapter\ } % label
+{0ex} % sep
+{\fontsize{16}{18}\selectfont} % before-code
+[] % after-code
+\titleformat{\section} % command
+{\bfseries} % format
+{\fontsize{14}{16}\selectfont \thesection\ } % label
+{0ex} % sep
+{\fontsize{14}{16}\selectfont} % before-code
+[] % after-code
+\titleformat{\subsection} % command
+{\bfseries} % format
+{\fontsize{12}{14}\selectfont \thesubsection\ } % label
+{0ex} % sep
+{\fontsize{12}{14}\selectfont} % before-code
+[] % after-code
+ 
+% Linksbuendige Captions
+\usepackage{caption}
+\captionsetup{
+  justification=raggedright,
+  singlelinecheck=false
+}
+
+% Paragraph styles
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{6pt}
+
+% A todo macro for marking ToDos
+\usepackage{color}
+\newcommand{\todo}[1]{\textcolor{white}{\colorbox{red}{ To do %
+       :}}\textcolor{red}{\ \ #1
+   }\textcolor{red}{\colorbox{red}{III}}\ }
+
+
+
