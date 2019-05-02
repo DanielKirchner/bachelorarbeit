@@ -25,9 +25,13 @@
 \end{titlepage}
 
 \begin{abstract}
-	Dieses Dokument befasst sich mit der Entwicklung einer 
+	Dieses Dokument befasst sich mit der Entwicklung einer in VHDL beschriebenen Hardware zur Darstellung
+	der Mandelbrotmenge.
+	Alle Berechnungen zur Visualisierung dieses Fraktals finden in Hardware statt, was die parallelen Fähigkeiten
+	eines FPGAs ausnutzen lässt.
+	Das Projekt wurde für das Zybo Zynq-7000 Trainer Board entwickelt.
+	%TODO mehr
 \end{abstract}
-
 
 % Inhaltsverzeichnis
 {
@@ -52,12 +56,32 @@
 \addcontentsline{toc}{chapter}{Abkürzungsverzeichnis}
 \begin{tabular}{ll}
   JAX-RS&Java API for RESTful Web Services\\
+  % TODO: updaten
 \end{tabular}
 
 % Beginn Arbeit
 \newpage
-\chapter{Erstes Kapitel}
-Los gehts \cite{Nobody06}
+\chapter{Einleitung}
+%TODO vllt aufbau erklären
+
+\chapter{Grundlagen}
+\section{Fraktale}
+Der Begriff \textit{Fraktal} wurde maßgeblich von Benoît Mandelbrot geprägt, welcher diesen aus dem lateinischen Adjektiv
+\textit{fractus} (irregulär, in Stücke zerbrochen) ableitete \cite{mandelbrot2013fraktale}. Im folgenden Kapitel sollen sowohl
+die Definition eines Fraktals aufgezeigt werden, als auch einige Beispiele für derartige Strukturen aufgezeigt werden.
+\subsection{Hausdorff-Dimension}
+Zur mathematischen Definition eines Fraktals muss die sog. Hausdorff-Dimension erläutert werden. 
+Dieses Maß ordnet einem metrischen Raum \footnote{Ein metrischer Raum ist ein Raum, in dem zwei Punkten
+stets ein positiver Abstand zugeordnet werden kann.} einen Dimensionswert zu.
+Um dieses Maß zu ermitteln %TODO
+
+
+\section{Die Mandelbrot-Menge}
+Die Mandelbrot-Menge ist eine nach Benoît Mandelbrot benannte Menge komplexer Zahlen,
+welche durch Iteration 
+
+% Literaturverzeichnis
 \bibliography{bib}{}
 \bibliographystyle{plain}
+
 \end{document}
