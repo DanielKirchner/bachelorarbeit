@@ -1,11 +1,12 @@
-# Ignore everything
-*
-
-# But not these files...
-!.gitignore
-!bachelor.tex
-!bib.bib
-!macros.tex
-!*/
-!scripts/*
-!img/*
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.glo
+*.ist
+*.lof
+*.log
+*.lol
+*.synctex.gz
+*.toc

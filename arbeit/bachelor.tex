@@ -25,12 +25,15 @@
 \end{titlepage}
 
 \begin{abstract}
-	Dieses Dokument befasst sich mit der Entwicklung einer in VHDL beschriebenen Hardware zur Darstellung
-	der Mandelbrotmenge.
-	Alle Berechnungen zur Visualisierung dieses Fraktals finden in Hardware statt, was die parallelen Fähigkeiten
-	eines FPGAs ausnutzen lässt.
-	Das Projekt wurde für das Zybo Zynq-7000 Trainer Board entwickelt.
-	%TODO mehr
+	Im Rahmen dieser Bachelorarbeit wurde eine hardwarebeschleunigte Visualisierung der Mandelbrotmenge auf einem FPGA
+	realisiert.\\
+	Hierfür werden diverse mathematische und designtechnische Performanceoptimierungen vorgestellt, welche dann in ein
+	paralleles FPGA-Design implementiert wurden. 
+	Weiterhin sollen einige Eigenschaften und Besonderheiten der Mandelbrotmenge und von Fraktalen im Allgemeinen aufgezeigt
+	werden.\\
+	Das Projekt wurde für das Zybo Zynq-7000 Trainer Board entwickelt, welches über einen VGA-Output die Repräsentation
+	des Fraktals in Form eines 800x600@60Hz Videosignals ausgibt. Zur optimalen Ausnutzung der auf diesem Board gegebenen
+	Ressourcen (DSPs, BRAM) wurde die \textit{Vivado Design Suite} mit dem integrierten IP-Katalog verwendet.\\
 \end{abstract}
 
 % Inhaltsverzeichnis
@@ -68,7 +71,7 @@
 \section{Fraktale}
 Der Begriff \textit{Fraktal} wurde maßgeblich von Benoît Mandelbrot geprägt, welcher diesen aus dem lateinischen Adjektiv
 \textit{fractus} (irregulär, in Stücke zerbrochen) ableitete \cite{mandelbrot2013fraktale}. Im folgenden Kapitel sollen sowohl
-die Definition eines Fraktals aufgezeigt werden, als auch einige Beispiele für derartige Strukturen aufgezeigt werden.
+die Definition eines Fraktals, als auch einige Beispiele für derartige Strukturen, aufgezeigt werden.
 \subsection{Hausdorff-Dimension}
 Zur mathematischen Definition eines Fraktals muss die sog. Hausdorff-Dimension erläutert werden. 
 Dieses Maß ordnet einem metrischen Raum \footnote{Ein metrischer Raum ist ein Raum, in dem zwei Punkten

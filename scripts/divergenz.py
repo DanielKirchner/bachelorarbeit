@@ -16,6 +16,9 @@ def onclick(event):
         pointsx,pointsy = getPoints(complex(event.xdata,event.ydata))
         plt.clf()
 
+        plt.xlabel("real")
+        plt.ylabel("imaginär")
+
         plt.scatter(pointsx,pointsy,s=1,c="black") #einzelne iterationspunkte
         plt.scatter(event.xdata,event.ydata,c="red",s=20) #startpunkt
         plt.scatter(pointsx[len(pointsx)-1],pointsy[len(pointsy)-1],c="green",s=20) #konvergenz
