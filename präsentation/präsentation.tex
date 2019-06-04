@@ -2,6 +2,7 @@
 
 \mode<presentation> {
     \usetheme{Montpellier}
+
     \usepackage[ddmmyyyy]{datetime}
     \renewcommand{\dateseparator}{.}
     \usepackage{graphicx} % Allows including images
@@ -9,7 +10,6 @@
     \usepackage{listings}
     \usepackage{xcolor}
     \setbeamertemplate{caption}{\raggedright\insertcaption\par}
-
     \addtobeamertemplate{navigation symbols}{}{%
     \usebeamerfont{footline}%
     \usebeamercolor[fg]{footline}%
@@ -24,6 +24,7 @@
 \author{Daniel Kirchner}
 \institute[HS Coburg]
 {
+betreut durch: Prof. Oliver Engel\\
 Hochschule Coburg
 \medskip
 }
@@ -72,7 +73,7 @@ Hochschule Coburg
     \frametitle{Definition}
     Definiert durch iterative Formel:\\
     \[z_0 = 0\]
-    \[z_n+1 = z_n^2 + c\]
+    \[z_{n+1} = z_n^2 + c\]
     
     Zur Menge gehören diejenigen $c$, für die die Folge beschränkt ist.
 \end{frame}
@@ -83,6 +84,9 @@ Hochschule Coburg
 
 \begin{frame}
     \frametitle{Darstellung}
+    \begin{figure}
+        \includegraphics[width=\textwidth]{img/mandelbrot_4.png}
+    \end{figure}
 \end{frame}
 
 \section{Umsetzung in Hardware}
@@ -127,7 +131,15 @@ Hochschule Coburg
     \begin{itemize}
         \item Berechnet für gegebenes c die Anzahl an benötigten Iterationen
         \item Ziel: eine Iteration pro Takt
-        \item 
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Koordinator}
+    \begin{itemize}
+        \item Übersetzt Pixelkoordinaten in einzelne $c$ Werte
+        \item Koordiniert die Inputs der einzelnen Kerne
+        \item Schreibt Ergebniswerte (Iterationen) in den BRAM
     \end{itemize}
 \end{frame}
 
@@ -143,7 +155,16 @@ Hochschule Coburg
 \end{frame}
 
 \begin{frame}
-    \frametitle{Koordinator}
+    \frametitle{VGA Modul}
+    \begin{figure}
+        \includegraphics[width=\textwidth]{img/vga.png}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+    \begin{figure}
+        \includegraphics[width=\textwidth]{img/hardware_struktur}
+    \end{figure}
 \end{frame}
 
 \section{Optimierungen}
@@ -182,8 +203,22 @@ Hochschule Coburg
         \item VGA-Modul und Mandelbrotcores müssen beide auf BRAM zugreifen $\rightarrow$ Dual Port RAM
         \item Mandelbrotmenge ist geschlossen: y zwischen -1.25 und 1.25, x zwischen -2 und 0,5 $\rightarrow$ 
         Punkte außerhalb nicht in Menge
-        %TODO: vllt mehr
+        \item Eigener \textit{signed}-Datenformat
     \end{itemize}
 \end{frame}
+
+\begin{frame}
+    \frametitle{Zahlenformat}
+    \begin{figure}
+        \includegraphics[width=\textwidth]{img/format.png}
+    \end{figure}
+\end{frame}
+
+{
+    \usebackgroundtemplate{\includegraphics[height=\paperheight,width=\paperwidth]{img/mandelbrot_3.png}}
+    \setbeamertemplate{navigation symbols}{}
+    \begin{frame}[plain]
+    \end{frame}
+    }
 
 \end{document} 
