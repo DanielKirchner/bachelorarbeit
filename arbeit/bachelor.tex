@@ -25,15 +25,9 @@
 \end{titlepage}
 
 \begin{abstract}
-	Im Rahmen dieser Bachelorarbeit wurde eine hardwarebeschleunigte Visualisierung der Mandelbrotmenge auf einem FPGA
-	realisiert.\\
-	Hierfür werden diverse mathematische und designtechnische Performanceoptimierungen vorgestellt, welche dann in ein
-	paralleles FPGA-Design implementiert wurden. 
-	Weiterhin sollen einige Eigenschaften und Besonderheiten der Mandelbrotmenge und von Fraktalen im Allgemeinen aufgezeigt
-	werden.\\
-	Das Projekt wurde für das Zybo Zynq-7000 Trainer Board entwickelt, welches über einen VGA-Output die Repräsentation
-	des Fraktals in Form eines 800x600@60Hz Videosignals ausgibt. Zur optimalen Ausnutzung der auf diesem Board gegebenen
-	Ressourcen (DSPs, BRAM) wurde die \textit{Vivado Design Suite} mit dem integrierten IP-Katalog verwendet.\\
+	Im Rahmen dieser Bachelorarbeit wurde eine hardwarebeschleunigte Visualisierung der Mandelbrotmenge auf einem FPGA realisiert.
+	Hierfür werden diverse mathematische und designtechnische Performanceoptimierungen vorgestellt, welche dann in einparalleles FPGA-Design implementiert wurden. Weiterhin sollen einige Eigenschaften und Besonderheiten der Mandelbrotmenge und von Fraktalen im Allgemeinen aufgezeigt werden.\\
+	Das Projekt wurde für das Zybo Zynq-7000 Trainer Board entwickelt, welches über einen VGA-Output die Repräsentation des Fraktals in Form eines 800x600@60Hz Videosignals ausgibt. Zur optimalen Ausnutzung der auf diesem Board gegebenen Ressourcen (DSPs, BRAM) wurde die \textit{Vivado Design Suite} mit dem integrierten IP-Katalog verwendet.\\
 \end{abstract}
 
 % Inhaltsverzeichnis
@@ -65,14 +59,94 @@
 % Beginn Arbeit
 \newpage
 \chapter{Einleitung}
+
 %TODO vllt aufbau erklären
+\section{Motivation}
+Die stets wachsende Zahl von Komponenten die auf einem mikroelektronischen Bauteil pro Zeiteinheit untergebracht wird, ist ein Phänomen, welcbes Gordon Moore schon im Jahr 1965 aufgefallen ist \cite{moore1965cramming}. Die populäre, nach ihm benannte Beobachtung, dass die Anzahl der Transistoren pro integriertem Schaltkreis exponentiell mit der Zeit ansteigt ist allgemein als das Mooresche Gesetz bekannt.
 
-\chapter{Grundlagen}
+Diese Gesetzlichkeit machte es möglich den stets wachsenden Leistungsanforderungen an moderne Hardware gerecht zu werden, indem immer mehr (und komplexere) identische Allzweck-Prozessoren (Kerne) pro CPU verbaut wurden.
+
+Dieses Vorgehen kann jedoch nicht unbegrenzt lange betrieben werden, da die heute verwendeten MOS-Transistoren sich rapide ihren physikalischen Grenzen annähern. Ein besserer Umgang mit dem stetig steigenden Bedarf an Rechenleistung ist die Entwicklung von spezialisierter Hardware, welche zwar nur ein kleines Aufgabenspektrum abdeckt, dies jedoch mit hoher Performanz und Energieeffizienz tut.
+
+Ein Beispiel hierfür ist die moderne Grafikkarte (GPU), welche dem Prozessor Darstellungsberchnungen abnimmt, wodurch dieser mehr Zeit hat, andere Aufgaben zu übernehmen. Die Grafikkarte führt diese Aufgaben mit enorm hohem Durchsatz und niedrigen Berechnungszeiten durch, welche ein herkömmlicher Prozessor alleine nicht erreichen könnte.
+
+Auch andere Hardwarekomponenten, wie die Netzwerkkarte, kryptographische Beschleuniger, oder Soundkarten sind in fast allen Computersystemen verbaut und entlasten den Hauptprozessor. Man spricht auch von heterogenen Computersystemen.
+
+Die im Rahmen dieser Arbeit vorgestellte Hardware soll ein Beispiel für eine derartige heterogene Komponente sein. Auf einem Field Programmable Gate Array (FPGA,) %TODO Kapitel linken
+soll eine performante und energieffiziente Visualisierung der sogenannten Mandelbrotmenge realisiert werden. Diese Problemstellung ist auch durch einen ordinären Prozessor lösbar, lastet diesen jedoch enorm aus und ist somit auch sehr energieineffizient. %TODO Kapitel linken
+
+\section{Aufgabenstellung}
+Die Aufgabe dieses Projektes ist es, eine komplett in Hardware stattfindende Berechnung der Mandelbrotmenge durchzuführen und die Ergebnisse über eine VGA-Schnittstelle darzustellen (ähnlich Bild) %TODO
+%TODO Mandelbrotmenge Bild
+
+Weiterhin soll die Hardware durch externe Peripherie konfigurierbar hinsichtlich der angestellten Berechnungen sein. So soll etwa aktuell abgebildete Bereich der Mandelbrotmenge oder auch die Farbgebung der Darstellung im laufenden Betrieb geändert werden können.
+
+Hierfür wurde das FPGA-Trainer Board \textit{Zybo Zynq-7000} zur Verfügung gestellt, welches in %TODO Kapitel linken
+genauer vorgestellt wird.
+
+\chapter{Technische Grundlagen}
+Zum besseren Verständnis des Gesamtprojektes sollen in diesem Kapitel einige technische Konzepte erläutert werden.
+
+
+\section{FPGAs}
+Ein \textit{Field Programmable Gate Array} (kurz FPGA) ist ein Schaltkreis, welcher mit Hilfe von Hardwarebeschreibungssprachen %TODO Kapitel
+konfiguriert werden kann, um beliebig komplexe logische Schaltungen zu realisieren.\\
+Das Grundelement eines solchen Bausteines bilden die sogenannten \textit{Lookup Tables} (kurz LUTs), welche zu einem beliebigen n-bit Input ein 1-bit Output Signal produzieren. Die zugrundeliegende Logiktabelle einer LUT ist hierbei frei programmierbar.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics{LUT.png}
+	\caption{Beispielhafter Aufbau einer 2-Input LUT}
+	\label{fig:LUT}
+\end{figure}
+
+Eine LUT, welche die Operation $C = A \oplus B$ implementiert ist in \autoref{fig:LUT} zu sehen. In dieser wird in einem SRAM-Speicher für jede Inputkombination ein Outputwert hinterlegt, wodurch jede 2-Bit Funktion abgebildet werden kann. In Verbindung mit einem Flipflop \footnote{Ein Flipflop ist ein Speicherelement, welches einen einzigen Bit Daten halten kann.} bildet eine LUT dann einen sogenannten Logikblock (s. \autoref{fig:logikblock}).\cite{fpgaDesign}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics{logic_block.png}
+	\caption{Logikblock, aus \cite{fpgaDesign}}
+	\label{fig:logikblock}
+\end{figure}
+
+Ein FPGA verbindet nun durch ebenfalls konfigurierbare Bussysteme viele solcher Logikblöcke um komplexere Schaltkreise abzubilden.\\
+Weiterhin verfügen FPGA-Boards oft noch über ergänzende Hardwarekomponenten, von denen die im Falle dieses Projektes vorhandenen im Folgenden gezeigt werden sollen.
+
+\paragraph{DSP}
+Ein \textit{Digitaler Signalprozessor} (DSP) ist ein fest integrierter Baustein, welcher durch Multiplizierer und Akkumulatoren binäre Algorithmen beschleunigt.
+So übernimmt dieser etwa grundlegende mathematische Operationen, was dazu führt, dass diese flächen- und energiesparender durchgeführt werden, als bei der Verwendung von LUTs \cite[S. 52]{dsps}.
+Typische Anwendungsgebiete dieser Bausteine sind Fließkommamultiplikationen, Schnelle Fourier-Transformationen oder einfache Zähler \cite[S. 14]{dsps}. 
+In diesem Projekt wurden die DSPs hauptsächlich aufgrund ihrer 25x18 Bit Multiplizierer verwendet, welche kaskadiert werden können um beliebig Breite Multiplikationen durchzuführen.
+
+\paragraph{Block RAM}
+FPGAs verfügen meist über \textit{Block RAM} (BRAM), welcher zur Speicherung binärer Daten dient. Dieser Speicher ist lese-/schreibsynchron, wodurch Inkonsistenzen beim Speicherprozess ausgeschlossen sind \cite[S. 11]{dsps}. Um auf diese Speicherblöcke Zugriff zu erlangen muss der von Xilinx mitgelieferte Baustein "Block RAM Generator" verwendet werden.
+
+\paragraph{IO-Komponenten}
+Zur Kommunikation mit der Außenwelt verfügen FPGAs über diverse Schnittstellen wie z.B. Knöpfe, Schalter, aber auch komplexere Anbindungen wie etwa VGA (s. hierzu \autoref{chap:vga}) oder PMOD-Anschlüsse. %TODO Kapitel VGA verlinken
+Diese sind so angebunden, dass ihre Signale direkt in Logikschaltungen von LUTs integriert werden können.
+
+%TODO weitere wichtige komponenten
+
+
+\section{VGA-Interface}
+\label{chap:vga}
+
+\chapter{Theoretische Grundlagen}
 \section{Fraktale}
-Der Begriff \textit{Fraktal} wurde maßgeblich von Benoît Mandelbrot geprägt, welcher diesen aus dem lateinischen Adjektiv
-\textit{fractus} (irregulär, in Stücke zerbrochen) ableitete \cite{mandelbrot2013fraktale}. 
+\section{Die Mandelbrotmenge}
 
+\chapter{Test und Umsetzung}
+	\section{Gesamtsystem}
+	\section{Komponentenbeschreibung}
+		\subsection{Mandelbrot-Core}
+		\subsection{Mandelbrot-Koordinator}
+		\subsection{Dual Port Block RAM}
+		\subsection{Lookup Tables}
+	\section{Peripherie und funktionale Beschreibung}
 
+\chapter{Optimierungen}
+	\section{Algebraische Optimierung}
+	\section{Designoptimierungen}
 
 % Literaturverzeichnis
 \bibliography{bib}{}

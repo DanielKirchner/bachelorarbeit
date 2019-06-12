@@ -1,14 +1,17 @@
 %Eigene Änderungen:
+\usepackage[ngerman]{babel}
 \usepackage{cite}
 \usepackage[addtotoc]{abstract} %mit hinzufügen ins inhaltsverzeichnis
 \usepackage[utf8]{inputenc}
-
+\usepackage{graphicx}
+\usepackage{hyperref} %autoref
+\graphicspath{ {./img/} }
 %===========================================================
 %== Definitionen fuer die Formatierung =====================
 %===========================================================
 
 % Use german names like "Literaturverzeichnis" instead of "Bibliography"
-\usepackage{ngerman}
+
 
 % Links inside of the document
 %\usepackage{hyperref}
@@ -102,10 +105,9 @@
 {\fontsize{12}{14}\selectfont} % before-code
 [] % after-code
  
-% Linksbuendige Captions
 \usepackage{caption}
 \captionsetup{
-  justification=raggedright,
+  justification=centering,
   singlelinecheck=false
 }
 

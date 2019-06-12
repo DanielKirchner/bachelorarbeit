@@ -10,3 +10,5 @@
 *.lol
 *.synctex.gz
 *.toc
+*.out
+quellen/
