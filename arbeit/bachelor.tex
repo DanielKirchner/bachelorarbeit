@@ -42,6 +42,11 @@
 \listoffigures
 \addcontentsline{toc}{chapter}{Abbildungsverzeichnis}
 
+% Tabellenverzeichnis
+\newpage
+\listoftables
+\addcontentsline{toc}{chapter}{Tabellenverzeichnis}
+
 % Codeverzeichnis
 \newpage
 \lstlistoflistings
@@ -72,7 +77,7 @@ Ein Beispiel hierfür ist die moderne Grafikkarte (GPU), welche dem Prozessor Da
 
 Auch andere Hardwarekomponenten, wie die Netzwerkkarte, kryptographische Beschleuniger, oder Soundkarten sind in fast allen Computersystemen verbaut und entlasten den Hauptprozessor. Man spricht auch von heterogenen Computersystemen.
 
-Die im Rahmen dieser Arbeit vorgestellte Hardware soll ein Beispiel für eine derartige heterogene Komponente sein. Auf einem Field Programmable Gate Array (FPGA,) %TODO Kapitel linken
+Die im Rahmen dieser Arbeit vorgestellte Hardware soll ein Beispiel für eine derartige heterogene Komponente sein. Auf einem Field Programmable Gate Array (FPGA) %TODO Kapitel linken
 soll eine performante und energieffiziente Visualisierung der sogenannten Mandelbrotmenge realisiert werden. Diese Problemstellung ist auch durch einen ordinären Prozessor lösbar, lastet diesen jedoch enorm aus und ist somit auch sehr energieineffizient. %TODO Kapitel linken
 
 \section{Aufgabenstellung}
@@ -119,7 +124,7 @@ Typische Anwendungsgebiete dieser Bausteine sind Fließkommamultiplikationen, Sc
 In diesem Projekt wurden die DSPs hauptsächlich aufgrund ihrer 25x18 Bit Multiplizierer verwendet, welche kaskadiert werden können um beliebig Breite Multiplikationen durchzuführen.
 
 \paragraph{Block RAM}
-FPGAs verfügen meist über \textit{Block RAM} (BRAM), welcher zur Speicherung binärer Daten dient. Dieser Speicher ist lese-/schreibsynchron, wodurch Inkonsistenzen beim Speicherprozess ausgeschlossen sind \cite[S. 11]{dsps}. Um auf diese Speicherblöcke Zugriff zu erlangen muss der von Xilinx mitgelieferte Baustein "Block RAM Generator" verwendet werden.
+FPGAs verfügen meist über \textit{Block RAM} (BRAM), welcher zur Speicherung binärer Daten dient. Dieser Speicher ist lese-/schreibsynchron, wodurch Inkonsistenzen beim Speicherprozess ausgeschlossen sind \cite[S. 11]{bram}. Um auf diese Speicherblöcke Zugriff zu erlangen muss der von Xilinx mitgelieferte Baustein "Block RAM Generator" verwendet werden.
 
 \paragraph{IO-Komponenten}
 Zur Kommunikation mit der Außenwelt verfügen FPGAs über diverse Schnittstellen wie z.B. Knöpfe, Schalter, aber auch komplexere Anbindungen wie etwa VGA (s. hierzu \autoref{chap:vga}) oder PMOD-Anschlüsse. %TODO Kapitel VGA verlinken
@@ -127,9 +132,43 @@ Diese sind so angebunden, dass ihre Signale direkt in Logikschaltungen von LUTs 
 
 %TODO weitere wichtige komponenten
 
-
-\section{VGA-Interface}
+\section{VGA-Schnittstelle}
 \label{chap:vga}
+Eine \textit{Video Graphics Array} (VGA) Schnittstelle wird durch einen Videoübertragungsstandard, welcher erstmals von IBM in ihrer \textit{IBM Personal System/2} Modellreihe verbaut wurde, spezifiziert \cite{ibmTimeline}. 
+Das Darstellungsverfahren verwendet einen 15-poligen Anschluss, um Videosignale in variabler Auflösung und Bildwiederholungsrate zu übertragen.\\
+Hierbei liegen die RGB-Werte eines jeden Pixels als analoge Spannungen an und werden zu bestimmten Zeitpunkten vom Bildschirm ausgelesen. 
+Da der VGA-Standard im Jahre 1987 aufkam, war er ursprünglich noch für  Kathodenstrahlröhrenbildschirme (auch Röhrenbildschirme genannt) ausgelegt. 
+Die Elektronenstrahlen dieser Bildschirme konnten sich nicht ohne kurze Verzögerungen über die Anzeigefläche bewegen, was bedeutet, dass der VGA-Standard dies berücksichtigt und dem Bildschirm einige $\mu s$ für größere Sprünge des Strahls einräumen muss.
+Die größten solchen Sprünge finden statt, wenn eine Pixelreihe übertragen wurde und der Strahl an die erste Pixelposition der nächsten Reihe bewegt werden muss oder wenn das gesamte Bild übertragen wurde und wieder zum oberen linken Pixel gesprungen werden muss.
+Während dieser Pausen werden keine RGB-Werte übertragen, man nennt diese zeitlich gedachten Bereiche auch "Porch" (engl. Vorbau).\\
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{vga-timing.png}
+	\caption{VGA-Timing/Aufbau für eine 640x480 Auflösung, aus \cite{vga-timing}}
+	\label{fig:vga}
+\end{figure}
+
+Eine 640x480 Pixel Bild baut sich dann wie in \autoref{fig:vga} gezeigt auf:
+Zuerst werden 640 Pixel RGB Daten für die erste Reihe empfangen, danach kommen 160 Pixel inaktiver Bereich ($\Rightarrow$ Porch). Das Ende dieses Bereiches wird durch das Ansteigen des low-aktiven Signal HSYNC signalisiert. Dieser Vorgang wird nun 480 mal wiederholt, bis das gesamte Bild übertragen wurde. Draufhin wird analog zur horizonalen Synchronisation das VSYNC Signal für 45 Pixel auf auf 0 gesetzt, um den vertikalen inaktiven zu signalisieren. Die Länge des inaktiven Bereiches setzt sich aus Front-, bzw. Backporch und der Länge des Sync-Pulses zusammen. Die Bedeutungen der einzelnen Signale können fügen jedoch dem nötigen Verständnis nicht mehr hinzu, weswegen die Summe dieser Bereiche als Ganzes angesehen werden kann.
+Wie schon erwähnt ist 640x480 jedoch nicht die einzige Auflösung, die mit einem VGA-Anschluss realisierbar ist. Andere Auflösungen (mit anderen Widerholungsraten) müssen vom verwendeten Bildschirm unterstützt sein, und werden durch verschieden schnelle Pixelclocks und Porches realisiert.\\
+Die in dieser Arbeit verwendete Auflösung von 800x600 Pixeln bei 60Hz benötigt die in \autoref{tab:vga-timings} dargestellten Werte.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|l|c|r|}	
+		\hline
+		aktiver Bereich (horizontal) & Pixel & 800 \\ \hline
+		aktiver Bereich (vertikal) & Pixel & 600 \\ \hline
+		inaktiver Bereich (horizontal) & Pixel & 256 \\ \hline
+		inaktiver Bereich (vertikal) & Pixel & 28 \\ \hline
+		Pixelfrequenz & MHz & 40 \\ \hline
+	\end{tabular}
+	\caption{VGA-Werte für ein 800x600@60Hz Signal}
+	\label{tab:vga-timings}
+\end{table}
+
+Die in \autoref{tab:vga-timings} gezeigte Pixelfrequenz von 40 MHz bedeutet, dass alle 25 ns ein neuer RGB-Wert anliegen muss. Dies ist ein wichtiger Aspekt für weitere grundliegende Designentscheidungen. %TODO späteres Kapitel hier
 
 \chapter{Theoretische Grundlagen}
 \section{Fraktale}
@@ -150,6 +189,6 @@ Diese sind so angebunden, dass ihre Signale direkt in Logikschaltungen von LUTs 
 
 % Literaturverzeichnis
 \bibliography{bib}{}
-\bibliographystyle{plain}
+\bibliographystyle{unsrt}
 
 \end{document}

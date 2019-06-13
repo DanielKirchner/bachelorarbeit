@@ -11,4 +11,5 @@
 *.synctex.gz
 *.toc
 *.out
+*.lot
 quellen/
