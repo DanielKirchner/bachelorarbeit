@@ -28,6 +28,8 @@
 	Im Rahmen dieser Bachelorarbeit wurde eine hardwarebeschleunigte Visualisierung der Mandelbrotmenge auf einem FPGA realisiert.
 	Hierfür werden diverse mathematische und designtechnische Performanceoptimierungen vorgestellt, welche dann in einparalleles FPGA-Design implementiert wurden. Weiterhin sollen einige Eigenschaften und Besonderheiten der Mandelbrotmenge und von Fraktalen im Allgemeinen aufgezeigt werden.\\
 	Das Projekt wurde für das Zybo Zynq-7000 Trainer Board entwickelt, welches über einen VGA-Output die Repräsentation des Fraktals in Form eines 800x600@60Hz Videosignals ausgibt. Zur optimalen Ausnutzung der auf diesem Board gegebenen Ressourcen (DSPs, BRAM) wurde die \textit{Vivado Design Suite} mit dem integrierten IP-Katalog verwendet.\\
+
+	%TODO: englisch
 \end{abstract}
 
 % Inhaltsverzeichnis
@@ -89,9 +91,12 @@ Weiterhin soll die Hardware durch externe Peripherie konfigurierbar hinsichtlich
 Hierfür wurde das FPGA-Trainer Board \textit{Zybo Zynq-7000} zur Verfügung gestellt, welches in %TODO Kapitel linken
 genauer vorgestellt wird.
 
+\section{Mitgelieferte Skripte}
+%TODO: github repository
+Im Git-Repository ... sind sämtliche Python-Skripts, die zur Erstellung von selbsterstellten Bildern verwendet wurden, enthalten. Des weiteren gibt die dort enhaltene Datei \textit{readme.md} Aufschluss über nützliche Skripts, die im Rahmen dieser Arbeit verwendet wurden.
+
 \chapter{Technische Grundlagen}
 Zum besseren Verständnis des Gesamtprojektes sollen in diesem Kapitel einige technische Konzepte erläutert werden.
-
 
 \section{FPGAs}
 Ein \textit{Field Programmable Gate Array} (kurz FPGA) ist ein Schaltkreis, welcher mit Hilfe von Hardwarebeschreibungssprachen %TODO Kapitel
@@ -171,7 +176,34 @@ Die in dieser Arbeit verwendete Auflösung von 800x600 Pixeln bei 60Hz benötigt
 Die in \autoref{tab:vga-timings} gezeigte Pixelfrequenz von 40 MHz bedeutet, dass alle 25 ns ein neuer RGB-Wert anliegen muss. Dies ist ein wichtiger Aspekt für weitere grundliegende Designentscheidungen. %TODO späteres Kapitel hier
 
 \chapter{Theoretische Grundlagen}
+Die dieser Arbeit zugrundelegenden mathematischen Grundlagen und Definitionen sollen in diesem Kapitel näher erläutert werden.
+
 \section{Fraktale}
+Der Begriff \textit{Fraktal} wurde vom französischen Mathematiker Benoît Mandelbrot geprägt und leitet sich vom lateinischen Adjektiv \textit{fractus} ab, was \glqq in Stücke gebrochen\grqq{} oder \glqq irregulär\grqq{} bedeutet. Allgmein ist hiermit entweder eine natürlich vorkommende Strukur mit gewissen Eigenschaften oder eine genau definierte mathematische Menge gemeint. \cite[S. 16]{mandelbrot2013fraktale}\\
+Für ein intuitives Verständnis des Begriffes sollen im folgenden zuerst einige natürlich vorkommende Fraktale gezeigt werden, woraufhin im nächsten Abschnitt eine formale Definition des Begriffs \textit{Fraktal} folgen soll.
+
+\subsection{Natürlich vorkommende Fraktale}
+Fraktale besitzen oft selbstähnliche Strukturen, d.h. dass sich die Gesamtstruktur eines Objektes in kleinerem Maßstab immer wieder findet. Ein Beispiel hierfür ist ein fraktal definierter Baum wie er in \autoref{fig:tree} abgebildet ist. Der Baum wird hierbei über ein einfaches rekursives Verfahren aufgebaut, bei dem immer wieder von jedem Teilbaum aus mit einem festen Winkel abgebogen wird.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{tree.png}
+	\caption{Fraktal definierter Baum, Skript: \textit{baum.py}, abgewandelte Version von \cite{soTree}} %TODO: Skript hinzufügen
+	\label{fig:tree}
+\end{figure}
+
+Der in \autoref{fig:tree} rot markierte Teilbaum ist in seiner Struktur mit dem Gesamtbaum identisch und besitzt lediglich eine niedrigere rekursive Tiefe.\\
+Der Blumenkohl (\autoref{fig:blumenkohl}) ist ein weiteres Beispiel für ein natürlich vorkommendes Fraktal.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.4\textwidth]{blumenkohl}
+	\caption{Blumenkohl, von Rainer Renz}
+	\label{fig:blumenkohl}
+\end{figure}
+
+
+
 \section{Die Mandelbrotmenge}
 
 \chapter{Test und Umsetzung}
