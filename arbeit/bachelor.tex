@@ -179,11 +179,13 @@ Die in \autoref{tab:vga-timings} gezeigte Pixelfrequenz von 40 MHz bedeutet, das
 Die dieser Arbeit zugrundelegenden mathematischen Grundlagen und Definitionen sollen in diesem Kapitel näher erläutert werden.
 
 \section{Fraktale}
+%todo mandelbrot pole/franz
 Der Begriff \textit{Fraktal} wurde vom französischen Mathematiker Benoît Mandelbrot geprägt und leitet sich vom lateinischen Adjektiv \textit{fractus} ab, was \glqq in Stücke gebrochen\grqq{} oder \glqq irregulär\grqq{} bedeutet. Allgmein ist hiermit entweder eine natürlich vorkommende Strukur mit gewissen Eigenschaften oder eine genau definierte mathematische Menge gemeint. \cite[S. 16]{mandelbrot2013fraktale}\\
 Für ein intuitives Verständnis des Begriffes sollen im folgenden zuerst einige natürlich vorkommende Fraktale gezeigt werden, woraufhin im nächsten Abschnitt eine formale Definition des Begriffs \textit{Fraktal} folgen soll.
 
 \subsection{Natürlich vorkommende Fraktale}
-Fraktale besitzen oft selbstähnliche Strukturen, d.h. dass sich die Gesamtstruktur eines Objektes in kleinerem Maßstab immer wieder findet. Ein Beispiel hierfür ist ein fraktal definierter Baum wie er in \autoref{fig:tree} abgebildet ist. Der Baum wird hierbei über ein einfaches rekursives Verfahren aufgebaut, bei dem immer wieder von jedem Teilbaum aus mit einem festen Winkel abgebogen wird.
+\label{sec:natfrac}
+Fraktale besitzen oft selbstähnliche Strukturen, d.h. dass sich die Gesamtstruktur eines Objektes in kleinerem Maßstab immer wieder findet. Ein Beispiel hierfür ist ein fraktal definierter Baum wie er in \autoref{fig:tree} dargestellt ist. Der Baum wird hierbei über ein einfaches rekursives Verfahren definiert, bei dem immer wieder von jedem Teilbaum aus mit einem festen Winkel in jeweils zwei Äste abgebogen wird.
 
 \begin{figure}[H]
 	\centering
@@ -193,17 +195,38 @@ Fraktale besitzen oft selbstähnliche Strukturen, d.h. dass sich die Gesamtstruk
 \end{figure}
 
 Der in \autoref{fig:tree} rot markierte Teilbaum ist in seiner Struktur mit dem Gesamtbaum identisch und besitzt lediglich eine niedrigere rekursive Tiefe.\\
-Der Blumenkohl (\autoref{fig:blumenkohl}) ist ein weiteres Beispiel für ein natürlich vorkommendes Fraktal.
+Der Blumenkohl (\autoref{fig:blumenkohl}) ist ein weiteres Beispiel für ein natürlich vorkommendes Fraktal. 
+Auch bei diesem wiederholt sich die Gesamtstruktur in kleinerem Maßstab in den Ästen, er besitzt also ein gewisses Maß an Selbstähnlichkeit.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.4\textwidth]{blumenkohl}
-	\caption{Blumenkohl, von Rainer Renz}
+	\caption{Blumenkohlsh, von Rainer Renz}
 	\label{fig:blumenkohl}
 \end{figure}
 
+Auch auf höheren Maßstäben, wie etwa bei Bergen oder ganzen Landschaften können Fraktale Strukturen immer wieder beobachtet werden. 
+Die relativ einfachen Regeln, die diesen Fraktalen zu Grunde liegen machten sich bereits im Jahre 1980 Computergrafiker wie etwa Loren Carpenter zu Nutzen. Die relativ begrenzten Rechnerleistungen zwangen Animatoren zu diesem Zeitpunkt dazu, komplexe Landschaften Bild für Bild von Hand zu zeichnen. Durch Mandelbrot's Arbeit in fraktaler Geometrie inspiriert animierte Carpenter eine Landschaft für den Film \textit{Star Trek II: The Wrath of Khan}, wobei er hierfür fraktale Verfahren verwendete. \cite{startrekFractals}\\
+Die hierfür angestellten Berechnungen waren so simpel, dass pro Bildpunkt nur etwa 20 bis 40 Minuten Rechenaufwand betrieben werden mussten, was einen großen Fortschritt gegenüber der manuellen Animation darstellte. \cite{carpenterVolLibre}\\
 
+\subsection{Fraktale in der Mathematik}
+Im Gegensatz zu den in \autoref{sec:natfrac} dargestellten Fraktalen, welche sich auf kleinerer Ebene nur wenige male wiederholen, sind Fraktale in der Mathematik bis zu unendlich hohem Detailgrad definiert.\\
+Die formale Definition eines Fraktals lautet hierbei nach Mandelbrot:
 
+\begin{quotation}
+	\textit{Ein Fraktal ist nach Definition eine Menge, deren  Hausdorff-Besicovitch Dimension echt die topologische Dimension übersteigt.}
+	\\ - Benoît Mandelbrot, aus \cite[S. 27]{mandelbrot2013fraktale}
+\end{quotation}
+
+Die hier erwähnte Hausdorff-Besicovitch Dimension ist ein Maß, welches einem beliebigen geometrischen Raum zugeordnet werden kann, wobei die Dimension hier keine natürliche Zahl sein muss. Stark vereinfacht ermittelt sich die Hausdorff-Dimension folgendermaßen:\\
+Man betrachte die Anzahl Kugeln (oder Kreisen) $N$ mit Radius $R$, die nötig sind, um eine Punktmenge vollständig abzudecken.
+Geht nun $R$ gegen 0 werden immer mehr Kugeln benötigt, um die Punktmenge abzudecken. Beobachtet wird nun in welcher Relation $N$ zu $R$ wächst, mit Hilfe der Formel:
+\[D = - \lim_{R \to 0} \frac{\log{N}}{\log{R}}\]
+wobei D die Hausdorff-Dimension ist. Betrachtet man etwa eine Linie der Länge 1, kann diese zunächst mit $N = 1$ Kreisen des Radius $R = 1$ abdecken. Halbiert man nun $R$ sind doppelt so viele Kreise nötig um die Linie abzudecken. Allgemein lässt sich sagen, dass in diesem Fall $N$ umgekehrt proportional zu $R$ wächst. Drückt man nun $N$ in abhängigkeit von R aus erhält man für die Dimension einer Kurve:
+\[D = - \lim_{R \to 0} \frac{\log{\frac{1}{R}}}{\log{R}} = 1\]
+Analog werden etwa bei einem Rechteck $1/R^2$ Kugeln zur Abdeckung benötigt, wenn $R$ gegen 0 läuft. Die Dimension eines Rechtecks ist daher:
+\[D = - \lim_{R \to 0} \frac{\log{\frac{1}{R^2}}}{\log{R}} = 2\]
+Bei den hier gezeigten Formen entspricht die Hausdorff-Dimension stets der herkömmlichen Definition der Dimension. Fraktale, wie etwa die Sierpinski Fläche, besitzen jedoch ei
 \section{Die Mandelbrotmenge}
 
 \chapter{Test und Umsetzung}
