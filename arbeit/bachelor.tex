@@ -201,7 +201,7 @@ Auch bei diesem wiederholt sich die Gesamtstruktur in kleinerem Maßstab in den 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.4\textwidth]{blumenkohl}
-	\caption{Blumenkohlsh, von Rainer Renz}
+	\caption{Blumenkohl, von Rainer Renz}
 	\label{fig:blumenkohl}
 \end{figure}
 
@@ -217,8 +217,7 @@ Die formale Definition eines Fraktals lautet hierbei nach Mandelbrot:
 	\textit{Ein Fraktal ist nach Definition eine Menge, deren  Hausdorff-Besicovitch Dimension echt die topologische Dimension übersteigt.}
 	\\ - Benoît Mandelbrot, aus \cite[S. 27]{mandelbrot2013fraktale}
 \end{quotation}
-
-Die hier erwähnte Hausdorff-Besicovitch Dimension ist ein Maß, welches einem beliebigen geometrischen Raum zugeordnet werden kann, wobei die Dimension hier keine natürliche Zahl sein muss. Stark vereinfacht ermittelt sich die Hausdorff-Dimension folgendermaßen:\\
+Die hier erwähnte Hausdorff-Besicovitch Dimension ist ein Maß, welches einem beliebigen geometrischen Raum zugeordnet werden kann, wobei die Dimension hier keine natürliche Zahl sein muss. In vereinfachter Form ermittelt sich die Hausdorff-Dimension folgendermaßen:\\
 Man betrachte die Anzahl Kugeln (oder Kreisen) $N$ mit Radius $R$, die nötig sind, um eine Punktmenge vollständig abzudecken.
 Geht nun $R$ gegen 0 werden immer mehr Kugeln benötigt, um die Punktmenge abzudecken. Beobachtet wird nun in welcher Relation $N$ zu $R$ wächst, mit Hilfe der Formel:
 \[D = - \lim_{R \to 0} \frac{\log{N}}{\log{R}}\]
@@ -226,8 +225,34 @@ wobei D die Hausdorff-Dimension ist. Betrachtet man etwa eine Linie der Länge 1
 \[D = - \lim_{R \to 0} \frac{\log{\frac{1}{R}}}{\log{R}} = 1\]
 Analog werden etwa bei einem Rechteck $1/R^2$ Kugeln zur Abdeckung benötigt, wenn $R$ gegen 0 läuft. Die Dimension eines Rechtecks ist daher:
 \[D = - \lim_{R \to 0} \frac{\log{\frac{1}{R^2}}}{\log{R}} = 2\]
-Bei den hier gezeigten Formen entspricht die Hausdorff-Dimension stets der herkömmlichen Definition der Dimension. Fraktale, wie etwa die Sierpinski Fläche, besitzen jedoch ei
+Bei den hier gezeigten Formen ist die Hausdorff Dimension nicht höher als deren topolosche Dimension \footnote{s. hierzu \url{https://www.math.tu-cottbus.de/~froehner/sonstiges/skripte/node9.html}} 
+Nimmt man jedoch nun ein Fraktal, wie etwa das Sierpinski-Dreieck %TODO vllt erklären
+herbei, hat dieses oft einen gebrochenen Dimensionwert, in diesem Fall:
+\[\frac{\log{3}}{\log{2}}\approx 1.585\]
+Zusätzlich zu der bereits gezeigten Definition gilt:
+Jede Menge, die einen nichtganzzahligen Dimensionwert hat, ist ein Fraktal\cite[S. 27]{mandelbrot2013fraktale}.
+
 \section{Die Mandelbrotmenge}
+Nachdem nun die formale Definition eines Fraktales bekannt ist, soll im folgenden Mandelbrotmenge erläutert werden.\\
+Es gilt: Teil der Menge sind alle komplexen Zahlen $c$, für die die Iteration
+\[z_0=0\]
+\[z_{n+1}=z_n^2 + c\]
+nicht divergiert.
+Im folgenden sind Iterationen für einige $c$ gezeigt:
+\[c_1=1 ; z=2 \rightarrow 5 \rightarrow 26 \rightarrow 677\]
+\[c_2=-1 ; z=0 \rightarrow -1 \rightarrow 0 \rightarrow -1\]
+\[c_3=1+1i ; z=1+3i \rightarrow -7+7i \rightarrow 1-97i \rightarrow -9407-193i\]
+
+Für $c1$ und $c3$ sieht man schnell, dass der Betrag dieser Zahlen divergiert, während es bei $c2$ klar ist, dass $z$ nur zwischen 0 und -1 wechselt. Also ist $c2$ Teil der Menge, während es $c1$ und $c3$ nicht sind. Jedoch ist die Divergenz nicht für alle Werte so einfach festzustellen. Man betrachte folgendes $c$:
+\[c_4=-0.55 + 0.46i ; z=0.45 - 0.04i \rightarrow -0.34 + 0.05i \rightarrow -0.68 + 0.11i \rightarrow -0.09 + 0.29i\]
+Hier ist es zunächst unklar ob eine Divergenz stattfinden wird, es müssten erst viele Iterationsschritte angestellt werden, um eine Aussage treffen zu könnnen. Nach 200 Schritten ergibt sich die in \autoref{fig:mandel_c4} gezeigte Struktur, bei der man erkennen kann, dass $z$ gegen einen bestimmten Punkt konvergieren zu scheint.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{mandel_c4.png}
+	\caption{200 Iterationsschritte für $c = -0.55 + 0.46i$}
+	\label{fig:mandel_c4}
+\end{figure}
 
 \chapter{Test und Umsetzung}
 	\section{Gesamtsystem}
