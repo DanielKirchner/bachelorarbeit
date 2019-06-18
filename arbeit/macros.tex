@@ -10,7 +10,6 @@
 \usepackage{epigraph}
 \hyphenchar\font=\string"7F
 \hyphenation{Man-del-brot-meng-e}
-
 \graphicspath{ {./img/} }
 %===========================================================
 %== Definitionen fuer die Formatierung =====================
@@ -55,6 +54,16 @@
 \renewcommand*{\lstlistlistingname}{Codebeispielverzeichnis}
 \renewcommand{\lstlistingname}{Code}
 \lstset{frame=single,basicstyle=\footnotesize\bfseries\ttfamily,breaklines=true}
+\lstset{literate=%
+    {Ö}{{\"O}}1
+    {Ä}{{\"A}}1
+    {Ü}{{\"U}}1
+    {ß}{{\ss}}1
+    {ü}{{\"u}}1
+    {ä}{{\"a}}1
+    {ö}{{\"o}}1
+    {~}{{\textasciitilde}}1
+}
 
 \usepackage{titlesec}
 \titlespacing*{\chapter}{0pt}{-35pt}{0pt}

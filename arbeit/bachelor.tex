@@ -83,6 +83,7 @@ Die im Rahmen dieser Arbeit vorgestellte Hardware soll ein Beispiel für eine de
 soll eine performante und energieffiziente Visualisierung der sogenannten Mandelbrotmenge realisiert werden. Diese Problemstellung ist auch durch einen ordinären Prozessor lösbar, lastet diesen jedoch enorm aus und ist somit auch sehr energieineffizient. %TODO Kapitel linken
 
 \section{Aufgabenstellung}
+\label{sec:aufgabenstellung}
 Die Aufgabe dieses Projektes ist es, eine komplett in Hardware stattfindende Berechnung der Mandelbrotmenge durchzuführen und die Ergebnisse über eine VGA-Schnittstelle darzustellen (ähnlich Bild) %TODO
 %TODO Mandelbrotmenge Bild
 
@@ -99,7 +100,7 @@ Im Git-Repository ... sind sämtliche Python-Skripts, die zur Erstellung von sel
 Zum besseren Verständnis des Gesamtprojektes sollen in diesem Kapitel einige technische Konzepte erläutert werden.
 
 \section{FPGAs}
-Ein \textit{Field Programmable Gate Array} (kurz FPGA) ist ein Schaltkreis, welcher mit Hilfe von Hardwarebeschreibungssprachen %TODO Kapitel
+Ein \textit{Field Programmable Gate Array} (kurz FPGA) ist ein Schaltkreis, welcher mit Hilfe von Hardwarebeschreibungssprachen %TODO Kapitel, VHDL erklären
 konfiguriert werden kann, um beliebig komplexe logische Schaltungen zu realisieren.\\
 Das Grundelement eines solchen Bausteines bilden die sogenannten \textit{Lookup Tables} (kurz LUTs), welche zu einem beliebigen n-bit Input ein 1-bit Output Signal produzieren. Die zugrundeliegende Logiktabelle einer LUT ist hierbei frei programmierbar.
 
@@ -221,11 +222,11 @@ Die hier erwähnte Hausdorff-Besicovitch Dimension ist ein Maß, welches einem b
 Man betrachte die Anzahl Kugeln (oder Kreisen) $N$ mit Radius $R$, die nötig sind, um eine Punktmenge vollständig abzudecken.
 Geht nun $R$ gegen 0 werden immer mehr Kugeln benötigt, um die Punktmenge abzudecken. Beobachtet wird nun in welcher Relation $N$ zu $R$ wächst, mit Hilfe der Formel:
 \[D = - \lim_{R \to 0} \frac{\log{N}}{\log{R}}\]
-wobei D die Hausdorff-Dimension ist. Betrachtet man etwa eine Linie der Länge 1, kann diese zunächst mit $N = 1$ Kreisen des Radius $R = 1$ abdecken. Halbiert man nun $R$ sind doppelt so viele Kreise nötig um die Linie abzudecken. Allgemein lässt sich sagen, dass in diesem Fall $N$ umgekehrt proportional zu $R$ wächst. Drückt man nun $N$ in abhängigkeit von R aus erhält man für die Dimension einer Kurve:
+wobei D die Hausdorff-Dimension ist. Betrachtet man etwa eine Linie der Länge 1, kann diese zunächst mit $N = 1$ Kreisen des Radius $R = 1$ abdecken. Halbiert man nun $R$ sind doppelt so viele Kreise nötig um die Linie abzudecken. Allgemein lässt sich sagen, dass in diesem Fall $N$ umgekehrt proportional zu $R$ wächst. Drückt man nun $N$ in Abhängigkeit von R aus erhält man für die Dimension einer Kurve:
 \[D = - \lim_{R \to 0} \frac{\log{\frac{1}{R}}}{\log{R}} = 1\]
 Analog werden etwa bei einem Rechteck $1/R^2$ Kugeln zur Abdeckung benötigt, wenn $R$ gegen 0 läuft. Die Dimension eines Rechtecks ist daher:
 \[D = - \lim_{R \to 0} \frac{\log{\frac{1}{R^2}}}{\log{R}} = 2\]
-Bei den hier gezeigten Formen ist die Hausdorff Dimension nicht höher als deren topolosche Dimension \footnote{s. hierzu \url{https://www.math.tu-cottbus.de/~froehner/sonstiges/skripte/node9.html}} 
+Bei den hier gezeigten Formen ist die Hausdorff Dimension nicht höher als deren topologische Dimension \footnote{s. hierzu \url{https://www.math.tu-cottbus.de/~froehner/sonstiges/skripte/node9.html}} 
 Nimmt man jedoch nun ein Fraktal, wie etwa das Sierpinski-Dreieck %TODO vllt erklären
 herbei, hat dieses oft einen gebrochenen Dimensionwert, in diesem Fall:
 \[\frac{\log{3}}{\log{2}}\approx 1.585\]
@@ -249,23 +250,78 @@ Hier ist es zunächst unklar ob eine Divergenz stattfinden wird, es müssten ers
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.6\textwidth]{mandel_c4.png}
-	\caption{200 Iterationsschritte für $c = -0.55 + 0.46i$}
+	\includegraphics[width=0.44\textwidth]{mandel_c4.png}
+	\caption{200 Iterationsschritte für $c = -0.55 + 0.46i$ (rot markierter Punkt)}
 	\label{fig:mandel_c4}
 \end{figure}
 
-\chapter{Test und Umsetzung}
-	\section{Gesamtsystem}
-	\section{Komponentenbeschreibung}
-		\subsection{Mandelbrot-Core}
-		\subsection{Mandelbrot-Koordinator}
-		\subsection{Dual Port Block RAM}
-		\subsection{Lookup Tables}
-	\section{Peripherie und funktionale Beschreibung}
+Allgemein gilt, dass ein $c$ nicht zur Mandelbrotmenge gehört, sobald für eine Zahl in seiner Iteration gilt \footnote{vgl. hierzu: \cite{mbrotg2}}:
+\[|z_n|>2\]
+Zählt man nun die Iterationen, die benötigt wurden, um festzustellen, ob eine Zahl divergiert (oder eben konvergiert) und ordnet Bereichen von Iterationszahlen verschiedene Graustufen zu, erhält man ein Bild wie es in \autoref{fig:mandelbrot_1} zu sehen ist.\\
+In der Praxis ist es üblich, sich eine maximale Iterationszahl zu setzen, nach der einfach angenommen wird, dass ein gegebenes $c$ zur Mandelbrotmenge gehört.\\
+Eine Funktion zur Berechnung der Iterationszahl eines Punktes $c$ der Mandelbrotmenge wird in \autoref{lst:mandelbrotpseudo} gezeigt.
+
+\begin{lstlisting}[label=lst:mandelbrotpseudo,caption=Algorithmus zur Berechnung der Iterationszahl eines $c$]
+funktion mandelbrot(c):
+  z = 0
+  für iteration in 0 bis 100:
+ 	wenn betrag(z) > 2:
+ 		return iteration
+ 	sonst:	
+		z = z*z + c
+  return iteration //maximale Iteration erreicht
+\end{lstlisting}
+
+Diese Funktion würde nun für jeden Pixel (bzw. einem dazugehörigen $c$ Wert) aufgerufen werden, um ein Bild wie in \autoref{fig:mandelbrot_1} darzustellen.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.65\textwidth]{mandelbrot_4.png}
+	\caption{Mandelbrotmenge in Graustufe}
+	\label{fig:mandelbrot_1}
+\end{figure}
+
+Die eigentliche Faszination der Mandelbrotmenge liegt in ihrem Detailgrad, welcher beim Vergrößern des Randes der Menge (in \autoref{fig:mandelbrot_1} weiß dargestellt), sichtbar wird. Es sind diverse (oft selbstähnliche) Strukturen zu sehen, wobei kein eindeutig visuelles Muster vorhanden zu Sein scheint. Da mit einem Vergrößern des Detailgrades präzisere Berechnungen und höhere maximale Iterationszahlen einhergehen, liegt ein enormer Rechenaufwand vor.\\
+Einige besonders sehenswerte Teile der Mandelbrotmenge sind im %ANHANG
+dargestellt.
+
+\chapter{Umsetzung} %TODO vllt bessere ÜBerschrift
+In diesem Kapitel soll gezeigt werden, wie die in \autoref{sec:aufgabenstellung} formulierte Aufgabenstellung umgesetzt wurde. Hierfür wird zuerst in \autoref{sec:zahlenformat} das für die zugrundeliegenden Berechnungen verwendete Zahlenformat vorgestellt. Danach wird das in \autoref{sec:überblick} gezeigte Gesamtsystem in den folgenden Abschnitten in seinen Einzelteilen erklärt.
+
+\section{Gewähltes Zahlenformat}
+\label{sec:zahlenformat}
+Die Beobachtung eines komplexzahligen Punktes hinsichtlich seiner Zugehörigkeit zur Mandelbrotmenge setzt ein sehr präzises Datenformat vorraus, damit sich auch bei hohen Vergrößerunsgfaktoren Rechenungenauigkeiten nicht visuell bemerkbar machen.\\
+Die Sprache VHDL liefert im Packet \textit{IEEE\_numeric\_std} den Typ \textit{signed}, welcher dazu dient vorkommabehaftete Ganzzahlen in einem beliebig breiten Bitvektor darzustellen. \footnote{s. hierzu die Definition in: \cite{ieeeNumeric}}.\\
+Da die Mandelbrotmenge vollständig in dem in \autoref{tab:minmaxmandel} gezeigten Bereich liegt, muss das verwendete Datenformat nur einen kleinen Teil seiner Bits für den ganzzahligen Teil der verschiedenen Berechnungen verwenden. 
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|l|r|}	
+		\hline
+		Minimum Realteil & -2 \\ \hline
+		Maximum Realteil & 0.5 \\ \hline
+		Minimum Imaginärteil & -1.25i \\ \hline
+		Maximum Imaginärteil & 1.25i \\ \hline
+	\end{tabular}
+	\caption{Bereich der Mandelbrotmenge}
+	\label{tab:minmaxmandel}
+\end{table}
+
+Der große Teil des Bitvektors sollte also für die Darstellung der Nachkommastellen verwendet werden. Da die Rechenoperationen auf binärer Ebene für Festkommazahlen und Ganzzahlen (jeweils mit Vorzeichen) identisch sind, 
+
+\section{Systemüberblick}
+\label{sec:überblick}
+
+\section{Komponentenbeschreibung}
+\subsection{Mandelbrot-Core}
+\subsection{Mandelbrot-Koordinator}
+\subsection{Dual Port Block RAM}
+\subsection{Lookup Tables}
+\section{Peripherie und funktionale Beschreibung}
 
 \chapter{Optimierungen}
-	\section{Algebraische Optimierung}
-	\section{Designoptimierungen}
+\section{Algebraische Optimierung}
+\section{Designoptimierungen}
 
 % Literaturverzeichnis
 \bibliography{bib}{}
