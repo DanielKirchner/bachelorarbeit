@@ -380,20 +380,21 @@ Des weiteren liegt der zu untersuchende Punkt $c$ an den Eingängen \textbf{c\_r
 Die maximale Zahl von Iterationen, nach der angenommen wird, dass ein Punkt nicht zur Mandelbrotmenge gehört wird über das Eingangssignal \textbf{max\_iter} übermittelt.\\
 Sobald über das Signal \textbf{ready} angezeigt wird, dass \textbf{c\_real}, \textbf{c\_imag} und \textbf{max\_iter} stabil anliegen beginnt der Kern den Iterationsvorgang.\\
 Hierbei wird jeden Zyklus von \textbf{clk} eine Iteration abgeschlossen.\\
-Über den Ausgang \textbf{waiting} wird angezeigt, dass ein endgültiges Ergebnis am Ausgang \textbf{iter} liegt und der Kern bereit für neue Inputs ist.
+Über den Ausgang \textbf{waiting} wird angezeigt, dass ein endgültiges Ergebnis am Ausgang \textbf{iter} anliegt und der Kern bereit für neue Inputs ist.
 Das Ergebnis kann Werte zwischen (jeweils inklusive) 0 (falls $|c|>2$) und \textbf{maxiter} annehmen. 
 %TODO Bild von Simulation für gutes c und dann erklären
 
 \subsection{Mandelbrot-Koordinator}
-
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.35\textwidth]{schem_mandelkoord.png}
+	\caption{Mandelbrot-Koordinator, schematische Darstellung}
+	\label{fig:schem_mandelbrotkoord}
+\end{figure}
 
 \subsection{Dual Port Block RAM}
 \subsection{Lookup Tables}
 \section{Peripherie und funktionale Beschreibung}
-
-\chapter{Optimierungen}
-\section{Algebraische Optimierung}
-\section{Designoptimierungen}
 
 \chapter{Ausblick \& Fazit}
 

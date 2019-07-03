@@ -13,9 +13,9 @@
 *.out
 *.lot
 quellen/
-src/mandelbrot.cache/
-src/mandelbrot.hw/
-src/mandelbrot.ip_user_files/
-src/mandelbrot.runs/
-src/mandelbrot.sim/
+src/mandel-zybo.cache/
+src/mandel-zybo.hw/
+src/mandel-zybo.ip_user_files/
+src/mandel-zybo.runs/
+src/mandel-zybo.sim/
 src/mif.coe
