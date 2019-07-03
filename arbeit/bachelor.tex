@@ -235,6 +235,7 @@ Zusätzlich zu der bereits gezeigten Definition gilt:
 Jede Menge, die einen nichtganzzahligen Dimensionwert hat, ist ein Fraktal\cite[S. 27]{mandelbrot2013fraktale}.
 
 \section{Die Mandelbrotmenge}
+\label{sec:mandelbrotmath}
 Nachdem nun die formale Definition eines Fraktales bekannt ist, soll im folgenden Mandelbrotmenge erläutert werden.\\
 Es gilt: Teil der Menge sind alle komplexen Zahlen $c$, für die die Iteration
 \[z_0=0\]
@@ -256,16 +257,17 @@ Hier ist es zunächst unklar ob eine Divergenz stattfinden wird, es müssten ers
 	\label{fig:mandel_c4}
 \end{figure}
 
-Allgemein gilt, dass ein $c$ nicht zur Mandelbrotmenge gehört, sobald für eine Zahl in seiner Iteration gilt \footnote{vgl. hierzu: \cite{mbrotg2}}:
+Allgemein gilt, dass ein $c$ nicht zur Mandelbrotmenge gehört, sobald für eine Zahl in einer Iteration gilt \footnote{vgl. hierzu: \cite{mbrotg2}}:
 \[|z_n|>2\]
 Zählt man nun die Iterationen, die benötigt wurden, um festzustellen, ob eine Zahl divergiert (oder eben konvergiert) und ordnet Bereichen von Iterationszahlen verschiedene Graustufen zu, erhält man ein Bild wie es in \autoref{fig:mandelbrot_1} zu sehen ist.\\
+Als Iteration wird fortan der in Zeile 4-7 dargestellte Pseudocode aus \autoref{lst:mandelbrotpseudo} bezeichnet.\\
 In der Praxis ist es üblich, sich eine maximale Iterationszahl zu setzen, nach der einfach angenommen wird, dass ein gegebenes $c$ zur Mandelbrotmenge gehört.\\
 Eine Funktion zur Berechnung der Iterationszahl eines Punktes $c$ der Mandelbrotmenge wird in \autoref{lst:mandelbrotpseudo} gezeigt.
 
 \begin{lstlisting}[label=lst:mandelbrotpseudo,caption=Algorithmus zur Berechnung der Iterationszahl eines $c$]
 funktion mandelbrot(c):
   z = 0
-  für iteration in 0 bis 100:
+  für iteration in 0 bis maxiter:
  	wenn betrag(z) > 2:
  		return iteration
  	sonst:	
@@ -323,14 +325,68 @@ Die betragsmäßig größte darstellbare Zahl ist also:
 Die Zahl wird im Einerkomplement dargestellt, was bedeutet, dass bei negativen Zahlen alle Bits invertiert werden. So ist die kleinste darstellbare Zahl:
 \[1000,0000...000_2 = -8 + 2^{-36} \approx -7.99999999998 \]
 %TODO: skript hinzufügen
-Selbst beieiner 1048576-fachen Vergrößerung (20 Zooms bei Faktor 2) ergeben sich mit dieser Präzision noch keine visuell wahrnehmbaren Rechenfehler.
+Selbst bei einer 134217728-fachen Vergrößerung (27 Zooms um Faktor 2) ergeben sich mit dieser Präzision noch keine visuell wahrnehmbaren Rechenfehler.\\
+Um noch tiefere Zooms zu realisieren müsste entweder eine variable Breite der einzelnen Datenworte realisiert werden, oder der grundlegende Algorithmus zur Berechnung der Mandelbrotmenge geändert werden.
+Hierfür würde sich der relativ neue Algorithmus von K.I. Martin (s. \cite{SUPERFRACTALTHINGMATHS}) eignen, welcher größtenteils unabhängig von aktueller Zoomtiefe und ohne die Verwendung von beliebig präzisen Datentypen auskommt \cite{SUPERFRACTALTHINGMATHS}.\\
+Da die Umsetzung dieses Algorithmus jedoch um einiges komplexer als die in dieser Arbeit verwendete Methode ist und die aktuelle Präzision zufriedenstellend ist, wird von dessen Imlmentierung abgesehen, jedoch ist die Bitbreite der einzelnen Datenworte in der Datei \textit{constants.vhd} konfigurierbar.
+\paragraph{Bitbreite bei Multiplikationen}
+Da bei der Multiplikation zweier 40-Bit-Zahlen das Ergebnis 80 Bit lang ist, muss dieses wieder in ein 40-Bit Format zurückgeführt werden.
+Dies geschieht mittels einer dafür entwickelten VHDL-Prozedur \textit{fixlen}, welche in der Datei %TODO Datei hier
+zu finden ist.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{mulfixlen.png}
+	\caption{Funktionsweise der Funktion \textit{fixlen}}
+	\label{fig:fixlen}
+\end{figure}
+
+Die Funktionsweise dieser Prozesdur ist in \autoref{fig:fixlen} dargestellt.
+Die aus der Multiplikation in Schritt 1. entstehende 80 Bit zahl besteht aus 8 Bits Vorkommateil und 72 Bit Nachkommateil.
+Um diese Zahl nun wieder in das normale Format zurückzuführen werden die ersten 4 Bit des Vorkommateils und die letzten 36 Bits des Nachkommateils abgeschnitten (Schritt 2.).\\
+Hierbei verliert das Ergebnis der Multiplikation an Präzision, was jedoch unvermeidbar ist, da sich die Länge der Datenworte sonst bei jeder Multiplikation verdoppeln würde.
 
 \section{Systemüberblick}
 \label{sec:überblick}
 In diesem Abschnitt soll ein Überblick über das entwickelte Gesamtsystem gegeben werden, während in den folgenden Abschnitten die einzelnen Komponenten erläutert werden.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{top.png}
+	\caption{Gesamtsystem mit 2 Kernen}
+	\label{fig:top}
+\end{figure}
+
+%TODO in bildern mandelbrot-core (bindestrich)
+In \autoref{fig:top} ist der konzeptuelle 2-kernige Aufbau des Gesamtsystems dargestellt.\\
+Die Darstellung erfolgt über eine VGA-Schnittstelle, welche durch das VGA-Modul bedient wird.
+Dieses liest stetig Pixelwerte aus den vorhandenen Speicherblöcken aus und generiert aus diesen ein gültiges VGA-Signal.\\
+Der Speicher wird wiederum von den sogenannten \textit{Koordinatoren} gefüllt.
+Jeder Koordinator verwaltet die Berechnungen eines \textit{Mandelbrot-Cores} und schreibt dessen Rechenergebnisse in seinen eigenen Speicher.\\
+Die Koordinatoren erhalten Informationen wie z.B. den aktuell darzustellenden Bereich von der Inputverwaltung, welche die externen Peripheriegeräte wie Hebel und Knöpfe verwaltet.\\
+Die genaue Funktion und Umsetzung aller genannten Module wird in den folgenden Abschnitten gezeigt.
+
 \section{Komponentenbeschreibung}
 \subsection{Mandelbrot-Core}
+Der zentralste Baustein des Chips ist der Mandelbrot-Core (s. \autoref{fig:schem_mandelbrotcore}), welcher für ein gegebenes $c$ einen Iterationswert errechnet.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.35\textwidth]{schem_mandelbrotcore.png}
+	\caption{Mandelbrot-Core, schematische Darstellung}
+	\label{fig:schem_mandelbrotcore}
+\end{figure}
+Als Input erhält ein Mandelbrot-Core zunächst die üblichen Clock- und Resetsignale (\textbf{clk},\textbf{reset}).
+Des weiteren liegt der zu untersuchende Punkt $c$ an den Eingängen \textbf{c\_real}(Realteil) und \textbf{c\_imag} (Imaginärteil) an.
+Die maximale Zahl von Iterationen, nach der angenommen wird, dass ein Punkt nicht zur Mandelbrotmenge gehört wird über das Eingangssignal \textbf{max\_iter} übermittelt.\\
+Sobald über das Signal \textbf{ready} angezeigt wird, dass \textbf{c\_real}, \textbf{c\_imag} und \textbf{max\_iter} stabil anliegen beginnt der Kern den Iterationsvorgang.\\
+Hierbei wird jeden Zyklus von \textbf{clk} eine Iteration abgeschlossen.\\
+Über den Ausgang \textbf{waiting} wird angezeigt, dass ein endgültiges Ergebnis am Ausgang \textbf{iter} liegt und der Kern bereit für neue Inputs ist.
+Das Ergebnis kann Werte zwischen (jeweils inklusive) 0 (falls $|c|>2$) und \textbf{maxiter} annehmen. 
+%TODO Bild von Simulation für gutes c und dann erklären
+
 \subsection{Mandelbrot-Koordinator}
+
+
 \subsection{Dual Port Block RAM}
 \subsection{Lookup Tables}
 \section{Peripherie und funktionale Beschreibung}
@@ -338,6 +394,9 @@ In diesem Abschnitt soll ein Überblick über das entwickelte Gesamtsystem gegeb
 \chapter{Optimierungen}
 \section{Algebraische Optimierung}
 \section{Designoptimierungen}
+
+\chapter{Ausblick \& Fazit}
+
 
 % Literaturverzeichnis
 \bibliography{bib}{}

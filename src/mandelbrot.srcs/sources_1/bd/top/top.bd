@@ -1,0 +1,778 @@
+{
+  "design": {
+    "design_info": {
+      "boundary_crc": "0x1650F5D4A8E1F959",
+      "device": "xc7a35tcpg236-1",
+      "name": "top",
+      "synth_flow_mode": "Hierarchical",
+      "tool_version": "2018.3",
+      "validated": "true"
+    },
+    "design_tree": {
+      "blk_mem_gen_0": "",
+      "clk_wiz_0": "",
+      "lut_colors_0": "",
+      "lut_ranges_0": "",
+      "mbcoord_0": "",
+      "mbcore_0": "",
+      "vga_0": "",
+      "input_0": ""
+    },
+    "ports": {
+      "reset": {
+        "type": "rst",
+        "direction": "I",
+        "parameters": {
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "POLARITY": {
+            "value": "ACTIVE_HIGH"
+          }
+        }
+      },
+      "hsync": {
+        "direction": "O"
+      },
+      "vsync": {
+        "direction": "O"
+      },
+      "r": {
+        "direction": "O",
+        "left": "3",
+        "right": "0"
+      },
+      "g": {
+        "direction": "O",
+        "left": "3",
+        "right": "0"
+      },
+      "b": {
+        "direction": "O",
+        "left": "3",
+        "right": "0"
+      },
+      "clk_in1": {
+        "type": "clk",
+        "direction": "I",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "top_clk"
+          },
+          "FREQ_HZ": {
+            "value": "100000000"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.000",
+            "value_src": "default"
+          }
+        }
+      },
+      "done": {
+        "direction": "O"
+      },
+      "rdy_in": {
+        "direction": "I"
+      },
+      "mode": {
+        "direction": "I",
+        "left": "1",
+        "right": "0"
+      }
+    },
+    "components": {
+      "blk_mem_gen_0": {
+        "vlnv": "xilinx.com:ip:blk_mem_gen:8.4",
+        "xci_name": "top_blk_mem_gen_0_0",
+        "parameters": {
+          "Additional_Inputs_for_Power_Estimation": {
+            "value": "false"
+          },
+          "Assume_Synchronous_Clk": {
+            "value": "false"
+          },
+          "Enable_32bit_Address": {
+            "value": "false"
+          },
+          "Enable_A": {
+            "value": "Always_Enabled"
+          },
+          "Enable_B": {
+            "value": "Always_Enabled"
+          },
+          "Fill_Remaining_Memory_Locations": {
+            "value": "false"
+          },
+          "Load_Init_File": {
+            "value": "false"
+          },
+          "Memory_Type": {
+            "value": "Simple_Dual_Port_RAM"
+          },
+          "Operating_Mode_A": {
+            "value": "READ_FIRST"
+          },
+          "Port_B_Clock": {
+            "value": "100"
+          },
+          "Port_B_Enable_Rate": {
+            "value": "100"
+          },
+          "Read_Width_B": {
+            "value": "3"
+          },
+          "Register_PortB_Output_of_Memory_Primitives": {
+            "value": "false"
+          },
+          "Use_Byte_Write_Enable": {
+            "value": "false"
+          },
+          "Write_Depth_A": {
+            "value": "480000"
+          },
+          "Write_Width_A": {
+            "value": "3"
+          },
+          "Write_Width_B": {
+            "value": "3"
+          },
+          "use_bram_block": {
+            "value": "Stand_Alone"
+          }
+        }
+      },
+      "clk_wiz_0": {
+        "vlnv": "xilinx.com:ip:clk_wiz:6.0",
+        "xci_name": "top_clk_wiz_0_0",
+        "parameters": {
+          "CLKOUT1_JITTER": {
+            "value": "145.943"
+          },
+          "CLKOUT1_PHASE_ERROR": {
+            "value": "94.994"
+          },
+          "CLKOUT1_REQUESTED_OUT_FREQ": {
+            "value": "50"
+          },
+          "CLKOUT2_JITTER": {
+            "value": "163.613"
+          },
+          "CLKOUT2_PHASE_ERROR": {
+            "value": "94.994"
+          },
+          "CLKOUT2_REQUESTED_OUT_FREQ": {
+            "value": "30"
+          },
+          "CLKOUT2_USED": {
+            "value": "true"
+          },
+          "CLK_OUT1_PORT": {
+            "value": "clk_vga"
+          },
+          "CLK_OUT2_PORT": {
+            "value": "clk_general"
+          },
+          "ENABLE_CLOCK_MONITOR": {
+            "value": "false"
+          },
+          "MMCM_CLKFBOUT_MULT_F": {
+            "value": "10.500"
+          },
+          "MMCM_CLKOUT0_DIVIDE_F": {
+            "value": "21.000"
+          },
+          "MMCM_CLKOUT1_DIVIDE": {
+            "value": "35"
+          },
+          "MMCM_DIVCLK_DIVIDE": {
+            "value": "1"
+          },
+          "NUM_OUT_CLKS": {
+            "value": "2"
+          },
+          "PRIMITIVE": {
+            "value": "MMCM"
+          },
+          "USE_LOCKED": {
+            "value": "false"
+          },
+          "USE_RESET": {
+            "value": "false"
+          }
+        }
+      },
+      "lut_colors_0": {
+        "vlnv": "xilinx.com:module_ref:lut_colors:1.0",
+        "xci_name": "top_lut_colors_0_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "lut_colors",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "index": {
+            "direction": "I",
+            "left": "2",
+            "right": "0"
+          },
+          "mode": {
+            "direction": "I",
+            "left": "1",
+            "right": "0"
+          },
+          "r": {
+            "direction": "O",
+            "left": "3",
+            "right": "0"
+          },
+          "g": {
+            "direction": "O",
+            "left": "3",
+            "right": "0"
+          },
+          "b": {
+            "direction": "O",
+            "left": "3",
+            "right": "0"
+          }
+        }
+      },
+      "lut_ranges_0": {
+        "vlnv": "xilinx.com:module_ref:lut_ranges:1.0",
+        "xci_name": "top_lut_ranges_0_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "lut_ranges",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "it": {
+            "direction": "I",
+            "left": "10",
+            "right": "0"
+          },
+          "color_index": {
+            "direction": "O",
+            "left": "2",
+            "right": "0"
+          }
+        }
+      },
+      "mbcoord_0": {
+        "vlnv": "xilinx.com:module_ref:mbcoord:1.0",
+        "xci_name": "top_mbcoord_0_1",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "mbcoord",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "reset",
+                "value_src": "constant"
+              },
+              "CLK_DOMAIN": {
+                "value": "/clk_wiz_0_clk_out1",
+                "value_src": "ip_prop"
+              },
+              "FREQ_HZ": {
+                "value": "30000000",
+                "value_src": "ip_prop"
+              },
+              "PHASE": {
+                "value": "0.0",
+                "value_src": "ip_prop"
+              }
+            }
+          },
+          "reset": {
+            "type": "rst",
+            "direction": "I",
+            "parameters": {
+              "POLARITY": {
+                "value": "ACTIVE_HIGH",
+                "value_src": "user_prop"
+              }
+            }
+          },
+          "ready": {
+            "direction": "I"
+          },
+          "x1": {
+            "direction": "I",
+            "left": "39",
+            "right": "0"
+          },
+          "y1": {
+            "direction": "I",
+            "left": "39",
+            "right": "0"
+          },
+          "x2": {
+            "direction": "I",
+            "left": "39",
+            "right": "0"
+          },
+          "y2": {
+            "direction": "I",
+            "left": "39",
+            "right": "0"
+          },
+          "done": {
+            "direction": "O"
+          },
+          "adr": {
+            "direction": "O",
+            "left": "18",
+            "right": "0"
+          },
+          "we": {
+            "direction": "O"
+          },
+          "it": {
+            "direction": "O",
+            "left": "10",
+            "right": "0"
+          },
+          "c0_it": {
+            "direction": "I",
+            "left": "10",
+            "right": "0"
+          },
+          "c0_waiting": {
+            "direction": "I"
+          },
+          "c0_ready": {
+            "direction": "O"
+          },
+          "c0_c_real": {
+            "direction": "O",
+            "left": "39",
+            "right": "0"
+          },
+          "c0_c_imag": {
+            "direction": "O",
+            "left": "39",
+            "right": "0"
+          }
+        }
+      },
+      "mbcore_0": {
+        "vlnv": "xilinx.com:module_ref:mbcore:1.0",
+        "xci_name": "top_mbcore_0_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "mbcore",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "reset",
+                "value_src": "constant"
+              },
+              "CLK_DOMAIN": {
+                "value": "/clk_wiz_0_clk_out1",
+                "value_src": "ip_prop"
+              },
+              "FREQ_HZ": {
+                "value": "30000000",
+                "value_src": "ip_prop"
+              },
+              "PHASE": {
+                "value": "0.0",
+                "value_src": "ip_prop"
+              }
+            }
+          },
+          "reset": {
+            "type": "rst",
+            "direction": "I",
+            "parameters": {
+              "POLARITY": {
+                "value": "ACTIVE_HIGH",
+                "value_src": "user_prop"
+              }
+            }
+          },
+          "ready": {
+            "direction": "I"
+          },
+          "c_real": {
+            "direction": "I",
+            "left": "39",
+            "right": "0"
+          },
+          "c_imag": {
+            "direction": "I",
+            "left": "39",
+            "right": "0"
+          },
+          "it": {
+            "direction": "O",
+            "left": "10",
+            "right": "0"
+          },
+          "waiting": {
+            "direction": "O"
+          }
+        }
+      },
+      "vga_0": {
+        "vlnv": "xilinx.com:module_ref:vga:1.0",
+        "xci_name": "top_vga_0_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "vga",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "reset": {
+            "type": "rst",
+            "direction": "I",
+            "parameters": {
+              "POLARITY": {
+                "value": "ACTIVE_HIGH",
+                "value_src": "user_prop"
+              }
+            }
+          },
+          "clk_vga": {
+            "direction": "I",
+            "parameters": {
+              "CLK_DOMAIN": {
+                "value": "/clk_wiz_0_clk_out1",
+                "value_src": "ip_prop"
+              },
+              "FREQ_HZ": {
+                "value": "50000000",
+                "value_src": "ip_prop"
+              },
+              "PHASE": {
+                "value": "0.0",
+                "value_src": "ip_prop"
+              }
+            }
+          },
+          "hsync": {
+            "direction": "O"
+          },
+          "vsync": {
+            "direction": "O"
+          },
+          "r_in": {
+            "direction": "I",
+            "left": "3",
+            "right": "0"
+          },
+          "g_in": {
+            "direction": "I",
+            "left": "3",
+            "right": "0"
+          },
+          "b_in": {
+            "direction": "I",
+            "left": "3",
+            "right": "0"
+          },
+          "adr": {
+            "direction": "O",
+            "left": "18",
+            "right": "0"
+          },
+          "r": {
+            "direction": "O",
+            "left": "3",
+            "right": "0"
+          },
+          "g": {
+            "direction": "O",
+            "left": "3",
+            "right": "0"
+          },
+          "b": {
+            "direction": "O",
+            "left": "3",
+            "right": "0"
+          }
+        }
+      },
+      "input_0": {
+        "vlnv": "xilinx.com:module_ref:input:1.0",
+        "xci_name": "top_input_0_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "input",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "reset",
+                "value_src": "constant"
+              },
+              "CLK_DOMAIN": {
+                "value": "/clk_wiz_0_clk_out1",
+                "value_src": "ip_prop"
+              },
+              "FREQ_HZ": {
+                "value": "30000000",
+                "value_src": "ip_prop"
+              },
+              "PHASE": {
+                "value": "0.0",
+                "value_src": "ip_prop"
+              }
+            }
+          },
+          "reset": {
+            "type": "rst",
+            "direction": "I",
+            "parameters": {
+              "POLARITY": {
+                "value": "ACTIVE_HIGH",
+                "value_src": "user_prop"
+              }
+            }
+          },
+          "rdy_in": {
+            "direction": "I"
+          },
+          "x1": {
+            "direction": "O",
+            "left": "39",
+            "right": "0"
+          },
+          "y1": {
+            "direction": "O",
+            "left": "39",
+            "right": "0"
+          },
+          "x2": {
+            "direction": "O",
+            "left": "39",
+            "right": "0"
+          },
+          "y2": {
+            "direction": "O",
+            "left": "39",
+            "right": "0"
+          },
+          "rdy_out": {
+            "direction": "O"
+          }
+        }
+      }
+    },
+    "nets": {
+      "reset_1": {
+        "ports": [
+          "reset",
+          "mbcoord_0/reset",
+          "mbcore_0/reset",
+          "vga_0/reset",
+          "input_0/reset"
+        ]
+      },
+      "vga_0_hsync": {
+        "ports": [
+          "vga_0/hsync",
+          "hsync"
+        ]
+      },
+      "vga_0_r": {
+        "ports": [
+          "vga_0/r",
+          "r"
+        ]
+      },
+      "vga_0_g": {
+        "ports": [
+          "vga_0/g",
+          "g"
+        ]
+      },
+      "vga_0_b": {
+        "ports": [
+          "vga_0/b",
+          "b"
+        ]
+      },
+      "vga_0_vsync": {
+        "ports": [
+          "vga_0/vsync",
+          "vsync"
+        ]
+      },
+      "blk_mem_gen_0_doutb": {
+        "ports": [
+          "blk_mem_gen_0/doutb",
+          "lut_colors_0/index"
+        ]
+      },
+      "lut_colors_0_r": {
+        "ports": [
+          "lut_colors_0/r",
+          "vga_0/r_in"
+        ]
+      },
+      "lut_colors_0_g": {
+        "ports": [
+          "lut_colors_0/g",
+          "vga_0/g_in"
+        ]
+      },
+      "lut_colors_0_b": {
+        "ports": [
+          "lut_colors_0/b",
+          "vga_0/b_in"
+        ]
+      },
+      "vga_0_adr": {
+        "ports": [
+          "vga_0/adr",
+          "blk_mem_gen_0/addrb"
+        ]
+      },
+      "clk_wiz_0_clk_vga": {
+        "ports": [
+          "clk_wiz_0/clk_vga",
+          "blk_mem_gen_0/clkb",
+          "vga_0/clk_vga"
+        ]
+      },
+      "lut_ranges_0_color_index": {
+        "ports": [
+          "lut_ranges_0/color_index",
+          "blk_mem_gen_0/dina"
+        ]
+      },
+      "rdy_in_1": {
+        "ports": [
+          "rdy_in",
+          "input_0/rdy_in"
+        ]
+      },
+      "mbcore_0_it": {
+        "ports": [
+          "mbcore_0/it",
+          "mbcoord_0/c0_it"
+        ]
+      },
+      "mbcore_0_waiting": {
+        "ports": [
+          "mbcore_0/waiting",
+          "mbcoord_0/c0_waiting"
+        ]
+      },
+      "mbcoord_0_c0_ready": {
+        "ports": [
+          "mbcoord_0/c0_ready",
+          "mbcore_0/ready"
+        ]
+      },
+      "mbcoord_0_c0_c_real": {
+        "ports": [
+          "mbcoord_0/c0_c_real",
+          "mbcore_0/c_real"
+        ]
+      },
+      "mbcoord_0_c0_c_imag": {
+        "ports": [
+          "mbcoord_0/c0_c_imag",
+          "mbcore_0/c_imag"
+        ]
+      },
+      "mbcoord_0_it": {
+        "ports": [
+          "mbcoord_0/it",
+          "lut_ranges_0/it"
+        ]
+      },
+      "mbcoord_0_we": {
+        "ports": [
+          "mbcoord_0/we",
+          "blk_mem_gen_0/wea"
+        ]
+      },
+      "mbcoord_0_adr": {
+        "ports": [
+          "mbcoord_0/adr",
+          "blk_mem_gen_0/addra"
+        ]
+      },
+      "mbcoord_0_done": {
+        "ports": [
+          "mbcoord_0/done",
+          "done"
+        ]
+      },
+      "input_0_x1": {
+        "ports": [
+          "input_0/x1",
+          "mbcoord_0/x1"
+        ]
+      },
+      "input_0_y1": {
+        "ports": [
+          "input_0/y1",
+          "mbcoord_0/y1"
+        ]
+      },
+      "input_0_x2": {
+        "ports": [
+          "input_0/x2",
+          "mbcoord_0/x2"
+        ]
+      },
+      "input_0_y2": {
+        "ports": [
+          "input_0/y2",
+          "mbcoord_0/y2"
+        ]
+      },
+      "input_0_rdy_out": {
+        "ports": [
+          "input_0/rdy_out",
+          "mbcoord_0/ready"
+        ]
+      },
+      "clk_in1_1": {
+        "ports": [
+          "clk_in1",
+          "clk_wiz_0/clk_in1"
+        ]
+      },
+      "clk_wiz_0_clk_general": {
+        "ports": [
+          "clk_wiz_0/clk_general",
+          "blk_mem_gen_0/clka",
+          "mbcoord_0/clk",
+          "mbcore_0/clk",
+          "input_0/clk"
+        ]
+      },
+      "mode_1": {
+        "ports": [
+          "mode",
+          "lut_colors_0/mode"
+        ]
+      }
+    }
+  }
+}
