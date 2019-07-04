@@ -1,7 +1,7 @@
 -- Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2018.3 (lin64) Build 2405991 Thu Dec  6 23:36:41 MST 2018
--- Date        : Wed Jul  3 16:34:02 2019
+-- Date        : Wed Jul  3 17:57:37 2019
 -- Host        : daniel-pc running 64-bit unknown
 -- Command     : write_vhdl -force -mode funcsim
 --               /home/daniel/prg/uni/bachelor/src/mandel-zybo.srcs/sources_1/bd/top/ip/top_mbcore_0_0/top_mbcore_0_0_sim_netlist.vhdl

@@ -57,7 +57,7 @@ begin
                 if manual = '0' then
                     max_iter <= to_unsigned(MAX_ITER_INIT+MAX_ITER_STEP*zoom_level,14);
                 else
-                    max_iter <= to_unsigned(10000,14);
+                    max_iter <= to_unsigned((MAX_ITER_INIT+MAX_ITER_STEP*zoom_level)*4,14);
                 end if;
                 
                 for i in 0 to 7 loop

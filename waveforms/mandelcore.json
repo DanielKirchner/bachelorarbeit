@@ -1,0 +1,15 @@
+{signal: 
+ [
+  ['inputs',
+    {name: 'clk', 		wave: 'p........'},
+   	{name: 'c_real', 	wave: 'x=.......', 	data:[-0.7487]},
+   	{name: 'c_imag', 	wave: 'x=.......', 	data:[-0.7487]},
+   	{name: 'max_iter', 	wave: 'x=.......', 	data:[100]},
+    {name: 'ready', 	wave: '0.10.....'},
+  ],
+   ['outputs',
+    {name: 'iter', 		wave: 'x.....=..', 	data:[3]},
+    {name: 'waiting', 	wave: '0.....1..'}
+   ]
+]
+}

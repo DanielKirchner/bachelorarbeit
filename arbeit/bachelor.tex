@@ -381,8 +381,24 @@ Die maximale Zahl von Iterationen, nach der angenommen wird, dass ein Punkt nich
 Sobald über das Signal \textbf{ready} angezeigt wird, dass \textbf{c\_real}, \textbf{c\_imag} und \textbf{max\_iter} stabil anliegen beginnt der Kern den Iterationsvorgang.\\
 Hierbei wird jeden Zyklus von \textbf{clk} eine Iteration abgeschlossen.\\
 Über den Ausgang \textbf{waiting} wird angezeigt, dass ein endgültiges Ergebnis am Ausgang \textbf{iter} anliegt und der Kern bereit für neue Inputs ist.
-Das Ergebnis kann Werte zwischen (jeweils inklusive) 0 (falls $|c|>2$) und \textbf{maxiter} annehmen. 
-%TODO Bild von Simulation für gutes c und dann erklären
+Das Ergebnis kann Werte zwischen (jeweils inklusive) 0 (falls $|c|>2$) und \textbf{maxiter} annehmen.\\
+\autoref{fig:wave_mandelbrotcore} zeigt ein Impulsdiagramm der In- und Outputs eines Mandelbrot-Cores.
+Zu bestimmten ist in diesem Fall die Iterationszahl für den Punkt $-0,7487-0,7487i$, wobei die maximale Iterationszahl 100 sein soll.
+Diese Werte werden an die Inputs \textbf{c\_real},\textbf{c\_imag} und \textbf{max\_iter} angeleg.
+Sobald diese stabil vorliegen, wird dies durch einen Puls des Signales \textbf{ready} signalisiert, wodurch der Core seine Berechnungen startet.
+Nach einigen Zyklen des Clocksignals liegt dann die Iterationszahl (in diesem Fall 3) am Ausgang \textbf{iter} an.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{wave_mandelcore.png}
+	\caption{Funktionsweise Mandelbrot-Core, Impulsdiagramm}
+	\label{fig:wave_mandelbrotcore}
+\end{figure}
+Vor diesem Zeitpunkt ist der Zustand von \textbf{iter} undefiniert, erst nach der steigenden Taktflanke von \textbf{waiting} liegt das richtige Ergebnis an.
+Ab diesem Zeitpunkt ist der Core auch wieder bereit, neue Werte von $c$ zu verarbeiten.\\
+Da der Mandelbrot-Core über einen den Eingang \textbf{max\_iter} verfügt und diesen auch bei jeder Berechnung neu ausliest, kann die maximale Iterationszahl im laufenden Betrieb jederzeit geändert werden,
+\footnote{Neue Werte für die Signale \textbf{c\_real}, \textbf{c\_imag} und \textbf{max\_iter} werden erst beim nächsten \textbf{ready} Puls übernommen}
+was nützlich ist um bei steigender Vergrößerungsstufe den Detailgrad der Berechnung erhöhen zu können.
+
 
 \subsection{Mandelbrot-Koordinator}
 \begin{figure}[H]

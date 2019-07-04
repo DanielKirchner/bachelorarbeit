@@ -1,7 +1,7 @@
 --Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2018.3 (lin64) Build 2405991 Thu Dec  6 23:36:41 MST 2018
---Date        : Wed Jul  3 16:43:09 2019
+--Date        : Wed Jul  3 18:03:45 2019
 --Host        : daniel-pc running 64-bit unknown
 --Command     : generate_target top.bd
 --Design      : top

@@ -1,25 +1,18 @@
 import numpy as np
 from math import log,floor,sqrt
 
-def mandelbrot(z, maxiter=20):
-    start = z
+def mandelbrot(z,maxiter=20):
     c = z
     for n in range(maxiter):
-        print(z, abs(z))
         if abs(z) > 2:
             return n
-
-        z = z * z + c
-
+        z = z*z + c
     return maxiter
 
-
-def mandelbrot_set(xmin, xmax, ymin, ymax, width, height, maxiter):
+def mandelbrot_set(xmin,xmax,ymin,ymax,width,height,maxiter):
     r1 = np.linspace(xmin, xmax, width)
     r2 = np.linspace(ymin, ymax, height)
-    return r1, r2, [mandelbrot(complex(r, i), maxiter) for r in r1 for i in r2]
-
-
+    return (r1,r2,[mandelbrot(complex(r, i),maxiter) for r in r1 for i in r2])
 
 def to_decimal(number,predecimal=4):
     neg = False
@@ -89,7 +82,7 @@ if __name__ == '__main__':
     x2 = -0.4
     y2 = y1+(x1-x2)*3.0/4
     """
-
+    """
     x1 = -0.575
     y1 = 0.62
     x2 = -0.47
@@ -105,6 +98,8 @@ if __name__ == '__main__':
     print(to_decimal("1000000000000000000000000000000000000000",predecimal=3))
     print(to_decimal("0000111111111111111111111111111111111111",predecimal=3))
     print(to_decimal("0000000000000000000000000000000000000001",predecimal=3))
-    #mandelbrot(complex(-1.4369369369233027,0.08383383382169995))
-
-
+    mandelbrot(complex(-1.4369369369233027,0.08383383382169995))
+    """
+    
+    #mandelbrot_set(-2.0,0.5,-1.25,1.25,1000,1000,80)
+    print(mandelbrot(complex(-0.7487,-0.7487)))
