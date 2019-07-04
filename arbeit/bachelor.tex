@@ -397,8 +397,51 @@ Vor diesem Zeitpunkt ist der Zustand von \textbf{iter} undefiniert, erst nach de
 Ab diesem Zeitpunkt ist der Core auch wieder bereit, neue Werte von $c$ zu verarbeiten.\\
 Da der Mandelbrot-Core über einen den Eingang \textbf{max\_iter} verfügt und diesen auch bei jeder Berechnung neu ausliest, kann die maximale Iterationszahl im laufenden Betrieb jederzeit geändert werden,
 \footnote{Neue Werte für die Signale \textbf{c\_real}, \textbf{c\_imag} und \textbf{max\_iter} werden erst beim nächsten \textbf{ready} Puls übernommen}
-was nützlich ist um bei steigender Vergrößerungsstufe den Detailgrad der Berechnung erhöhen zu können.
+was nützlich ist um bei steigender Vergrößerungsstufe den Detailgrad der Berechnung erhöhen zu können.\\
+Die Mandelbrot-Cores werden mit einer eigenen Clock, die unabhängig von z.B. der VGA-Clock läuft, getaktet.
+Die maximal mögliche Taktrate ist hierbei abhängig von der Anzahl der Rechenschritte, die in jedem Iterationsschritt durchgeführt werden müssen.
+Eine Iteration besteht aus folgenen Bestandteilen:
+\begin{enumerate}[label=(\Alph*)]
+	\item Überprüfen, ob maximale Iterationszahl bereits erreicht ist, wenn dem so ist,ist die Berechnung abgeschlossen
+	\item Wenn nicht, berechne neuen Wert für $z$, falls dieser größer als 2 ist, ist die Berechnung abgeschlossen
+	\item Zeige den aktuellen Zustand der Berechnung über die Signale \textbf{waiting} und \textbf{iter} an
+\end{enumerate}
+Die Abfrage (A) der aktuellen Iterationszahl und der Vergleich mit der maximal zulässigen ist hierbei sehr trivial und nimmt deshalb auch keine nennenswerte Zeit in Anspruch, muss also auch nicht weiter optimiert werden.\\
+Der komplexzahlige Iterationsteil (B) besteht jedoch aus mehreren Multiplikationen, Additionen und Vergleichen, weswegen hier ein großer Teil der pro Iteration entstehenden Verzögerung entsteht.
+Es gilt, diesen Bestandteil (B) weitesgehend zu optimieren, was durch einfache algebraische Umformungen geschehen kann.\\
+In jedem Schritt muss überprüft werden, ob $z$ kleiner 2 ist:
+\[abs(z) <= 2\]
+Der Betrag (abs) einer komplexen Zahl mit Realteil $z_r$ und Imaginärteil $z_i$ ist als ihr Abstand vom Ursprung definiert:
+\[abs(z) = \sqrt{z_r^2 + z_i^2}\]
+Also muss geprüft werden, ob gilt:
+\[\sqrt{z_r^2 + z_i^2} <= 2\]
+Das Ziehen der Wurzel kann in diesem Fall durch das Quadrieren beider Seiten umgangen werden:
+\begin{equation}
+	\label{eq:bedingung}
+	z_r^2 + z_i^2 <= 4
+\end{equation}
 
+Falls dies wahr ist, muss der Wert von $z$ aktualisiert werden und die Iterationszahl kann um eins erhöht werden:
+\[z_{n+1} = z_n^2 + c\]
+\[iter = iter + 1\]
+Das Quadrat einer komplexen Zahl mit Realteil $a$ und Imaginärteil $b$ wird folgendermaßen berechnet:
+\[(a + bi)^2 = a^2 + 2abi + b^2*i^2 = a^2 + 2abi - b^2\]
+Im Fall von $z$ gilt also:
+\[z^2+c=(z_r + z_ii)^2 = z_r^2 - z_i^2 + 2z_rz_ii + c\]
+Da die Bestandteile der komplexen Zahlen getrennt gespeichert sind, müssen diese isoliert betrachtet werden (das = Zeichen ist in diesem Kontext als Zuweisungsoperator zu verstehen):
+\begin{equation}
+	\label{eq:zr}
+	z_r = z_r^2 - z_i^2 + c_r
+\end{equation}
+\begin{equation}
+	\label{eq:zi}
+	z_i = 2z_rz_ii + c_i = z_rz_ii + z_rz_ii + c_i
+\end{equation}
+Die Quadrate von $z_r$ und $z_i$ kommen sowohl in \autoref{eq:bedingung} als auch in \autoref{eq:zr} vor, müssen aber nur ein mal berechnet werden, was zwei Multiplikationen spart.\\
+Auch das Ersetzen der Multiplikation mit zwei in \autoref{eq:zi} durch eine Addition erspart eine Multiplikation.
+Der nicht optimierte Iterationsschritt (B) enthält eine Wurzel, sechs Multiplikationen und vier Additionen.
+Durch Wiederverwenden bereits berechneter Werte und algebraische Optimierung sind nun lediglich 3 Multiplikationen und fünf Additionen nötig.\\
+Das optimierte Iterationsverfahren läuft bei einer maximalen Clockfrequenz von 40MHz stabil, was bedeutet dass eine einzelne Iteration maximal 25ns in Anspruch nimmt.
 
 \subsection{Mandelbrot-Koordinator}
 \begin{figure}[H]
