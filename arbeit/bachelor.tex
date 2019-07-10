@@ -461,10 +461,20 @@ Der in \autoref{fig:schem_mandelbrotkoord} gezeigte Mandelbrot-Koordinator verwa
 \end{figure}
 
 Berechnet wird die Mandelbrotmenge in dem durch die Punkte (\textbf{x1}/\textbf{y1}) und (\textbf{x2}/\textbf{y2}) aufgespannten Rechteck (s. \autoref{fig:mandelcoordpixels}).
-Der obere linke Pixel repräsentiert hierbei den Punkt (\textbf{x1}/\textbf{y1}), während der Pixel rechts von ihm dem Punkt ((\textbf{x1 + step\_y})/\textbf{y1}) darstellt.
+Der obere linke Pixel repräsentiert den Punkt (\textbf{x1}/\textbf{y1}).
+Um zu einer gegebenen Pixelkoordinate ($p_x/p_y$) den zugehörigen komplexzahligen Punkt ($c_x/c_y$) zu finden wird folgende Formel verwendet:
+\[c_x = \mathbf{x1} + step_x * p_x\] 
+\[c_y = \mathbf{y1} + step_y * p_y\]
+mit:
+\[step_x = \frac{x2-x1}{800}\]
+\[step_y = \frac{y2-y1}{600}\]
+Wenn die Mandelbrotmenge beispielsweise für das Rechteck mit den Eckpunkten (-2/-2) und (2/1) dargestellt werden soll gilt:
+\[step_x = \frac{2-(-2)}{800} = 0,005\]
+\[step_y = \frac{1-(-2)}{600} = 0,005\]
+
+
 Damit das dargestellte Bild nicht gestaucht ist, muss das Seitenverhältnis von 800x600 Pixeln eingehalten werden:
 \[\frac{x2-x1}{y2-y1}=\frac{4}{3}\]
-
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=.8\textwidth]{mandelcoord.png}
