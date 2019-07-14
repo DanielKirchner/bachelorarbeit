@@ -192,19 +192,19 @@ proc create_root_design { parentCell } {
    CONFIG.Enable_A {Always_Enabled} \
    CONFIG.Enable_B {Always_Enabled} \
    CONFIG.Memory_Type {Simple_Dual_Port_RAM} \
-   CONFIG.Operating_Mode_A {WRITE_FIRST} \
+   CONFIG.Operating_Mode_A {NO_CHANGE} \
    CONFIG.Port_B_Clock {100} \
    CONFIG.Port_B_Enable_Rate {100} \
    CONFIG.Port_B_Write_Rate {0} \
-   CONFIG.Read_Width_A {3} \
-   CONFIG.Read_Width_B {3} \
+   CONFIG.Read_Width_A {4} \
+   CONFIG.Read_Width_B {4} \
    CONFIG.Register_PortA_Output_of_Memory_Primitives {false} \
    CONFIG.Register_PortB_Output_of_Memory_Primitives {false} \
    CONFIG.Use_Byte_Write_Enable {false} \
    CONFIG.Use_RSTA_Pin {false} \
    CONFIG.Write_Depth_A {480000} \
-   CONFIG.Write_Width_A {3} \
-   CONFIG.Write_Width_B {3} \
+   CONFIG.Write_Width_A {4} \
+   CONFIG.Write_Width_B {4} \
    CONFIG.use_bram_block {Stand_Alone} \
  ] $blk_mem_gen_0
 

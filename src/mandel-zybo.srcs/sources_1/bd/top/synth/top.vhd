@@ -1,7 +1,7 @@
 --Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2018.3 (lin64) Build 2405991 Thu Dec  6 23:36:41 MST 2018
---Date        : Wed Jul  3 18:03:45 2019
+--Date        : Sun Jul 14 17:26:16 2019
 --Host        : daniel-pc running 64-bit unknown
 --Command     : generate_target top.bd
 --Design      : top
@@ -25,10 +25,10 @@ entity top is
     reset : in STD_LOGIC;
     vsync : out STD_LOGIC
   );
-  attribute CORE_GENERATION_INFO : string;
-  attribute CORE_GENERATION_INFO of top : entity is "top,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=top,x_ipVersion=1.00.a,x_ipLanguage=VHDL,numBlks=9,numReposBlks=9,numNonXlnxBlks=0,numHierBlks=0,maxHierDepth=0,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=7,numPkgbdBlks=0,bdsource=USER,synth_mode=OOC_per_IP}";
-  attribute HW_HANDOFF : string;
-  attribute HW_HANDOFF of top : entity is "top.hwdef";
+  attribute core_generation_info : string;
+  attribute core_generation_info of top : entity is "top,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=top,x_ipVersion=1.00.a,x_ipLanguage=VHDL,numBlks=9,numReposBlks=9,numNonXlnxBlks=0,numHierBlks=0,maxHierDepth=0,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=7,numPkgbdBlks=0,bdsource=USER,synth_mode=OOC_per_IP}";
+  attribute hw_handoff : string;
+  attribute hw_handoff of top : entity is "top.hwdef";
 end top;
 
 architecture STRUCTURE of top is
@@ -37,10 +37,10 @@ architecture STRUCTURE of top is
     clka : in STD_LOGIC;
     wea : in STD_LOGIC_VECTOR ( 0 to 0 );
     addra : in STD_LOGIC_VECTOR ( 18 downto 0 );
-    dina : in STD_LOGIC_VECTOR ( 2 downto 0 );
+    dina : in STD_LOGIC_VECTOR ( 3 downto 0 );
     clkb : in STD_LOGIC;
     addrb : in STD_LOGIC_VECTOR ( 18 downto 0 );
-    doutb : out STD_LOGIC_VECTOR ( 2 downto 0 )
+    doutb : out STD_LOGIC_VECTOR ( 3 downto 0 )
   );
   end component top_blk_mem_gen_0_0;
   component top_clk_wiz_0_0 is
@@ -59,15 +59,6 @@ architecture STRUCTURE of top is
     reset : in STD_LOGIC
   );
   end component top_buttons_0_2;
-  component top_lut_colors_0_0 is
-  port (
-    index : in STD_LOGIC_VECTOR ( 2 downto 0 );
-    mode : in STD_LOGIC_VECTOR ( 1 downto 0 );
-    r : out STD_LOGIC_VECTOR ( 4 downto 0 );
-    g : out STD_LOGIC_VECTOR ( 5 downto 0 );
-    b : out STD_LOGIC_VECTOR ( 4 downto 0 )
-  );
-  end component top_lut_colors_0_0;
   component top_vga_0_0 is
   port (
     clk_vga : in STD_LOGIC;
@@ -103,13 +94,6 @@ architecture STRUCTURE of top is
     c0_c_imag : out STD_LOGIC_VECTOR ( 39 downto 0 )
   );
   end component top_mbcoord_0_0;
-  component top_lut_ranges_0_0 is
-  port (
-    it : in STD_LOGIC_VECTOR ( 13 downto 0 );
-    max_iter : in STD_LOGIC_VECTOR ( 13 downto 0 );
-    color_index : out STD_LOGIC_VECTOR ( 2 downto 0 )
-  );
-  end component top_lut_ranges_0_0;
   component top_mbcore_0_0 is
   port (
     clk : in STD_LOGIC;
@@ -136,7 +120,23 @@ architecture STRUCTURE of top is
     rdy_out : out STD_LOGIC
   );
   end component top_input_0_0;
-  signal blk_mem_gen_0_doutb : STD_LOGIC_VECTOR ( 2 downto 0 );
+  component top_lut_colors_0_0 is
+  port (
+    index : in STD_LOGIC_VECTOR ( 3 downto 0 );
+    mode : in STD_LOGIC_VECTOR ( 1 downto 0 );
+    r : out STD_LOGIC_VECTOR ( 4 downto 0 );
+    g : out STD_LOGIC_VECTOR ( 5 downto 0 );
+    b : out STD_LOGIC_VECTOR ( 4 downto 0 )
+  );
+  end component top_lut_colors_0_0;
+  component top_lut_ranges_0_0 is
+  port (
+    it : in STD_LOGIC_VECTOR ( 13 downto 0 );
+    max_iter : in STD_LOGIC_VECTOR ( 13 downto 0 );
+    color_index : out STD_LOGIC_VECTOR ( 3 downto 0 )
+  );
+  end component top_lut_ranges_0_0;
+  signal blk_mem_gen_0_doutb : STD_LOGIC_VECTOR ( 3 downto 0 );
   signal btns_in_1 : STD_LOGIC_VECTOR ( 7 downto 0 );
   signal buttons_0_btns_out : STD_LOGIC_VECTOR ( 7 downto 0 );
   signal clk_1 : STD_LOGIC;
@@ -151,7 +151,7 @@ architecture STRUCTURE of top is
   signal lut_colors_0_b : STD_LOGIC_VECTOR ( 4 downto 0 );
   signal lut_colors_0_g : STD_LOGIC_VECTOR ( 5 downto 0 );
   signal lut_colors_0_r : STD_LOGIC_VECTOR ( 4 downto 0 );
-  signal lut_ranges_0_color_index : STD_LOGIC_VECTOR ( 2 downto 0 );
+  signal lut_ranges_0_color_index : STD_LOGIC_VECTOR ( 3 downto 0 );
   signal mbcoord_0_adr : STD_LOGIC_VECTOR ( 18 downto 0 );
   signal mbcoord_0_c0_c_imag : STD_LOGIC_VECTOR ( 39 downto 0 );
   signal mbcoord_0_c0_c_real : STD_LOGIC_VECTOR ( 39 downto 0 );
@@ -170,12 +170,12 @@ architecture STRUCTURE of top is
   signal vga_0_hsync : STD_LOGIC;
   signal vga_0_r : STD_LOGIC_VECTOR ( 4 downto 0 );
   signal vga_0_vsync : STD_LOGIC;
-  attribute X_INTERFACE_INFO : string;
-  attribute X_INTERFACE_INFO of clk : signal is "xilinx.com:signal:clock:1.0 CLK.CLK CLK";
-  attribute X_INTERFACE_PARAMETER : string;
-  attribute X_INTERFACE_PARAMETER of clk : signal is "XIL_INTERFACENAME CLK.CLK, ASSOCIATED_RESET reset, CLK_DOMAIN top_clk, FREQ_HZ 125000000, INSERT_VIP 0, PHASE 0.000";
-  attribute X_INTERFACE_INFO of reset : signal is "xilinx.com:signal:reset:1.0 RST.RESET RST";
-  attribute X_INTERFACE_PARAMETER of reset : signal is "XIL_INTERFACENAME RST.RESET, INSERT_VIP 0, POLARITY ACTIVE_HIGH";
+  attribute x_interface_info : string;
+  attribute x_interface_info of clk : signal is "xilinx.com:signal:clock:1.0 CLK.CLK CLK";
+  attribute x_interface_parameter : string;
+  attribute x_interface_parameter of clk : signal is "XIL_INTERFACENAME CLK.CLK, ASSOCIATED_RESET reset, CLK_DOMAIN top_clk, FREQ_HZ 125000000, INSERT_VIP 0, PHASE 0.000";
+  attribute x_interface_info of reset : signal is "xilinx.com:signal:reset:1.0 RST.RESET RST";
+  attribute x_interface_parameter of reset : signal is "XIL_INTERFACENAME RST.RESET, INSERT_VIP 0, POLARITY ACTIVE_HIGH";
 begin
   b(4 downto 0) <= vga_0_b(4 downto 0);
   btns_in_1(7 downto 0) <= btns_in(7 downto 0);
@@ -194,8 +194,8 @@ blk_mem_gen_0: component top_blk_mem_gen_0_0
       addrb(18 downto 0) => vga_0_adr(18 downto 0),
       clka => clk_wiz_0_clk_general,
       clkb => clk_wiz_0_clk_vga,
-      dina(2 downto 0) => lut_ranges_0_color_index(2 downto 0),
-      doutb(2 downto 0) => blk_mem_gen_0_doutb(2 downto 0),
+      dina(3 downto 0) => lut_ranges_0_color_index(3 downto 0),
+      doutb(3 downto 0) => blk_mem_gen_0_doutb(3 downto 0),
       wea(0) => mbcoord_0_we
     );
 buttons_0: component top_buttons_0_2
@@ -229,13 +229,13 @@ lut_colors_0: component top_lut_colors_0_0
      port map (
       b(4 downto 0) => lut_colors_0_b(4 downto 0),
       g(5 downto 0) => lut_colors_0_g(5 downto 0),
-      index(2 downto 0) => blk_mem_gen_0_doutb(2 downto 0),
+      index(3 downto 0) => blk_mem_gen_0_doutb(3 downto 0),
       mode(1 downto 0) => mode_1(1 downto 0),
       r(4 downto 0) => lut_colors_0_r(4 downto 0)
     );
 lut_ranges_0: component top_lut_ranges_0_0
      port map (
-      color_index(2 downto 0) => lut_ranges_0_color_index(2 downto 0),
+      color_index(3 downto 0) => lut_ranges_0_color_index(3 downto 0),
       it(13 downto 0) => mbcoord_0_it(13 downto 0),
       max_iter(13 downto 0) => input_0_max_iter(13 downto 0)
     );

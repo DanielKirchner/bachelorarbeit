@@ -55,7 +55,7 @@ USE ieee.numeric_std.ALL;
 
 ENTITY top_lut_colors_0_0 IS
   PORT (
-    index : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
+    index : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
     mode : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
     r : OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
     g : OUT STD_LOGIC_VECTOR(5 DOWNTO 0);
@@ -68,7 +68,7 @@ ARCHITECTURE top_lut_colors_0_0_arch OF top_lut_colors_0_0 IS
   ATTRIBUTE DowngradeIPIdentifiedWarnings OF top_lut_colors_0_0_arch: ARCHITECTURE IS "yes";
   COMPONENT lut_colors IS
     PORT (
-      index : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
+      index : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
       mode : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
       r : OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
       g : OUT STD_LOGIC_VECTOR(5 DOWNTO 0);

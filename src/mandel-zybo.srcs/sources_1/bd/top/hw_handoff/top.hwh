@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Wed Jul  3 18:03:45 2019" VIVADOVERSION="2018.3">
+<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Sun Jul 14 17:26:16 2019" VIVADOVERSION="2018.3">
 
   <SYSTEMINFO ARCH="zynq" DEVICE="7z010" NAME="top" PACKAGE="clg400" SPEEDGRADE="-1"/>
 
@@ -104,9 +104,9 @@
         <PARAMETER NAME="C_HAS_REGCEA" VALUE="0"/>
         <PARAMETER NAME="C_USE_BYTE_WEA" VALUE="0"/>
         <PARAMETER NAME="C_WEA_WIDTH" VALUE="1"/>
-        <PARAMETER NAME="C_WRITE_MODE_A" VALUE="WRITE_FIRST"/>
-        <PARAMETER NAME="C_WRITE_WIDTH_A" VALUE="3"/>
-        <PARAMETER NAME="C_READ_WIDTH_A" VALUE="3"/>
+        <PARAMETER NAME="C_WRITE_MODE_A" VALUE="NO_CHANGE"/>
+        <PARAMETER NAME="C_WRITE_WIDTH_A" VALUE="4"/>
+        <PARAMETER NAME="C_READ_WIDTH_A" VALUE="4"/>
         <PARAMETER NAME="C_WRITE_DEPTH_A" VALUE="480000"/>
         <PARAMETER NAME="C_READ_DEPTH_A" VALUE="480000"/>
         <PARAMETER NAME="C_ADDRA_WIDTH" VALUE="19"/>
@@ -119,8 +119,8 @@
         <PARAMETER NAME="C_USE_BYTE_WEB" VALUE="0"/>
         <PARAMETER NAME="C_WEB_WIDTH" VALUE="1"/>
         <PARAMETER NAME="C_WRITE_MODE_B" VALUE="WRITE_FIRST"/>
-        <PARAMETER NAME="C_WRITE_WIDTH_B" VALUE="3"/>
-        <PARAMETER NAME="C_READ_WIDTH_B" VALUE="3"/>
+        <PARAMETER NAME="C_WRITE_WIDTH_B" VALUE="4"/>
+        <PARAMETER NAME="C_READ_WIDTH_B" VALUE="4"/>
         <PARAMETER NAME="C_WRITE_DEPTH_B" VALUE="480000"/>
         <PARAMETER NAME="C_READ_DEPTH_B" VALUE="480000"/>
         <PARAMETER NAME="C_ADDRB_WIDTH" VALUE="19"/>
@@ -148,9 +148,9 @@
         <PARAMETER NAME="C_EN_SHUTDOWN_PIN" VALUE="0"/>
         <PARAMETER NAME="C_EN_SAFETY_CKT" VALUE="0"/>
         <PARAMETER NAME="C_DISABLE_WARN_BHV_RANGE" VALUE="0"/>
-        <PARAMETER NAME="C_COUNT_36K_BRAM" VALUE="43"/>
-        <PARAMETER NAME="C_COUNT_18K_BRAM" VALUE="3"/>
-        <PARAMETER NAME="C_EST_POWER_SUMMARY" VALUE="Estimated Power for IP     :     13.211076 mW"/>
+        <PARAMETER NAME="C_COUNT_36K_BRAM" VALUE="59"/>
+        <PARAMETER NAME="C_COUNT_18K_BRAM" VALUE="0"/>
+        <PARAMETER NAME="C_EST_POWER_SUMMARY" VALUE="Estimated Power for IP     :     16.261328 mW"/>
         <PARAMETER NAME="Component_Name" VALUE="top_blk_mem_gen_0_0"/>
         <PARAMETER NAME="Interface_Type" VALUE="Native"/>
         <PARAMETER NAME="AXI_Type" VALUE="AXI4_Full"/>
@@ -176,13 +176,13 @@
         <PARAMETER NAME="Algorithm" VALUE="Minimum_Area"/>
         <PARAMETER NAME="Primitive" VALUE="8kx2"/>
         <PARAMETER NAME="Assume_Synchronous_Clk" VALUE="false"/>
-        <PARAMETER NAME="Write_Width_A" VALUE="3"/>
+        <PARAMETER NAME="Write_Width_A" VALUE="4"/>
         <PARAMETER NAME="Write_Depth_A" VALUE="480000"/>
-        <PARAMETER NAME="Read_Width_A" VALUE="3"/>
-        <PARAMETER NAME="Operating_Mode_A" VALUE="WRITE_FIRST"/>
+        <PARAMETER NAME="Read_Width_A" VALUE="4"/>
+        <PARAMETER NAME="Operating_Mode_A" VALUE="NO_CHANGE"/>
         <PARAMETER NAME="Enable_A" VALUE="Always_Enabled"/>
-        <PARAMETER NAME="Write_Width_B" VALUE="3"/>
-        <PARAMETER NAME="Read_Width_B" VALUE="3"/>
+        <PARAMETER NAME="Write_Width_B" VALUE="4"/>
+        <PARAMETER NAME="Read_Width_B" VALUE="4"/>
         <PARAMETER NAME="Operating_Mode_B" VALUE="WRITE_FIRST"/>
         <PARAMETER NAME="Enable_B" VALUE="Always_Enabled"/>
         <PARAMETER NAME="Register_PortA_Output_of_Memory_Primitives" VALUE="false"/>
@@ -241,7 +241,7 @@
             <CONNECTION INSTANCE="mbcoord_0" PORT="adr"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" LEFT="2" NAME="dina" RIGHT="0" SIGIS="undef" SIGNAME="lut_ranges_0_color_index">
+        <PORT DIR="I" LEFT="3" NAME="dina" RIGHT="0" SIGIS="undef" SIGNAME="lut_ranges_0_color_index">
           <CONNECTIONS>
             <CONNECTION INSTANCE="lut_ranges_0" PORT="color_index"/>
           </CONNECTIONS>
@@ -256,7 +256,7 @@
             <CONNECTION INSTANCE="vga_0" PORT="adr"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" LEFT="2" NAME="doutb" RIGHT="0" SIGIS="undef" SIGNAME="blk_mem_gen_0_doutb">
+        <PORT DIR="O" LEFT="3" NAME="doutb" RIGHT="0" SIGIS="undef" SIGNAME="blk_mem_gen_0_doutb">
           <CONNECTIONS>
             <CONNECTION INSTANCE="lut_colors_0" PORT="index"/>
           </CONNECTIONS>
@@ -967,8 +967,8 @@
         </PORT>
         <PORT DIR="O" LEFT="13" NAME="max_iter" RIGHT="0" SIGIS="undef" SIGNAME="input_0_max_iter">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="lut_ranges_0" PORT="max_iter"/>
             <CONNECTION INSTANCE="mbcore_0" PORT="max_iter"/>
+            <CONNECTION INSTANCE="lut_ranges_0" PORT="max_iter"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" NAME="rdy_out" SIGIS="undef" SIGNAME="input_0_rdy_out">
@@ -986,7 +986,7 @@
         <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
       </PARAMETERS>
       <PORTS>
-        <PORT DIR="I" LEFT="2" NAME="index" RIGHT="0" SIGIS="undef" SIGNAME="blk_mem_gen_0_doutb">
+        <PORT DIR="I" LEFT="3" NAME="index" RIGHT="0" SIGIS="undef" SIGNAME="blk_mem_gen_0_doutb">
           <CONNECTIONS>
             <CONNECTION INSTANCE="blk_mem_gen_0" PORT="doutb"/>
           </CONNECTIONS>
@@ -1031,7 +1031,7 @@
             <CONNECTION INSTANCE="input_0" PORT="max_iter"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" LEFT="2" NAME="color_index" RIGHT="0" SIGIS="undef" SIGNAME="lut_ranges_0_color_index">
+        <PORT DIR="O" LEFT="3" NAME="color_index" RIGHT="0" SIGIS="undef" SIGNAME="lut_ranges_0_color_index">
           <CONNECTIONS>
             <CONNECTION INSTANCE="blk_mem_gen_0" PORT="dina"/>
           </CONNECTIONS>

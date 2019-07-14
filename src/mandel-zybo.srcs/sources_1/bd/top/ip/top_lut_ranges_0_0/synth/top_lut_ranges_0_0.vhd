@@ -57,7 +57,7 @@ ENTITY top_lut_ranges_0_0 IS
   PORT (
     it : IN STD_LOGIC_VECTOR(13 DOWNTO 0);
     max_iter : IN STD_LOGIC_VECTOR(13 DOWNTO 0);
-    color_index : OUT STD_LOGIC_VECTOR(2 DOWNTO 0)
+    color_index : OUT STD_LOGIC_VECTOR(3 DOWNTO 0)
   );
 END top_lut_ranges_0_0;
 
@@ -68,7 +68,7 @@ ARCHITECTURE top_lut_ranges_0_0_arch OF top_lut_ranges_0_0 IS
     PORT (
       it : IN STD_LOGIC_VECTOR(13 DOWNTO 0);
       max_iter : IN STD_LOGIC_VECTOR(13 DOWNTO 0);
-      color_index : OUT STD_LOGIC_VECTOR(2 DOWNTO 0)
+      color_index : OUT STD_LOGIC_VECTOR(3 DOWNTO 0)
     );
   END COMPONENT lut_ranges;
   ATTRIBUTE X_CORE_INFO : STRING;

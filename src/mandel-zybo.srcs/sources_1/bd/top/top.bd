@@ -12,12 +12,12 @@
       "blk_mem_gen_0": "",
       "clk_wiz_0": "",
       "buttons_0": "",
-      "lut_colors_0": "",
       "vga_0": "",
       "mbcoord_0": "",
-      "lut_ranges_0": "",
       "mbcore_0": "",
-      "input_0": ""
+      "input_0": "",
+      "lut_colors_0": "",
+      "lut_ranges_0": ""
     },
     "ports": {
       "clk": {
@@ -117,7 +117,7 @@
             "value": "Simple_Dual_Port_RAM"
           },
           "Operating_Mode_A": {
-            "value": "WRITE_FIRST"
+            "value": "NO_CHANGE"
           },
           "Port_B_Clock": {
             "value": "100"
@@ -126,7 +126,7 @@
             "value": "100"
           },
           "Read_Width_B": {
-            "value": "3"
+            "value": "4"
           },
           "Register_PortB_Output_of_Memory_Primitives": {
             "value": "false"
@@ -138,10 +138,10 @@
             "value": "480000"
           },
           "Write_Width_A": {
-            "value": "3"
+            "value": "4"
           },
           "Write_Width_B": {
-            "value": "3"
+            "value": "4"
           },
           "use_bram_block": {
             "value": "Stand_Alone"
@@ -286,42 +286,6 @@
           "btns_out": {
             "direction": "O",
             "left": "7",
-            "right": "0"
-          }
-        }
-      },
-      "lut_colors_0": {
-        "vlnv": "xilinx.com:module_ref:lut_colors:1.0",
-        "xci_name": "top_lut_colors_0_0",
-        "reference_info": {
-          "ref_type": "hdl",
-          "ref_name": "lut_colors",
-          "boundary_crc": "0x0"
-        },
-        "ports": {
-          "index": {
-            "direction": "I",
-            "left": "2",
-            "right": "0"
-          },
-          "mode": {
-            "direction": "I",
-            "left": "1",
-            "right": "0"
-          },
-          "r": {
-            "direction": "O",
-            "left": "4",
-            "right": "0"
-          },
-          "g": {
-            "direction": "O",
-            "left": "5",
-            "right": "0"
-          },
-          "b": {
-            "direction": "O",
-            "left": "4",
             "right": "0"
           }
         }
@@ -508,32 +472,6 @@
           }
         }
       },
-      "lut_ranges_0": {
-        "vlnv": "xilinx.com:module_ref:lut_ranges:1.0",
-        "xci_name": "top_lut_ranges_0_0",
-        "reference_info": {
-          "ref_type": "hdl",
-          "ref_name": "lut_ranges",
-          "boundary_crc": "0x0"
-        },
-        "ports": {
-          "it": {
-            "direction": "I",
-            "left": "13",
-            "right": "0"
-          },
-          "max_iter": {
-            "direction": "I",
-            "left": "13",
-            "right": "0"
-          },
-          "color_index": {
-            "direction": "O",
-            "left": "2",
-            "right": "0"
-          }
-        }
-      },
       "mbcore_0": {
         "vlnv": "xilinx.com:module_ref:mbcore:1.0",
         "xci_name": "top_mbcore_0_0",
@@ -675,6 +613,68 @@
           },
           "rdy_out": {
             "direction": "O"
+          }
+        }
+      },
+      "lut_colors_0": {
+        "vlnv": "xilinx.com:module_ref:lut_colors:1.0",
+        "xci_name": "top_lut_colors_0_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "lut_colors",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "index": {
+            "direction": "I",
+            "left": "3",
+            "right": "0"
+          },
+          "mode": {
+            "direction": "I",
+            "left": "1",
+            "right": "0"
+          },
+          "r": {
+            "direction": "O",
+            "left": "4",
+            "right": "0"
+          },
+          "g": {
+            "direction": "O",
+            "left": "5",
+            "right": "0"
+          },
+          "b": {
+            "direction": "O",
+            "left": "4",
+            "right": "0"
+          }
+        }
+      },
+      "lut_ranges_0": {
+        "vlnv": "xilinx.com:module_ref:lut_ranges:1.0",
+        "xci_name": "top_lut_ranges_0_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "lut_ranges",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "it": {
+            "direction": "I",
+            "left": "13",
+            "right": "0"
+          },
+          "max_iter": {
+            "direction": "I",
+            "left": "13",
+            "right": "0"
+          },
+          "color_index": {
+            "direction": "O",
+            "left": "3",
+            "right": "0"
           }
         }
       }
@@ -891,8 +891,8 @@
       "input_0_max_iter": {
         "ports": [
           "input_0/max_iter",
-          "lut_ranges_0/max_iter",
-          "mbcore_0/max_iter"
+          "mbcore_0/max_iter",
+          "lut_ranges_0/max_iter"
         ]
       }
     }

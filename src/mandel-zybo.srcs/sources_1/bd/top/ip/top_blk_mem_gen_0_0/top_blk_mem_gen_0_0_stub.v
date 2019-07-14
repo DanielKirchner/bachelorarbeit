@@ -1,7 +1,7 @@
 // Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2018.3 (lin64) Build 2405991 Thu Dec  6 23:36:41 MST 2018
-// Date        : Wed Jul  3 16:20:47 2019
+// Date        : Sun Jul 14 17:31:30 2019
 // Host        : daniel-pc running 64-bit unknown
 // Command     : write_verilog -force -mode synth_stub
 //               /home/daniel/prg/uni/bachelor/src/mandel-zybo.srcs/sources_1/bd/top/ip/top_blk_mem_gen_0_0/top_blk_mem_gen_0_0_stub.v
@@ -15,12 +15,12 @@
 // Please paste the declaration into a Verilog source file or add the file as an additional source.
 (* x_core_info = "blk_mem_gen_v8_4_2,Vivado 2018.3" *)
 module top_blk_mem_gen_0_0(clka, wea, addra, dina, clkb, addrb, doutb)
-/* synthesis syn_black_box black_box_pad_pin="clka,wea[0:0],addra[18:0],dina[2:0],clkb,addrb[18:0],doutb[2:0]" */;
+/* synthesis syn_black_box black_box_pad_pin="clka,wea[0:0],addra[18:0],dina[3:0],clkb,addrb[18:0],doutb[3:0]" */;
   input clka;
   input [0:0]wea;
   input [18:0]addra;
-  input [2:0]dina;
+  input [3:0]dina;
   input clkb;
   input [18:0]addrb;
-  output [2:0]doutb;
+  output [3:0]doutb;
 endmodule
