@@ -16,7 +16,7 @@ use WORK.CONSTANTS.ALL;
 
 entity input is
   Port ( 
-    rdy_in,clk,reset :    in std_logic;
+    clk,reset :    in std_logic;
     btns : in std_logic_vector(7 downto 0);    
     
     x1,y1,x2,y2 :   out signed(N_BITS-1 downto 0);

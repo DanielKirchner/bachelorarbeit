@@ -15,7 +15,7 @@
 	Studiengang: Informatik\\
 	Bachelorarbeit\\[1.2cm]
 	\fontsize{21}{23}\selectfont
-	\textbf{Entwicklung einer hardwarebeschleunigten Berechnung der 
+	\textbf{Entwicklung einer hardwarebasierte Berechnung der 
 	Mandelbrotmenge auf einem FPGA}\\[1cm]
 	\fontsize{18}{20}\selectfont
 	von\\[1.2cm]
@@ -27,11 +27,17 @@
 \end{titlepage}
 
 \begin{abstract}
-	Im Rahmen dieser Bachelorarbeit wurde eine hardwarebeschleunigte Visualisierung der Mandelbrotmenge auf einem FPGA realisiert.
-	Hierfür werden diverse mathematische und designtechnische Performanceoptimierungen vorgestellt, welche dann in einparalleles FPGA-Design implementiert wurden. Weiterhin sollen einige Eigenschaften und Besonderheiten der Mandelbrotmenge und von Fraktalen im Allgemeinen aufgezeigt werden.\\
-	Das Projekt wurde für das Zybo Zynq-7000 Trainer Board entwickelt, welches über einen VGA-Output die Repräsentation des Fraktals in Form eines 800x600@60Hz Videosignals ausgibt. Zur optimalen Ausnutzung der auf diesem Board gegebenen Ressourcen (DSPs, BRAM) wurde die \textit{Vivado Design Suite} mit dem integrierten IP-Katalog verwendet.\\
+Im Rahmen dieser Bachelorarbeit wurde eine hardwarebasierte Visualisierung der Mandelbrotmenge auf einem FPGA realisiert.\\
+Hierfür werden diverse mathematische und designtechnische Performanceoptimierungen vorgestellt, welche in einem parallelen FPGA-Design implementiert wurden.
+Das Projekt wurde für das Zybo Zynq-7000 Trainer Board entwickelt, welches über einen VGA-Output die Repräsentation des Mandelbrotfraktals in Form eines 800x600@60Hz Videosignals ausgibt.\\
+Zur optimalen Ausnutzung der auf diesem Board gegebenen Ressourcen (DSPs, BRAM) wurde die \textit{Vivado Design Suite} mit dem integrierten IP-Katalog verwendet.\\
+Die entwickelte Hardware kann mittels Knöpfen über eine PMOD-Schnittstelle gesteuert werden.\\\\\\
 
-	%TODO: englisch
+In the context of this Bachelor thesis, a hardware-based visualization of the Mandelbrot set was realized on an FPGA.\\
+Various performance optimizations are presented, which were implemented into a parallel FPGA design.
+The project was developed for the Zybo Zynq-7000 Trainer Board, which outputs the representation of the fractal in form of an 800x600@60Hz video signal via VGA output.\\
+The \textit{Vivado Design Suite} with the integrated IP catalog was used to optimally utilize the resources given on this board (DSPs, BRAM).\\
+The developed Hardware can be controlled through buttons, which are hooked up via a PMOD interface. 
 \end{abstract}
 
 % Inhaltsverzeichnis
@@ -71,7 +77,7 @@
 
 %TODO vllt aufbau erklären
 \section{Motivation}
-Die stets wachsende Zahl von Komponenten die auf einem mikroelektronischen Bauteil pro Zeiteinheit untergebracht wird, ist ein Phänomen, welcbes Gordon Moore schon im Jahr 1965 aufgefallen ist \cite{moore1965cramming}. Die populäre, nach ihm benannte Beobachtung, dass die Anzahl der Transistoren pro integriertem Schaltkreis exponentiell mit der Zeit ansteigt ist allgemein als das Mooresche Gesetz bekannt.
+Die stets wachsende Zahl von Komponenten, die auf einem mikroelektronischen Bauteil pro Zeiteinheit untergebracht wird, ist ein Phänomen, welches Gordon Moore schon im Jahr 1965 aufgefallen ist \cite{moore1965cramming}. Die populäre, nach ihm benannte Beobachtung, dass die Anzahl der Transistoren pro integriertem Schaltkreis exponentiell mit der Zeit ansteigt, ist allgemein als das Mooresche Gesetz bekannt.
 
 Diese Gesetzlichkeit machte es möglich den stets wachsenden Leistungsanforderungen an moderne Hardware gerecht zu werden, indem immer mehr (und komplexere) identische Allzweck-Prozessoren (Kerne) pro CPU verbaut wurden.
 
@@ -81,13 +87,19 @@ Ein Beispiel hierfür ist die moderne Grafikkarte (GPU), welche dem Prozessor Da
 
 Auch andere Hardwarekomponenten, wie die Netzwerkkarte, kryptographische Beschleuniger, oder Soundkarten sind in fast allen Computersystemen verbaut und entlasten den Hauptprozessor. Man spricht auch von heterogenen Computersystemen.
 
-Die im Rahmen dieser Arbeit vorgestellte Hardware soll ein Beispiel für eine derartige heterogene Komponente sein. Auf einem Field Programmable Gate Array (FPGA) %TODO Kapitel linken
-soll eine performante und energieffiziente Visualisierung der sogenannten Mandelbrotmenge realisiert werden. Diese Problemstellung ist auch durch einen ordinären Prozessor lösbar, lastet diesen jedoch enorm aus und ist somit auch sehr energieineffizient. %TODO Kapitel linken
+Die im Rahmen dieser Arbeit vorgestellte Hardware soll ein Beispiel für eine derartige heterogene Komponente sein. Auf einem Field Programmable Gate Array (FPGA, s. \autoref{sec:fpga}) soll eine performante und energieffiziente Visualisierung der sogenannten Mandelbrotmenge realisiert werden.
+Diese Problemstellung ist auch durch einen ordinären Prozessor lösbar, lastet diesen jedoch enorm aus und ist somit auch nicht sehr energieineffizient. %TODO Kapitel linken
 
 \section{Aufgabenstellung}
 \label{sec:aufgabenstellung}
-Die Aufgabe dieses Projektes ist es, eine komplett in Hardware stattfindende Berechnung der Mandelbrotmenge durchzuführen und die Ergebnisse über eine VGA-Schnittstelle darzustellen (ähnlich Bild) %TODO
-%TODO Mandelbrotmenge Bild
+Die Aufgabe dieses Projektes ist es, eine komplett in Hardware stattfindende Berechnung der Mandelbrotmenge durchzuführen und die Ergebnisse über eine VGA-Schnittstelle darzustellen.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{mandelbrot.png}
+	\caption{Die Mandelbrotmenge}
+	\label{fig:mandelbrotmenge}
+\end{figure}
 
 Weiterhin soll die Hardware durch externe Peripherie konfigurierbar hinsichtlich der angestellten Berechnungen sein. So soll etwa aktuell abgebildete Bereich der Mandelbrotmenge oder auch die Farbgebung der Darstellung im laufenden Betrieb geändert werden können.
 
@@ -136,13 +148,12 @@ In diesem Projekt wurden die DSPs hauptsächlich aufgrund ihrer 25x18 Bit Multip
 FPGAs verfügen meist über \textit{Block RAM} (BRAM), welcher zur Speicherung binärer Daten dient. Dieser Speicher ist lese-/schreibsynchron, wodurch Inkonsistenzen beim Speicherprozess ausgeschlossen sind \cite[S. 11]{bram}. Um auf diese Speicherblöcke Zugriff zu erlangen muss der von Xilinx mitgelieferte Baustein "Block RAM Generator" verwendet werden.
 
 \paragraph{IO-Komponenten}
-Zur Kommunikation mit der Außenwelt verfügen FPGAs über diverse Schnittstellen wie z.B. Knöpfe, Schalter, aber auch komplexere Anbindungen wie etwa VGA (s. hierzu \autoref{chap:vga}) oder PMOD-Anschlüsse. %TODO Kapitel VGA verlinken
+Zur Kommunikation mit der Außenwelt verfügen FPGAs über diverse Schnittstellen wie z.B. Knöpfe, Schalter, aber auch komplexere Anbindungen wie etwa VGA (s. hierzu \autoref{sec:vga}) oder PMOD-Anschlüsse.
 Diese sind so angebunden, dass ihre Signale direkt in Logikschaltungen von LUTs integriert werden können.
-
 %TODO weitere wichtige komponenten
 
 \section{VGA-Schnittstelle}
-\label{chap:vga}
+\label{sec:vga}
 Eine \textit{Video Graphics Array} (VGA) Schnittstelle wird durch einen Videoübertragungsstandard, welcher erstmals von IBM in ihrer \textit{IBM Personal System/2} Modellreihe verbaut wurde, spezifiziert \cite{ibmTimeline}. 
 Das Darstellungsverfahren verwendet einen 15-poligen Anschluss, um Videosignale in variabler Auflösung und Bildwiederholungsrate zu übertragen.\\
 Hierbei liegen die RGB-Werte eines jeden Pixels als analoge Spannungen an und werden zu bestimmten Zeitpunkten vom Bildschirm ausgelesen. 
@@ -178,6 +189,25 @@ Die in dieser Arbeit verwendete Auflösung von 800x600 Pixeln bei 60Hz benötigt
 \end{table}
 
 Die in \autoref{tab:vga-timings} gezeigte Pixelfrequenz von 40 MHz bedeutet, dass alle 25 ns ein neuer RGB-Wert anliegen muss. Dies ist ein wichtiger Aspekt für weitere grundliegende Designentscheidungen. %TODO späteres Kapitel hier
+
+\section{Verwendete Hardware}
+Zur Umsetzung der Aufgabenstellung wird ein \textit{Zybo Zynq-7000 ARM/FPGA SoC Trainer Board} (fortan kurz Zybo-Board genannt) verwendet (s. \autoref{fig:zybo}).
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{zybo.png}
+	\caption{Zybo Zynq-7000 ARM/FPGA SoC Trainer Board, aus }
+	\label{fig:zybo}
+\end{figure}
+Dieses verfügt unter anderem über folgende technischen Daten:
+\begin{itemize}
+	\item Xilinx Zynq-7000 FPGA mit 28000 LUTs
+	\item 240KB Speicher
+	\item 80 DSPs
+	\item ARM Cortex-A9 Zweikernprozessor
+	\item VGA-Schnittstelle
+	\item PMOD-Schnittstellen
+\end{itemize}
+Der verbaute Zweikernprozessor kommt jedoch im Rahmen dieses Projektes nicht zum Einsatz.
 
 \chapter{Theoretische Grundlagen}
 Die dieser Arbeit zugrundelegenden mathematischen Grundlagen und Definitionen sollen in diesem Kapitel näher erläutert werden.
@@ -520,7 +550,7 @@ Wenn jeder Pixel abgearbeitet wurde, wird dies durch das Signal \textbf{done} si
 	\centering
 	\includegraphics[width=0.25\textwidth]{blockram.jpg}
 	\caption{Block Memory Generator, IP-Bauteil}
-	\label{fig:schem:bram}
+	\label{fig:schem_bram}
 \end{figure}
 Der Block Memory Generator ist ein mit Vivado %TODO erklären
 mitgeliefertes IP-Bauteil, welches ermöglicht den auf FPGA-Boards verfügbaren Block-RAM zu verwenden.\\
@@ -555,8 +585,7 @@ Farbtabelle hinterlegt.
 Sei die maximale Iterationszahl $i_{max} = 100$.
 Zur Ermittlung der Farbe eines Pixels muss zunächst der Farbindex $I_F$ errechnet werden. Wenn etwa 33 Iterationen genötigt wurden sieht ergibt sich:
 \[I_F = \ceil{\frac{33}{100}*15} = \ceil{4,95} = 5\]
-Nun kann der zugehörige RGB-Wert aus einer Farbtabelle (z.B. \autoref{tab:farben}) entnommen werden 
-\footnote{Die hier dargestellten RGB-Werte sind 24 Bit breit, da dies die übliche RGB-Notation ist. Die RGB-Werte auf dem Zybo-Board sind nur 16 Bit breit.}:
+Nun kann der zugehörige RGB-Wert aus einer Farbtabelle (z.B. \autoref{tab:farben}) entnommen und an das VGA-Modul weitergeleitet werden\footnote{Die hier dargestellten RGB-Werte sind 24 Bit breit, da dies die übliche RGB-Notation ist. Die RGB-Werte auf dem Zybo-Board sind nur 16 Bit breit.}:
 
 \begin{table}[H]
 	\centering
@@ -590,11 +619,88 @@ Nun kann der zugehörige RGB-Wert aus einer Farbtabelle (z.B. \autoref{tab:farbe
 	\caption{Farbtabelle, Übergang von Rot nach Grün }
 	\label{tab:farben}
 \end{table}
+%TODO: implmentierte Farbtabellen, auch in den Anhang
 
+\subsection{VGA-Modul}
+\label{subsec:vga-modul}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.4\textwidth]{schem_vga.png}
+	\caption{Aufbau des VGA-Moduls}
+	\label{fig:schem_vga}
+\end{figure}
+Das VGA-Modul (s. \autoref{fig:schem_vga}) setzt das in \autoref{sec:vga} beschriebene Videosignal (800x600 Pixel bei 60 Bildern pro Sekunde) um.\\
+Hierfür wurde das VGA-Modul aus \cite{vgagit} an das Zybo-Board angepasst.
+Intern führt das VGA-Modul stets zwei Zähler $x$ und $y$, welche die Position des gerade zu beschreibenden Pixels halten.
+Mit Hilfe der auf diesen Positionsdaten beruhenden Formel wird die aktuell auszulesende Adresse im Speicher berechnet:
+\[\mathbf{adr}= y*800+ x\]
+Sobald diese Adresse an den Output \textbf{adr} angelegt wird, liegen die korrekten RGB aus dem Speicher\footnote{Der Speicher hält 4-Bit Iterationswerte, welche von den in \autoref{subsec:luts} vorgestellten LUTs in RGB-Werte übersetzt werden.} an den Inputs \textbf{r\_in},\textbf{g\_in} und \textbf{b\_in} an.
+Diese Signale werden dann direkt an die Ausgänge \textbf{r},\textbf{g} und \textbf{b} weitergeleitet.\\
+Um mit dem Bildschirmtakt synchron zu arbeiten werden die Signale \textbf{hsync} bzw. \textbf{vsync} wie in \autoref{sec:vga} beschrieben betrieben.\\
+Da die in \autoref{sec:peripheriesteuerung} vorgestellte Steuerung stets den Mittelpunkt des Bildschirms als Referenzpunkt verwendet, ist es nützlich diesen zu kennzeichnen.
+Dies geschieht durch ein Farbenkreuz, welches aus zwei roten Linien besteht (s. \autoref{fig:fadenkreuz}).
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{fadenkreuz.jpg}
+	\caption{Ausschnitt der Mandelbrotmenge mit Fadenkreuz}
+	\label{fig:fadenkreuz}
+\end{figure}
+Dieses Fadenkreuz wird vom VGA-Modul erzeugt, indem immer, wenn eine der folgenden Bedingungen erfüllt ist, ein rein roter RGB-Wert an den Bildschirm gesendet wird:
+\begin{itemize}
+	\item Horizontale Position gleich 309 UND vertikale Position zwischen 289 und 309
+	\item Vertikale Position gleich 409 UND horizonale Position zwischen 389 und 409
+\end{itemize}
 
-\section{Peripherie und funktionale Beschreibung}
+\section{Peripherie und Steuerung}
+\label{sec:peripheriesteuerung}
+Die Darstellung lässt sich über die an einer PMOD-Schnittstelle angeschlossenen Knöpfe manipulieren.
+Alle Inputs werden vom Input-Modul (\autoref{fig:schem_input}) verwaltet:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{input.png}
+	\caption{Debouncer und Input-Modul, schematische Darstellung}
+	\label{fig:schem_input}
+\end{figure}
+%TODO: vllt alle darstellungen deutsch("Buttons")
+Das Input-Modul fragt zu jedem Takt von \textbf{clk} den Zustand der Knöpfe vom Debouncer ab.
+Wenn einer (oder mehrere) Knöpfe gedrückt sind wird eine der folgenden Aktionen ausgeführt:
+\begin{itemize}
+	\item Bewegen des Bildbereichs
+	\item Vergrößern/Verkleinern des aktuellen Ausschnitts
+	\item Ein-/Ausschalten Hochauflösungsmodus
+\end{itemize}
+Für das Bewegen des Bildbereichs werden vier Knöpfe verwendet.
+Ein Drücken dieser Knöpfe bewirkt, dass der gesammte dargestellte Bereich der Mandelbrotmenge um einen bestimmten Wert verschoben wird.
+Dies wird dadurch erreicht, dass die dem Mandelbrot-Koordinator übergeben Koordinaten (\textbf{x1},\textbf{y1},\textbf{x2},\textbf{y2}) um einen bestimmten Wert erhöht/verringert werden.
+Wird z.B. der Knopf "`RECHTS"' gedrückt, werden die \textbf{x1} und \textbf{x2} erhöht, was zur Folge hat, dass sich der dargestellte Bereich auf dem Bildschirm nach rechts verschiebt.\\
+Das Vergrößern/Verkleinern des aktuellen Ausschnitts der Mandelbrotmenge geschieht stets realtiv zum Mittelpunkt der dargestellten Fläche (s. \autoref{subsec:vga-modul}).
+Da immer um Faktor 2 vergrößert werden soll, werden die Koordinaten folgendermaßen angepasst:
+\[x1_{neu} = x1 + (x2-x1)/4\]
+\[y1_{neu} = y1 + (y2-y1)/4\]
+\[x2_{neu} = x2 - (x2-x1)/4\]
+\[y2_{neu} = y2 - (y2-y1)/4\]
+Zum intuitiven Verständnis ist der Vergrößerungsvorgang in \autoref{fig:zoom} (nächste Seite) %TODO: schauen ob das stimmt
+dargestellt.
+Zum Verkleinern werden die Koordinaten analog angepasst:
+\[x1_{neu} = x1 - (x2-x1)/2\]
+\[y1_{neu} = y1 - (y2-y1)/2\]
+\[x2_{neu} = x2 + (x2-x1)/2\]
+\[y2_{neu} = y2 + (y2-y1)/2\]
+Der aktuelle Vergrößerungsfaktor wird intern gespeichert und wird verwendet, um zu bestimmten, wie groß die Schritte beim Bewegen des Bildbereichs sein sollen.
+Dies ist sinnvoll, da eine konstante Schrittgröße ab einem bestimmten Vergrößerungsfaktor keine Feinjustierung der aktuellen Position mehr zulässt.\\
+Die Schrittgröße ist nach dem Reset auf 0.25 festgelegt und halbiert sich mit jeder Vergrößerung.\\
+Da beim Annähern an den "`interessanten"' Rand der Mandelbrotmenge immer mehr Iterationen benötigt werden, um festzustellen, ob ein Punkt zur Menge gehört, muss auch die maximale Iterationszahl \textbf{max\_iter} dementsprechend erhöht werden.
+Hierfür wird folgende Formel verwendet:
+%max_iter <= to_unsigned((MAX_ITER_INIT+MAX_ITER_STEP*zoom_level)*4,14);
+%HIER WEITER
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{zoom.png}
+	\caption{Debouncer und Input-Modul, schematische Darstellung}
+	\label{fig:zoom}
+\end{figure}
 
-\chapter{Umsetzung des Systems}
+\section{Clock- und Resetsignal}
 
 \chapter{Ausblick \& Fazit}
 

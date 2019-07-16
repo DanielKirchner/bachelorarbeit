@@ -5,8 +5,7 @@
       "device": "xc7z010clg400-1",
       "name": "top",
       "synth_flow_mode": "Hierarchical",
-      "tool_version": "2018.3",
-      "validated": "true"
+      "tool_version": "2018.3"
     },
     "design_tree": {
       "blk_mem_gen_0": "",
@@ -15,38 +14,19 @@
       "vga_0": "",
       "mbcoord_0": "",
       "mbcore_0": "",
-      "input_0": "",
       "lut_colors_0": "",
-      "lut_ranges_0": ""
+      "lut_ranges_0": "",
+      "input_0": ""
     },
     "ports": {
       "clk": {
         "type": "clk",
         "direction": "I",
         "parameters": {
-          "ASSOCIATED_RESET": {
-            "value": "reset",
-            "value_src": "default"
-          },
-          "CLK_DOMAIN": {
-            "value": "top_clk",
-            "value_src": "default"
-          },
           "FREQ_HZ": {
             "value": "125000000"
-          },
-          "INSERT_VIP": {
-            "value": "0",
-            "value_src": "default"
-          },
-          "PHASE": {
-            "value": "0.000",
-            "value_src": "default"
           }
         }
-      },
-      "rdy_in": {
-        "direction": "I"
       },
       "done": {
         "direction": "O"
@@ -76,10 +56,6 @@
         "type": "rst",
         "direction": "I",
         "parameters": {
-          "INSERT_VIP": {
-            "value": "0",
-            "value_src": "default"
-          },
           "POLARITY": {
             "value": "ACTIVE_HIGH"
           }
@@ -252,31 +228,11 @@
         "ports": {
           "clk": {
             "type": "clk",
-            "direction": "I",
-            "parameters": {
-              "ASSOCIATED_RESET": {
-                "value": "reset",
-                "value_src": "constant"
-              },
-              "CLK_DOMAIN": {
-                "value": "top_clk",
-                "value_src": "default_prop"
-              },
-              "FREQ_HZ": {
-                "value": "125000000",
-                "value_src": "user_prop"
-              }
-            }
+            "direction": "I"
           },
           "reset": {
             "type": "rst",
-            "direction": "I",
-            "parameters": {
-              "POLARITY": {
-                "value": "ACTIVE_HIGH",
-                "value_src": "user_prop"
-              }
-            }
+            "direction": "I"
           },
           "btns_in": {
             "direction": "I",
@@ -301,30 +257,10 @@
         "ports": {
           "reset": {
             "type": "rst",
-            "direction": "I",
-            "parameters": {
-              "POLARITY": {
-                "value": "ACTIVE_HIGH",
-                "value_src": "user_prop"
-              }
-            }
+            "direction": "I"
           },
           "clk_vga": {
-            "direction": "I",
-            "parameters": {
-              "CLK_DOMAIN": {
-                "value": "/clk_wiz_0_clk_out1",
-                "value_src": "ip_prop"
-              },
-              "FREQ_HZ": {
-                "value": "40000000",
-                "value_src": "ip_prop"
-              },
-              "PHASE": {
-                "value": "0.0",
-                "value_src": "ip_prop"
-              }
-            }
+            "direction": "I"
           },
           "hsync": {
             "direction": "O"
@@ -380,35 +316,11 @@
         "ports": {
           "clk": {
             "type": "clk",
-            "direction": "I",
-            "parameters": {
-              "ASSOCIATED_RESET": {
-                "value": "reset",
-                "value_src": "constant"
-              },
-              "CLK_DOMAIN": {
-                "value": "/clk_wiz_0_clk_out1",
-                "value_src": "ip_prop"
-              },
-              "FREQ_HZ": {
-                "value": "50000000",
-                "value_src": "ip_prop"
-              },
-              "PHASE": {
-                "value": "0.0",
-                "value_src": "ip_prop"
-              }
-            }
+            "direction": "I"
           },
           "reset": {
             "type": "rst",
-            "direction": "I",
-            "parameters": {
-              "POLARITY": {
-                "value": "ACTIVE_HIGH",
-                "value_src": "user_prop"
-              }
-            }
+            "direction": "I"
           },
           "ready": {
             "direction": "I"
@@ -483,35 +395,11 @@
         "ports": {
           "clk": {
             "type": "clk",
-            "direction": "I",
-            "parameters": {
-              "ASSOCIATED_RESET": {
-                "value": "reset",
-                "value_src": "constant"
-              },
-              "CLK_DOMAIN": {
-                "value": "/clk_wiz_0_clk_out1",
-                "value_src": "ip_prop"
-              },
-              "FREQ_HZ": {
-                "value": "50000000",
-                "value_src": "ip_prop"
-              },
-              "PHASE": {
-                "value": "0.0",
-                "value_src": "ip_prop"
-              }
-            }
+            "direction": "I"
           },
           "reset": {
             "type": "rst",
-            "direction": "I",
-            "parameters": {
-              "POLARITY": {
-                "value": "ACTIVE_HIGH",
-                "value_src": "user_prop"
-              }
-            }
+            "direction": "I"
           },
           "ready": {
             "direction": "I"
@@ -537,81 +425,6 @@
             "right": "0"
           },
           "waiting": {
-            "direction": "O"
-          }
-        }
-      },
-      "input_0": {
-        "vlnv": "xilinx.com:module_ref:input:1.0",
-        "xci_name": "top_input_0_0",
-        "reference_info": {
-          "ref_type": "hdl",
-          "ref_name": "input",
-          "boundary_crc": "0x0"
-        },
-        "ports": {
-          "clk": {
-            "type": "clk",
-            "direction": "I",
-            "parameters": {
-              "ASSOCIATED_RESET": {
-                "value": "reset",
-                "value_src": "constant"
-              },
-              "CLK_DOMAIN": {
-                "value": "top_clk",
-                "value_src": "default_prop"
-              },
-              "FREQ_HZ": {
-                "value": "125000000",
-                "value_src": "user_prop"
-              }
-            }
-          },
-          "reset": {
-            "type": "rst",
-            "direction": "I",
-            "parameters": {
-              "POLARITY": {
-                "value": "ACTIVE_HIGH",
-                "value_src": "user_prop"
-              }
-            }
-          },
-          "rdy_in": {
-            "direction": "I"
-          },
-          "btns": {
-            "direction": "I",
-            "left": "7",
-            "right": "0"
-          },
-          "x1": {
-            "direction": "O",
-            "left": "39",
-            "right": "0"
-          },
-          "y1": {
-            "direction": "O",
-            "left": "39",
-            "right": "0"
-          },
-          "x2": {
-            "direction": "O",
-            "left": "39",
-            "right": "0"
-          },
-          "y2": {
-            "direction": "O",
-            "left": "39",
-            "right": "0"
-          },
-          "max_iter": {
-            "direction": "O",
-            "left": "13",
-            "right": "0"
-          },
-          "rdy_out": {
             "direction": "O"
           }
         }
@@ -677,6 +490,58 @@
             "right": "0"
           }
         }
+      },
+      "input_0": {
+        "vlnv": "xilinx.com:module_ref:input:1.0",
+        "xci_name": "top_input_0_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "input",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I"
+          },
+          "reset": {
+            "type": "rst",
+            "direction": "I"
+          },
+          "btns": {
+            "direction": "I",
+            "left": "7",
+            "right": "0"
+          },
+          "x1": {
+            "direction": "O",
+            "left": "39",
+            "right": "0"
+          },
+          "y1": {
+            "direction": "O",
+            "left": "39",
+            "right": "0"
+          },
+          "x2": {
+            "direction": "O",
+            "left": "39",
+            "right": "0"
+          },
+          "y2": {
+            "direction": "O",
+            "left": "39",
+            "right": "0"
+          },
+          "max_iter": {
+            "direction": "O",
+            "left": "13",
+            "right": "0"
+          },
+          "rdy_out": {
+            "direction": "O"
+          }
+        }
       }
     },
     "nets": {
@@ -707,12 +572,6 @@
         "ports": [
           "mbcoord_0/we",
           "blk_mem_gen_0/wea"
-        ]
-      },
-      "rdy_in_1": {
-        "ports": [
-          "rdy_in",
-          "input_0/rdy_in"
         ]
       },
       "mbcoord_0_done": {

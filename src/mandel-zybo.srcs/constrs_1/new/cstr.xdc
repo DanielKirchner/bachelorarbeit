@@ -10,7 +10,6 @@ set_property -dict { PACKAGE_PIN M14   IOSTANDARD LVCMOS33 } [get_ports { done }
 set_property -dict { PACKAGE_PIN M15   IOSTANDARD LVCMOS33 } [get_ports { input_rdy }];
 
 ##Buttons
-set_property -dict { PACKAGE_PIN R18   IOSTANDARD LVCMOS33 } [get_ports { rdy_in }];
 set_property -dict { PACKAGE_PIN P16   IOSTANDARD LVCMOS33 } [get_ports { reset }];
 
 ##VGA Connector
