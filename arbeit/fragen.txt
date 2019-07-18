@@ -1,3 +1,5 @@
-Bildreferenz, Kapitel 2.1., ist das ok so?
-
-{Digital Signal Processor} (kurz DSP), schreibt man da kurz
+- Wie sehr auf VHDL, Vivado eingehen
+- Wie viele Codebeispiele
+- Ehrenwörtliche Erklärung
+- passen Motivation/Aufgabenstellung?
+- Umfang passt?

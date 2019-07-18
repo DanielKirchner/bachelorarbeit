@@ -501,7 +501,7 @@ Die Quadrate von $z_r$ und $z_i$ kommen sowohl in \autoref{eq:bedingung} als auc
 Auch das Ersetzen der Multiplikation mit zwei in \autoref{eq:zi} durch eine Addition erspart eine Multiplikation.
 Der nicht optimierte Iterationsschritt (B) enthält eine Wurzel, sechs Multiplikationen und vier Additionen.
 Durch Wiederverwenden bereits berechneter Werte und algebraische Optimierung sind nun lediglich 3 Multiplikationen und fünf Additionen nötig.\\
-Das optimierte Iterationsverfahren läuft bei einer maximalen Clockfrequenz von 40MHz stabil, was bedeutet dass eine einzelne Iteration maximal 25ns in Anspruch nimmt.
+Das optimierte Iterationsverfahren läuft bei einer maximalen Clockfrequenz von 50MHz stabil, was bedeutet dass eine einzelne Iteration maximal 20ns in Anspruch nimmt.
 
 \subsection{Mandelbrot-Koordinator}
 Der in \autoref{fig:schem_mandelbrotkoord} gezeigte Mandelbrot-Koordinator verwaltet einen Mandelbrot-Core und schreibt dessen Ergebnisse in den in \autoref{subsec:ram} beschriebenen RAM.
@@ -619,6 +619,9 @@ Nun kann der zugehörige RGB-Wert aus einer Farbtabelle (z.B. \autoref{tab:farbe
 	\caption{Farbtabelle, Übergang von Rot nach Grün }
 	\label{tab:farben}
 \end{table}
+Zwischen den verschiedenen Farbtabellen kann im laufenden Betrieb jederzeit umgeschalten werden, hierfür erhält \textbf{LUT1} noch den Input zweier, auf dem Board integrierten, Schalter.
+Insgesamt sind also vier verschieden Farbtabellen auswählbar, welche im %ANHANG
+dargestellt sind.
 %TODO: implmentierte Farbtabellen, auch in den Anhang
 
 \subsection{VGA-Modul}
@@ -672,7 +675,7 @@ Wenn einer (oder mehrere) Knöpfe gedrückt sind wird eine der folgenden Aktione
 Für das Bewegen des Bildbereichs werden vier Knöpfe verwendet.
 Ein Drücken dieser Knöpfe bewirkt, dass der gesammte dargestellte Bereich der Mandelbrotmenge um einen bestimmten Wert verschoben wird.
 Dies wird dadurch erreicht, dass die dem Mandelbrot-Koordinator übergeben Koordinaten (\textbf{x1},\textbf{y1},\textbf{x2},\textbf{y2}) um einen bestimmten Wert erhöht/verringert werden.
-Wird z.B. der Knopf "`RECHTS"' gedrückt, werden die \textbf{x1} und \textbf{x2} erhöht, was zur Folge hat, dass sich der dargestellte Bereich auf dem Bildschirm nach rechts verschiebt.\\
+Wird z.B. der Taster "`RECHTS"' gedrückt, werden die \textbf{x1} und \textbf{x2} erhöht, was zur Folge hat, dass sich der dargestellte Bereich auf dem Bildschirm nach rechts verschiebt.\\
 Das Vergrößern/Verkleinern des aktuellen Ausschnitts der Mandelbrotmenge geschieht stets realtiv zum Mittelpunkt der dargestellten Fläche (s. \autoref{subsec:vga-modul}).
 Da immer um Faktor 2 vergrößert werden soll, werden die Koordinaten folgendermaßen angepasst:
 \[x1_{neu} = x1 + (x2-x1)/4\]
@@ -686,23 +689,58 @@ Zum Verkleinern werden die Koordinaten analog angepasst:
 \[y1_{neu} = y1 - (y2-y1)/2\]
 \[x2_{neu} = x2 + (x2-x1)/2\]
 \[y2_{neu} = y2 + (y2-y1)/2\]
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{zoom.png}
+	\caption{Darstellung einer Vergrößerung um Faktor 2}
+	\label{fig:zoom}
+\end{figure}
 Der aktuelle Vergrößerungsfaktor wird intern gespeichert und wird verwendet, um zu bestimmten, wie groß die Schritte beim Bewegen des Bildbereichs sein sollen.
 Dies ist sinnvoll, da eine konstante Schrittgröße ab einem bestimmten Vergrößerungsfaktor keine Feinjustierung der aktuellen Position mehr zulässt.\\
 Die Schrittgröße ist nach dem Reset auf 0.25 festgelegt und halbiert sich mit jeder Vergrößerung.\\
 Da beim Annähern an den "`interessanten"' Rand der Mandelbrotmenge immer mehr Iterationen benötigt werden, um festzustellen, ob ein Punkt zur Menge gehört, muss auch die maximale Iterationszahl \textbf{max\_iter} dementsprechend erhöht werden.
-Hierfür wird folgende Formel verwendet:
-%max_iter <= to_unsigned((MAX_ITER_INIT+MAX_ITER_STEP*zoom_level)*4,14);
-%HIER WEITER
+Diese berechnet sich abhängig von der aktuellen Vergrößerungsstufe $z$:
+\[\mathbf{max\_iter} <= 90+25*z\]
+Wird der sog. Hochauflösungsmodus eingeschalten, wird stattdessen folgende Gleichung verwendet:
+\[\mathbf{max\_iter} <= 90+100*z\]
+Dies hat zur Folge, dass das Bild sich relativ langsam aufbaut, jedoch einen sehr hohen Detailgrad besitzt, da nun potentiell fast vier mal so viele Iterationen pro Pixel durchlaufen werden müssen.\\
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.7\textwidth]{zoom.png}
-	\caption{Debouncer und Input-Modul, schematische Darstellung}
-	\label{fig:zoom}
+	\includegraphics[width=\textwidth]{debounce.jpg}
+	\caption{Prellvorgang, Signal \textit{taster} repräsentiert den tatsächlich betätigten Taster, während \textit{baustein} das gesendete Signal ist}
+	\label{fig:debounce}
 \end{figure}
+Die Signale der Taster sind nicht durch Hardwarevorkehrungen entprellt (eng. \textit{debounce}), was bedeutet, dass kurze Schwankungen vorliegen können, bevor das Signal beim Drücken und Loslassen der Taster stabil anliegt (s. \autoref{fig:debounce}).\\
+Um dies zu umgehen wird dem Input-Modul ein Entpreller vorgeschaltet, welcher einen Tasterdruck erst weiterleitet, wenn dieser für eine bestimmte Zeit lang stabil anliegt.
+Umgesetzt wird dies durch ein Schieberegister, in welches jedem Takt der aktuelle (potentiell prellende) Zustand des Tasters geschoben wird.\\
+Liegt dann ein bestimmtes Muster an, wird der entsprechende Bit von \textbf{buttons\_out} für einen Takt von \textbf{clk} auf logisch 1 gesetzt.
+Das hierfür abefragte Muster besteht aus 7 Takten logisch 1, gefolgt von 2 Takten logisch 0.
+Dies stellt sicher, dass pro Tasterdruck nur ein Signal geschickt wird (beim loslassen des Tasters), was die weitere logische Verarbeitung einfacher macht.
 
 \section{Clock- und Resetsignal}
+Alle Bauteile (ausser die LUTs) erhalten sowohl ein Clocksignal \textbf{clk}, als auch ein Resetsignal \textbf{reset}.
+Das Clocksignal ist hierbei ein periodisches Signal (s. z.B. \autoref{fig:wave_mandelbrotcore}), welches zur zeitlichen Synchronisation zwischen allen Bauteilen dient.
+Zu jeder steigenden Flanke von \textbf{clk} durchlaufen alle Module ihre Schaltlogik und speichern ihre Ergebnisse in verschiedene Formen von Speichereinheiten.
+Eine Ausnahme hiervon sind die LUTs, welche ihren Output direkt abhängig vom Input ändern, und somit völlig taktunabhängig arbeiten.\\
+Das Resetsignal dient dazu, einen definierten Anfangszustand des Gesamtsystems herzustellen.
+So wird bei jedem Takt von \textbf{clk} abgefragt, ob das Resetsignal aktiv ist
+Wenn dem so ist, werden in jedem Modul einige Aktionen ausgeführt:
+\begin{enumerate}
+	\item Alle Outputs werden auf einen bestimmten Wert gesetzt (meist 0)
+	\item Intern verwendete Signale werden auf Anfangszustände gesetzt
+	\item Alle Zustandsautomaten kehren in ihren Initialzustand zurück
+\end{enumerate}
+Auf dem Board werden zwei verschiedene Takte verwendet, welche mit Hilfe der \textit{Clock Generator}-IP\footnote{s. hierzu: \url{https://www.xilinx.com/products/intellectual-property/clock_generator.html}} von Xilinx generiert werden.
+Der erste Takt ist das vom VGA-Modul verwendete Signal \textbf{clk\_vga}, welches mit 40 MHz betrieben werden muss (vgl. hierfür \autoref{subsec:vga-modul} und \autoref{tab:vga-timings}).\\
+Der zweite Takt \textbf{clk} wird von allen anderen Komponenten verwendet und muss langsam genug sein, um die aufwändigen Berechnungen der Mandelbrot-Cores in nur einem Zyklus zu ermöglichen.
+Die hierbei empirisch ermittelte maximale Taktrate, bei der das System stabil läuft beträgt 50 MHz.
+Bei höheren Taktraten können die Mandelbrot-Cores ihre Berechnungen der neuen $z$-Werte nicht abschließen, was zu undefinierten Zuständen der Ergebnisse führt, was sich in der Darstellung durch stark verrauschte Bilder äußert.
+
+%TODO: erklären, dass nur single core betrieb umgesetzt, wie multicore
 
 \chapter{Ausblick \& Fazit}
+
+%TODO: ehrenwörtliche erklärung
 
 % Literaturverzeichnis
 \bibliography{bib}{}
