@@ -175,7 +175,6 @@ proc create_root_design { parentCell } {
   set hsync [ create_bd_port -dir O hsync ]
   set mode [ create_bd_port -dir I -from 1 -to 0 mode ]
   set r [ create_bd_port -dir O -from 4 -to 0 r ]
-  set rdy_in [ create_bd_port -dir I rdy_in ]
   set reset [ create_bd_port -dir I -type rst reset ]
   set_property -dict [ list \
    CONFIG.POLARITY {ACTIVE_HIGH} \
@@ -346,7 +345,6 @@ proc create_root_design { parentCell } {
   connect_bd_net -net mbcore_0_it [get_bd_pins mbcoord_0/c0_it] [get_bd_pins mbcore_0/it]
   connect_bd_net -net mbcore_0_waiting [get_bd_pins mbcoord_0/c0_waiting] [get_bd_pins mbcore_0/waiting]
   connect_bd_net -net mode_1 [get_bd_ports mode] [get_bd_pins lut_colors_0/mode]
-  connect_bd_net -net rdy_in_1 [get_bd_ports rdy_in] [get_bd_pins input_0/rdy_in]
   connect_bd_net -net reset_1 [get_bd_ports reset] [get_bd_pins buttons_0/reset] [get_bd_pins clk_wiz_0/reset] [get_bd_pins input_0/reset] [get_bd_pins mbcoord_0/reset] [get_bd_pins mbcore_0/reset] [get_bd_pins vga_0/reset]
   connect_bd_net -net vga_0_adr [get_bd_pins blk_mem_gen_0/addrb] [get_bd_pins vga_0/adr]
   connect_bd_net -net vga_0_b [get_bd_ports b] [get_bd_pins vga_0/b]

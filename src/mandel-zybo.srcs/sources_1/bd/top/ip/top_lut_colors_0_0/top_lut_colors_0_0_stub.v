@@ -1,7 +1,7 @@
 // Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2018.3 (lin64) Build 2405991 Thu Dec  6 23:36:41 MST 2018
-// Date        : Sun Jul 14 17:17:23 2019
+// Date        : Sun Jul 28 17:09:34 2019
 // Host        : daniel-pc running 64-bit unknown
 // Command     : write_verilog -force -mode synth_stub
 //               /home/daniel/prg/uni/bachelor/src/mandel-zybo.srcs/sources_1/bd/top/ip/top_lut_colors_0_0/top_lut_colors_0_0_stub.v

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Sun Jul 14 17:26:16 2019" VIVADOVERSION="2018.3">
+<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Sun Jul 28 17:08:31 2019" VIVADOVERSION="2018.3">
 
   <SYSTEMINFO ARCH="zynq" DEVICE="7z010" NAME="top" PACKAGE="clg400" SPEEDGRADE="-1"/>
 
@@ -9,11 +9,6 @@
         <CONNECTION INSTANCE="clk_wiz_0" PORT="clk_in1"/>
         <CONNECTION INSTANCE="buttons_0" PORT="clk"/>
         <CONNECTION INSTANCE="input_0" PORT="clk"/>
-      </CONNECTIONS>
-    </PORT>
-    <PORT DIR="I" NAME="rdy_in" SIGIS="undef" SIGNAME="External_Ports_rdy_in">
-      <CONNECTIONS>
-        <CONNECTION INSTANCE="input_0" PORT="rdy_in"/>
       </CONNECTIONS>
     </PORT>
     <PORT DIR="O" NAME="done" SIGIS="undef" SIGNAME="mbcoord_0_done">
@@ -925,11 +920,6 @@
         <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
       </PARAMETERS>
       <PORTS>
-        <PORT DIR="I" NAME="rdy_in" SIGIS="undef" SIGNAME="External_Ports_rdy_in">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="External_Ports" PORT="rdy_in"/>
-          </CONNECTIONS>
-        </PORT>
         <PORT CLKFREQUENCY="125000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="External_Ports_clk">
           <CONNECTIONS>
             <CONNECTION INSTANCE="External_Ports" PORT="clk"/>

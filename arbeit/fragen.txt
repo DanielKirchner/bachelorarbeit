@@ -3,3 +3,5 @@
 - Ehrenwörtliche Erklärung
 - passen Motivation/Aufgabenstellung?
 - Umfang passt?
+- Fazit Vivado Kritik?
+- Reihenfolge Fazit Ausblick

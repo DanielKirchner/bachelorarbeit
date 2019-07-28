@@ -1,7 +1,7 @@
 --Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2018.3 (lin64) Build 2405991 Thu Dec  6 23:36:41 MST 2018
---Date        : Sun Jul 14 17:26:16 2019
+--Date        : Sun Jul 28 17:08:31 2019
 --Host        : daniel-pc running 64-bit unknown
 --Command     : generate_target top_wrapper.bd
 --Design      : top_wrapper
@@ -21,7 +21,6 @@ entity top_wrapper is
     hsync : out STD_LOGIC;
     mode : in STD_LOGIC_VECTOR ( 1 downto 0 );
     r : out STD_LOGIC_VECTOR ( 4 downto 0 );
-    rdy_in : in STD_LOGIC;
     reset : in STD_LOGIC;
     vsync : out STD_LOGIC
   );
@@ -31,7 +30,6 @@ architecture STRUCTURE of top_wrapper is
   component top is
   port (
     clk : in STD_LOGIC;
-    rdy_in : in STD_LOGIC;
     done : out STD_LOGIC;
     r : out STD_LOGIC_VECTOR ( 4 downto 0 );
     g : out STD_LOGIC_VECTOR ( 5 downto 0 );
@@ -54,7 +52,6 @@ top_i: component top
       hsync => hsync,
       mode(1 downto 0) => mode(1 downto 0),
       r(4 downto 0) => r(4 downto 0),
-      rdy_in => rdy_in,
       reset => reset,
       vsync => vsync
     );

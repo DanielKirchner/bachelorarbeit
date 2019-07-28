@@ -134,17 +134,17 @@
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
-        <CompFileExtendedInfo CompFileName="top.bd" FileRelPathName="ip/top_clk_wiz_0_0/top_clk_wiz_0_0.xci">
-          <Proxy FileSetName="top_clk_wiz_0_0"/>
-        </CompFileExtendedInfo>
         <CompFileExtendedInfo CompFileName="top.bd" FileRelPathName="ip/top_lut_colors_0_0/top_lut_colors_0_0.xci">
           <Proxy FileSetName="top_lut_colors_0_0"/>
         </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="top.bd" FileRelPathName="ip/top_blk_mem_gen_0_0/top_blk_mem_gen_0_0.xci">
-          <Proxy FileSetName="top_blk_mem_gen_0_0"/>
+        <CompFileExtendedInfo CompFileName="top.bd" FileRelPathName="ip/top_input_0_0/top_input_0_0.xci">
+          <Proxy FileSetName="top_input_0_0"/>
         </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="top.bd" FileRelPathName="ip/top_vga_0_0/top_vga_0_0.xci">
-          <Proxy FileSetName="top_vga_0_0"/>
+        <CompFileExtendedInfo CompFileName="top.bd" FileRelPathName="ip/top_clk_wiz_0_0/top_clk_wiz_0_0.xci">
+          <Proxy FileSetName="top_clk_wiz_0_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="top.bd" FileRelPathName="ip/top_buttons_0_2/top_buttons_0_2.xci">
+          <Proxy FileSetName="top_buttons_0_2"/>
         </CompFileExtendedInfo>
         <CompFileExtendedInfo CompFileName="top.bd" FileRelPathName="ip/top_mbcore_0_0/top_mbcore_0_0.xci">
           <Proxy FileSetName="top_mbcore_0_0"/>
@@ -155,8 +155,11 @@
         <CompFileExtendedInfo CompFileName="top.bd" FileRelPathName="ip/top_lut_ranges_0_0/top_lut_ranges_0_0.xci">
           <Proxy FileSetName="top_lut_ranges_0_0"/>
         </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="top.bd" FileRelPathName="ip/top_buttons_0_2/top_buttons_0_2.xci">
-          <Proxy FileSetName="top_buttons_0_2"/>
+        <CompFileExtendedInfo CompFileName="top.bd" FileRelPathName="ip/top_vga_0_0/top_vga_0_0.xci">
+          <Proxy FileSetName="top_vga_0_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="top.bd" FileRelPathName="ip/top_blk_mem_gen_0_0/top_blk_mem_gen_0_0.xci">
+          <Proxy FileSetName="top_blk_mem_gen_0_0"/>
         </CompFileExtendedInfo>
       </File>
       <File Path="$PSRCDIR/sources_1/bd/top/hdl/top_wrapper.vhd">
@@ -252,15 +255,21 @@
         <Option Name="UseBlackboxStub" Val="1"/>
       </Config>
     </FileSet>
-    <FileSet Name="top_lut_colors_0_0" Type="BlockSrcs" RelSrcDir="$PSRCDIR/top_lut_colors_0_0">
-      <Config>
-        <Option Name="TopModule" Val="top_lut_colors_0_0"/>
-        <Option Name="UseBlackboxStub" Val="1"/>
-      </Config>
-    </FileSet>
     <FileSet Name="top_lut_ranges_0_0" Type="BlockSrcs" RelSrcDir="$PSRCDIR/top_lut_ranges_0_0">
       <Config>
         <Option Name="TopModule" Val="top_lut_ranges_0_0"/>
+        <Option Name="UseBlackboxStub" Val="1"/>
+      </Config>
+    </FileSet>
+    <FileSet Name="top_input_0_0" Type="BlockSrcs" RelSrcDir="$PSRCDIR/top_input_0_0">
+      <Config>
+        <Option Name="TopModule" Val="top_input_0_0"/>
+        <Option Name="UseBlackboxStub" Val="1"/>
+      </Config>
+    </FileSet>
+    <FileSet Name="top_lut_colors_0_0" Type="BlockSrcs" RelSrcDir="$PSRCDIR/top_lut_colors_0_0">
+      <Config>
+        <Option Name="TopModule" Val="top_lut_colors_0_0"/>
         <Option Name="UseBlackboxStub" Val="1"/>
       </Config>
     </FileSet>
@@ -353,7 +362,7 @@
       <ReportStrategy Name="Vivado Synthesis Default Reports" Flow="Vivado Synthesis 2018"/>
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
     </Run>
-    <Run Id="top_lut_colors_0_0_synth_1" Type="Ft3:Synth" SrcSet="top_lut_colors_0_0" Part="xc7z010clg400-1" ConstrsSet="top_lut_colors_0_0" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/top_lut_colors_0_0_synth_1" IncludeInArchive="true">
+    <Run Id="top_lut_ranges_0_0_synth_1" Type="Ft3:Synth" SrcSet="top_lut_ranges_0_0" Part="xc7z010clg400-1" ConstrsSet="top_lut_ranges_0_0" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/top_lut_ranges_0_0_synth_1" IncludeInArchive="true">
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2018"/>
         <Step Id="synth_design"/>
@@ -362,9 +371,22 @@
       <ReportStrategy Name="Vivado Synthesis Default Reports" Flow="Vivado Synthesis 2018"/>
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
     </Run>
-    <Run Id="top_lut_ranges_0_0_synth_1" Type="Ft3:Synth" SrcSet="top_lut_ranges_0_0" Part="xc7z010clg400-1" ConstrsSet="top_lut_ranges_0_0" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/top_lut_ranges_0_0_synth_1" IncludeInArchive="true">
+    <Run Id="top_input_0_0_synth_1" Type="Ft3:Synth" SrcSet="top_input_0_0" Part="xc7z010clg400-1" ConstrsSet="top_input_0_0" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/top_input_0_0_synth_1" IncludeInArchive="true">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2018"/>
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2018">
+          <Desc>Vivado Synthesis Defaults</Desc>
+        </StratHandle>
+        <Step Id="synth_design"/>
+      </Strategy>
+      <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
+      <ReportStrategy Name="Vivado Synthesis Default Reports" Flow="Vivado Synthesis 2018"/>
+      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
+    </Run>
+    <Run Id="top_lut_colors_0_0_synth_1" Type="Ft3:Synth" SrcSet="top_lut_colors_0_0" Part="xc7z010clg400-1" ConstrsSet="top_lut_colors_0_0" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/top_lut_colors_0_0_synth_1" IncludeInArchive="true">
+      <Strategy Version="1" Minor="2">
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2018">
+          <Desc>Vivado Synthesis Defaults</Desc>
+        </StratHandle>
         <Step Id="synth_design"/>
       </Strategy>
       <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
@@ -484,7 +506,7 @@
       <ReportStrategy Name="Vivado Implementation Default Reports" Flow="Vivado Implementation 2018"/>
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
     </Run>
-    <Run Id="top_lut_colors_0_0_impl_1" Type="Ft2:EntireDesign" Part="xc7z010clg400-1" ConstrsSet="top_lut_colors_0_0" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="top_lut_colors_0_0_synth_1" IncludeInArchive="false" GenFullBitstream="true">
+    <Run Id="top_lut_ranges_0_0_impl_1" Type="Ft2:EntireDesign" Part="xc7z010clg400-1" ConstrsSet="top_lut_ranges_0_0" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="top_lut_ranges_0_0_synth_1" IncludeInArchive="false" GenFullBitstream="true">
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2018"/>
         <Step Id="init_design"/>
@@ -500,9 +522,29 @@
       <ReportStrategy Name="Vivado Implementation Default Reports" Flow="Vivado Implementation 2018"/>
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
     </Run>
-    <Run Id="top_lut_ranges_0_0_impl_1" Type="Ft2:EntireDesign" Part="xc7z010clg400-1" ConstrsSet="top_lut_ranges_0_0" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="top_lut_ranges_0_0_synth_1" IncludeInArchive="false" GenFullBitstream="true">
+    <Run Id="top_input_0_0_impl_1" Type="Ft2:EntireDesign" Part="xc7z010clg400-1" ConstrsSet="top_input_0_0" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="top_input_0_0_synth_1" IncludeInArchive="false" GenFullBitstream="true">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2018"/>
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2018">
+          <Desc>Default settings for Implementation.</Desc>
+        </StratHandle>
+        <Step Id="init_design"/>
+        <Step Id="opt_design"/>
+        <Step Id="power_opt_design"/>
+        <Step Id="place_design"/>
+        <Step Id="post_place_power_opt_design"/>
+        <Step Id="phys_opt_design"/>
+        <Step Id="route_design"/>
+        <Step Id="post_route_phys_opt_design"/>
+        <Step Id="write_bitstream"/>
+      </Strategy>
+      <ReportStrategy Name="Vivado Implementation Default Reports" Flow="Vivado Implementation 2018"/>
+      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
+    </Run>
+    <Run Id="top_lut_colors_0_0_impl_1" Type="Ft2:EntireDesign" Part="xc7z010clg400-1" ConstrsSet="top_lut_colors_0_0" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="top_lut_colors_0_0_synth_1" IncludeInArchive="false" GenFullBitstream="true">
+      <Strategy Version="1" Minor="2">
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2018">
+          <Desc>Default settings for Implementation.</Desc>
+        </StratHandle>
         <Step Id="init_design"/>
         <Step Id="opt_design"/>
         <Step Id="power_opt_design"/>

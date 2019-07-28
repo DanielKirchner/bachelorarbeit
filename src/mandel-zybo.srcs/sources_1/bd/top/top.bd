@@ -1,11 +1,12 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0x8DEE7A94B6FE8998",
+      "boundary_crc": "0xDB0CE8F4170B9DAA",
       "device": "xc7z010clg400-1",
       "name": "top",
       "synth_flow_mode": "Hierarchical",
-      "tool_version": "2018.3"
+      "tool_version": "2018.3",
+      "validated": "true"
     },
     "design_tree": {
       "blk_mem_gen_0": "",
@@ -14,17 +15,33 @@
       "vga_0": "",
       "mbcoord_0": "",
       "mbcore_0": "",
-      "lut_colors_0": "",
       "lut_ranges_0": "",
-      "input_0": ""
+      "input_0": "",
+      "lut_colors_0": ""
     },
     "ports": {
       "clk": {
         "type": "clk",
         "direction": "I",
         "parameters": {
+          "ASSOCIATED_RESET": {
+            "value": "reset",
+            "value_src": "default"
+          },
+          "CLK_DOMAIN": {
+            "value": "top_clk",
+            "value_src": "default"
+          },
           "FREQ_HZ": {
             "value": "125000000"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.000",
+            "value_src": "default"
           }
         }
       },
@@ -56,6 +73,10 @@
         "type": "rst",
         "direction": "I",
         "parameters": {
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
           "POLARITY": {
             "value": "ACTIVE_HIGH"
           }
@@ -228,11 +249,31 @@
         "ports": {
           "clk": {
             "type": "clk",
-            "direction": "I"
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "reset",
+                "value_src": "constant"
+              },
+              "CLK_DOMAIN": {
+                "value": "top_clk",
+                "value_src": "default_prop"
+              },
+              "FREQ_HZ": {
+                "value": "125000000",
+                "value_src": "user_prop"
+              }
+            }
           },
           "reset": {
             "type": "rst",
-            "direction": "I"
+            "direction": "I",
+            "parameters": {
+              "POLARITY": {
+                "value": "ACTIVE_HIGH",
+                "value_src": "user_prop"
+              }
+            }
           },
           "btns_in": {
             "direction": "I",
@@ -257,10 +298,30 @@
         "ports": {
           "reset": {
             "type": "rst",
-            "direction": "I"
+            "direction": "I",
+            "parameters": {
+              "POLARITY": {
+                "value": "ACTIVE_HIGH",
+                "value_src": "user_prop"
+              }
+            }
           },
           "clk_vga": {
-            "direction": "I"
+            "direction": "I",
+            "parameters": {
+              "CLK_DOMAIN": {
+                "value": "/clk_wiz_0_clk_out1",
+                "value_src": "ip_prop"
+              },
+              "FREQ_HZ": {
+                "value": "40000000",
+                "value_src": "ip_prop"
+              },
+              "PHASE": {
+                "value": "0.0",
+                "value_src": "ip_prop"
+              }
+            }
           },
           "hsync": {
             "direction": "O"
@@ -316,11 +377,35 @@
         "ports": {
           "clk": {
             "type": "clk",
-            "direction": "I"
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "reset",
+                "value_src": "constant"
+              },
+              "CLK_DOMAIN": {
+                "value": "/clk_wiz_0_clk_out1",
+                "value_src": "ip_prop"
+              },
+              "FREQ_HZ": {
+                "value": "50000000",
+                "value_src": "ip_prop"
+              },
+              "PHASE": {
+                "value": "0.0",
+                "value_src": "ip_prop"
+              }
+            }
           },
           "reset": {
             "type": "rst",
-            "direction": "I"
+            "direction": "I",
+            "parameters": {
+              "POLARITY": {
+                "value": "ACTIVE_HIGH",
+                "value_src": "user_prop"
+              }
+            }
           },
           "ready": {
             "direction": "I"
@@ -395,11 +480,35 @@
         "ports": {
           "clk": {
             "type": "clk",
-            "direction": "I"
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "reset",
+                "value_src": "constant"
+              },
+              "CLK_DOMAIN": {
+                "value": "/clk_wiz_0_clk_out1",
+                "value_src": "ip_prop"
+              },
+              "FREQ_HZ": {
+                "value": "50000000",
+                "value_src": "ip_prop"
+              },
+              "PHASE": {
+                "value": "0.0",
+                "value_src": "ip_prop"
+              }
+            }
           },
           "reset": {
             "type": "rst",
-            "direction": "I"
+            "direction": "I",
+            "parameters": {
+              "POLARITY": {
+                "value": "ACTIVE_HIGH",
+                "value_src": "user_prop"
+              }
+            }
           },
           "ready": {
             "direction": "I"
@@ -426,42 +535,6 @@
           },
           "waiting": {
             "direction": "O"
-          }
-        }
-      },
-      "lut_colors_0": {
-        "vlnv": "xilinx.com:module_ref:lut_colors:1.0",
-        "xci_name": "top_lut_colors_0_0",
-        "reference_info": {
-          "ref_type": "hdl",
-          "ref_name": "lut_colors",
-          "boundary_crc": "0x0"
-        },
-        "ports": {
-          "index": {
-            "direction": "I",
-            "left": "3",
-            "right": "0"
-          },
-          "mode": {
-            "direction": "I",
-            "left": "1",
-            "right": "0"
-          },
-          "r": {
-            "direction": "O",
-            "left": "4",
-            "right": "0"
-          },
-          "g": {
-            "direction": "O",
-            "left": "5",
-            "right": "0"
-          },
-          "b": {
-            "direction": "O",
-            "left": "4",
-            "right": "0"
           }
         }
       },
@@ -502,11 +575,31 @@
         "ports": {
           "clk": {
             "type": "clk",
-            "direction": "I"
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_RESET": {
+                "value": "reset",
+                "value_src": "constant"
+              },
+              "CLK_DOMAIN": {
+                "value": "top_clk",
+                "value_src": "default_prop"
+              },
+              "FREQ_HZ": {
+                "value": "125000000",
+                "value_src": "user_prop"
+              }
+            }
           },
           "reset": {
             "type": "rst",
-            "direction": "I"
+            "direction": "I",
+            "parameters": {
+              "POLARITY": {
+                "value": "ACTIVE_HIGH",
+                "value_src": "user_prop"
+              }
+            }
           },
           "btns": {
             "direction": "I",
@@ -540,6 +633,42 @@
           },
           "rdy_out": {
             "direction": "O"
+          }
+        }
+      },
+      "lut_colors_0": {
+        "vlnv": "xilinx.com:module_ref:lut_colors:1.0",
+        "xci_name": "top_lut_colors_0_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "lut_colors",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "index": {
+            "direction": "I",
+            "left": "3",
+            "right": "0"
+          },
+          "mode": {
+            "direction": "I",
+            "left": "1",
+            "right": "0"
+          },
+          "r": {
+            "direction": "O",
+            "left": "4",
+            "right": "0"
+          },
+          "g": {
+            "direction": "O",
+            "left": "5",
+            "right": "0"
+          },
+          "b": {
+            "direction": "O",
+            "left": "4",
+            "right": "0"
           }
         }
       }

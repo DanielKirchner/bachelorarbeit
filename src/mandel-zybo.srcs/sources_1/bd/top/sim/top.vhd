@@ -1,7 +1,7 @@
 --Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2018.3 (lin64) Build 2405991 Thu Dec  6 23:36:41 MST 2018
---Date        : Sun Jul 14 17:26:16 2019
+--Date        : Sun Jul 28 17:08:31 2019
 --Host        : daniel-pc running 64-bit unknown
 --Command     : generate_target top.bd
 --Design      : top
@@ -21,14 +21,13 @@ entity top is
     hsync : out STD_LOGIC;
     mode : in STD_LOGIC_VECTOR ( 1 downto 0 );
     r : out STD_LOGIC_VECTOR ( 4 downto 0 );
-    rdy_in : in STD_LOGIC;
     reset : in STD_LOGIC;
     vsync : out STD_LOGIC
   );
-  attribute core_generation_info : string;
-  attribute core_generation_info of top : entity is "top,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=top,x_ipVersion=1.00.a,x_ipLanguage=VHDL,numBlks=9,numReposBlks=9,numNonXlnxBlks=0,numHierBlks=0,maxHierDepth=0,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=7,numPkgbdBlks=0,bdsource=USER,synth_mode=OOC_per_IP}";
-  attribute hw_handoff : string;
-  attribute hw_handoff of top : entity is "top.hwdef";
+  attribute CORE_GENERATION_INFO : string;
+  attribute CORE_GENERATION_INFO of top : entity is "top,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=top,x_ipVersion=1.00.a,x_ipLanguage=VHDL,numBlks=9,numReposBlks=9,numNonXlnxBlks=0,numHierBlks=0,maxHierDepth=0,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=7,numPkgbdBlks=0,bdsource=USER,synth_mode=OOC_per_IP}";
+  attribute HW_HANDOFF : string;
+  attribute HW_HANDOFF of top : entity is "top.hwdef";
 end top;
 
 architecture STRUCTURE of top is
@@ -106,9 +105,15 @@ architecture STRUCTURE of top is
     waiting : out STD_LOGIC
   );
   end component top_mbcore_0_0;
+  component top_lut_ranges_0_0 is
+  port (
+    it : in STD_LOGIC_VECTOR ( 13 downto 0 );
+    max_iter : in STD_LOGIC_VECTOR ( 13 downto 0 );
+    color_index : out STD_LOGIC_VECTOR ( 3 downto 0 )
+  );
+  end component top_lut_ranges_0_0;
   component top_input_0_0 is
   port (
-    rdy_in : in STD_LOGIC;
     clk : in STD_LOGIC;
     reset : in STD_LOGIC;
     btns : in STD_LOGIC_VECTOR ( 7 downto 0 );
@@ -129,13 +134,6 @@ architecture STRUCTURE of top is
     b : out STD_LOGIC_VECTOR ( 4 downto 0 )
   );
   end component top_lut_colors_0_0;
-  component top_lut_ranges_0_0 is
-  port (
-    it : in STD_LOGIC_VECTOR ( 13 downto 0 );
-    max_iter : in STD_LOGIC_VECTOR ( 13 downto 0 );
-    color_index : out STD_LOGIC_VECTOR ( 3 downto 0 )
-  );
-  end component top_lut_ranges_0_0;
   signal blk_mem_gen_0_doutb : STD_LOGIC_VECTOR ( 3 downto 0 );
   signal btns_in_1 : STD_LOGIC_VECTOR ( 7 downto 0 );
   signal buttons_0_btns_out : STD_LOGIC_VECTOR ( 7 downto 0 );
@@ -162,7 +160,6 @@ architecture STRUCTURE of top is
   signal mbcore_0_it : STD_LOGIC_VECTOR ( 13 downto 0 );
   signal mbcore_0_waiting : STD_LOGIC;
   signal mode_1 : STD_LOGIC_VECTOR ( 1 downto 0 );
-  signal rdy_in_1 : STD_LOGIC;
   signal reset_1 : STD_LOGIC;
   signal vga_0_adr : STD_LOGIC_VECTOR ( 18 downto 0 );
   signal vga_0_b : STD_LOGIC_VECTOR ( 4 downto 0 );
@@ -170,12 +167,12 @@ architecture STRUCTURE of top is
   signal vga_0_hsync : STD_LOGIC;
   signal vga_0_r : STD_LOGIC_VECTOR ( 4 downto 0 );
   signal vga_0_vsync : STD_LOGIC;
-  attribute x_interface_info : string;
-  attribute x_interface_info of clk : signal is "xilinx.com:signal:clock:1.0 CLK.CLK CLK";
-  attribute x_interface_parameter : string;
-  attribute x_interface_parameter of clk : signal is "XIL_INTERFACENAME CLK.CLK, ASSOCIATED_RESET reset, CLK_DOMAIN top_clk, FREQ_HZ 125000000, INSERT_VIP 0, PHASE 0.000";
-  attribute x_interface_info of reset : signal is "xilinx.com:signal:reset:1.0 RST.RESET RST";
-  attribute x_interface_parameter of reset : signal is "XIL_INTERFACENAME RST.RESET, INSERT_VIP 0, POLARITY ACTIVE_HIGH";
+  attribute X_INTERFACE_INFO : string;
+  attribute X_INTERFACE_INFO of clk : signal is "xilinx.com:signal:clock:1.0 CLK.CLK CLK";
+  attribute X_INTERFACE_PARAMETER : string;
+  attribute X_INTERFACE_PARAMETER of clk : signal is "XIL_INTERFACENAME CLK.CLK, ASSOCIATED_RESET reset, CLK_DOMAIN top_clk, FREQ_HZ 125000000, INSERT_VIP 0, PHASE 0.000";
+  attribute X_INTERFACE_INFO of reset : signal is "xilinx.com:signal:reset:1.0 RST.RESET RST";
+  attribute X_INTERFACE_PARAMETER of reset : signal is "XIL_INTERFACENAME RST.RESET, INSERT_VIP 0, POLARITY ACTIVE_HIGH";
 begin
   b(4 downto 0) <= vga_0_b(4 downto 0);
   btns_in_1(7 downto 0) <= btns_in(7 downto 0);
@@ -185,7 +182,6 @@ begin
   hsync <= vga_0_hsync;
   mode_1(1 downto 0) <= mode(1 downto 0);
   r(4 downto 0) <= vga_0_r(4 downto 0);
-  rdy_in_1 <= rdy_in;
   reset_1 <= reset;
   vsync <= vga_0_vsync;
 blk_mem_gen_0: component top_blk_mem_gen_0_0
@@ -217,7 +213,6 @@ input_0: component top_input_0_0
       btns(7 downto 0) => buttons_0_btns_out(7 downto 0),
       clk => clk_1,
       max_iter(13 downto 0) => input_0_max_iter(13 downto 0),
-      rdy_in => rdy_in_1,
       rdy_out => input_0_rdy_out,
       reset => reset_1,
       x1(39 downto 0) => input_0_x1(39 downto 0),

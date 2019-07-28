@@ -15,7 +15,7 @@
 	Studiengang: Informatik\\
 	Bachelorarbeit\\[1.2cm]
 	\fontsize{21}{23}\selectfont
-	\textbf{Entwicklung einer hardwarebasierte Berechnung der 
+	\textbf{Entwicklung einer hardwarebasierten Berechnung der 
 	Mandelbrotmenge auf einem FPGA}\\[1cm]
 	\fontsize{18}{20}\selectfont
 	von\\[1.2cm]
@@ -96,19 +96,20 @@ Die Aufgabe dieses Projektes ist es, eine komplett in Hardware stattfindende Ber
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\textwidth]{mandelbrot.png}
+	\includegraphics[width=.9\textwidth]{mandelbrot.png}
 	\caption{Die Mandelbrotmenge}
 	\label{fig:mandelbrotmenge}
 \end{figure}
 
-Weiterhin soll die Hardware durch externe Peripherie konfigurierbar hinsichtlich der angestellten Berechnungen sein. So soll etwa aktuell abgebildete Bereich der Mandelbrotmenge oder auch die Farbgebung der Darstellung im laufenden Betrieb geändert werden können.
+Weiterhin soll die Hardware durch externe Peripherie konfigurierbar hinsichtlich der angestellten Berechnungen sein.
+So soll etwa aktuell abgebildete Bereich der Mandelbrotmenge oder auch die Farbgebung der Darstellung im laufenden Betrieb geändert werden können.
 
-Hierfür wurde das FPGA-Trainer Board \textit{Zybo Zynq-7000} zur Verfügung gestellt, welches in %TODO Kapitel linken
-genauer vorgestellt wird.
+Hierfür wurde das FPGA-Trainer Board \textit{Zybo Zynq-7000} zur Verfügung gestellt, welches in \autoref{sec:zybo-specs} genauer vorgestellt wird.
 
-\section{Mitgelieferte Skripte}
-%TODO: github repository
-Im Git-Repository ... sind sämtliche Python-Skripts, die zur Erstellung von selbsterstellten Bildern verwendet wurden, enthalten. Des weiteren gibt die dort enhaltene Datei \textit{readme.md} Aufschluss über nützliche Skripts, die im Rahmen dieser Arbeit verwendet wurden.
+\section{Mitgelieferte Skripts}
+Im Git-Repository \textit{bachelorarbeit}\footnote{\url{https://github.com/DanielKirchner/bachelorarbeit}} sind sämtliche Python-Skripts, die zur Erstellung von selbsterstellten Bildern verwendet wurden, enthalten. Des weiteren gibt die dort enhaltene Datei \textit{README.md} Aufschluss über nützliche Skripts, die im Rahmen dieser Arbeit verwendet wurden.\\
+Das in dieser Arbeit beschriebene System ist als VHDL-Umsetzung im Ordner \textit{/src/} zu finden, während der \LaTeX-Code dieser Arbeit im Ordner \textit{/arbeit/} liegt.
+Wenn eine Datei aus genanntem Repository referenziert wird, wird der Pfad der Datei in \textcolor{red}{rot} dargestellt.
 
 \chapter{Technische Grundlagen}
 Zum besseren Verständnis des Gesamtprojektes sollen in diesem Kapitel einige technische Konzepte erläutert werden.
@@ -152,6 +153,9 @@ Zur Kommunikation mit der Außenwelt verfügen FPGAs über diverse Schnittstelle
 Diese sind so angebunden, dass ihre Signale direkt in Logikschaltungen von LUTs integriert werden können.
 %TODO weitere wichtige komponenten
 
+\section{VHDL}
+%TODO: schreiben
+
 \section{VGA-Schnittstelle}
 \label{sec:vga}
 Eine \textit{Video Graphics Array} (VGA) Schnittstelle wird durch einen Videoübertragungsstandard, welcher erstmals von IBM in ihrer \textit{IBM Personal System/2} Modellreihe verbaut wurde, spezifiziert \cite{ibmTimeline}. 
@@ -188,9 +192,10 @@ Die in dieser Arbeit verwendete Auflösung von 800x600 Pixeln bei 60Hz benötigt
 	\label{tab:vga-timings}
 \end{table}
 
-Die in \autoref{tab:vga-timings} gezeigte Pixelfrequenz von 40 MHz bedeutet, dass alle 25 ns ein neuer RGB-Wert anliegen muss. Dies ist ein wichtiger Aspekt für weitere grundliegende Designentscheidungen. %TODO späteres Kapitel hier
+Die in \autoref{tab:vga-timings} gezeigte Pixelfrequenz von 40 MHz bedeutet, dass alle 25 ns ein neuer RGB-Wert anliegen muss. Dies ist ein wichtiger Aspekt für weitere grundliegende Designentscheidungen.
 
 \section{Verwendete Hardware}
+\label{sec:zybo-specs}
 Zur Umsetzung der Aufgabenstellung wird ein \textit{Zybo Zynq-7000 ARM/FPGA SoC Trainer Board} (fortan kurz Zybo-Board genannt) verwendet (s. \autoref{fig:zybo}).
 \begin{figure}[H]
 	\centering
@@ -213,8 +218,7 @@ Der verbaute Zweikernprozessor kommt jedoch im Rahmen dieses Projektes nicht zum
 Die dieser Arbeit zugrundelegenden mathematischen Grundlagen und Definitionen sollen in diesem Kapitel näher erläutert werden.
 
 \section{Fraktale}
-%todo mandelbrot pole/franz
-Der Begriff \textit{Fraktal} wurde vom französischen Mathematiker Benoît Mandelbrot geprägt und leitet sich vom lateinischen Adjektiv \textit{fractus} ab, was \glqq in Stücke gebrochen\grqq{} oder \glqq irregulär\grqq{} bedeutet. Allgmein ist hiermit entweder eine natürlich vorkommende Strukur mit gewissen Eigenschaften oder eine genau definierte mathematische Menge gemeint. \cite[S. 16]{mandelbrot2013fraktale}\\
+Der Begriff \textit{Fraktal} wurde vom französisch-US-amerikanischen Mathematiker Benoît Mandelbrot geprägt und leitet sich vom lateinischen Adjektiv \textit{fractus} ab, was \glqq in Stücke gebrochen\grqq{} oder \glqq irregulär\grqq{} bedeutet. Allgmein ist hiermit entweder eine natürlich vorkommende Strukur mit gewissen Eigenschaften oder eine genau definierte mathematische Menge gemeint. \cite[S. 16]{mandelbrot2013fraktale}\\
 Für ein intuitives Verständnis des Begriffes sollen im folgenden zuerst einige natürlich vorkommende Fraktale gezeigt werden, woraufhin im nächsten Abschnitt eine formale Definition des Begriffs \textit{Fraktal} folgen soll.
 
 \subsection{Natürlich vorkommende Fraktale}
@@ -224,7 +228,7 @@ Fraktale besitzen oft selbstähnliche Strukturen, d.h. dass sich die Gesamtstruk
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.6\textwidth]{tree.png}
-	\caption{Fraktal definierter Baum, Skript: \textit{baum.py}, abgewandelte Version von \cite{soTree}} %TODO: Skript hinzufügen
+	\caption{Fraktal definierter Baum, Skript: \textcolor{red}{/scripts/tree.py}, abgewandelte Version von \cite{soTree}}
 	\label{fig:tree}
 \end{figure}
 
@@ -356,15 +360,13 @@ Die betragsmäßig größte darstellbare Zahl ist also:
 \[0111,1111...111_2 = 8 - 2^{-36} \approx 7.99999999998 \]
 Die Zahl wird im Einerkomplement dargestellt, was bedeutet, dass bei negativen Zahlen alle Bits invertiert werden. So ist die kleinste darstellbare Zahl:
 \[1000,0000...000_2 = -8 + 2^{-36} \approx -7.99999999998 \]
-%TODO: skript hinzufügen
 Selbst bei einer 134217728-fachen Vergrößerung (27 Zooms um Faktor 2) ergeben sich mit dieser Präzision noch keine visuell wahrnehmbaren Rechenfehler.\\
 Um noch tiefere Zooms zu realisieren müsste entweder eine variable Breite der einzelnen Datenworte realisiert werden, oder der grundlegende Algorithmus zur Berechnung der Mandelbrotmenge geändert werden.
 Hierfür würde sich der relativ neue Algorithmus von K.I. Martin (s. \cite{SUPERFRACTALTHINGMATHS}) eignen, welcher größtenteils unabhängig von aktueller Zoomtiefe und ohne die Verwendung von beliebig präzisen Datentypen auskommt \cite{SUPERFRACTALTHINGMATHS}.\\
-Da die Umsetzung dieses Algorithmus jedoch um einiges komplexer als die in dieser Arbeit verwendete Methode ist und die aktuelle Präzision zufriedenstellend ist, wird von dessen Imlmentierung abgesehen, jedoch ist die Bitbreite der einzelnen Datenworte in der Datei \textit{constants.vhd} konfigurierbar.
+Da die Umsetzung dieses Algorithmus jedoch um einiges komplexer als die in dieser Arbeit verwendete Methode ist und die aktuelle Präzision zufriedenstellend ist, wird von dessen Imlmentierung abgesehen, jedoch ist die Bitbreite der einzelnen Datenworte in der Datei \textit{constants.vhd} konfigurierbar.\\
 \paragraph{Bitbreite bei Multiplikationen}
 Da bei der Multiplikation zweier 40-Bit-Zahlen das Ergebnis 80 Bit lang ist, muss dieses wieder in ein 40-Bit Format zurückgeführt werden.
-Dies geschieht mittels einer dafür entwickelten VHDL-Prozedur \textit{fixlen}, welche in der Datei %TODO Datei hier
-zu finden ist.
+Dies geschieht mittels einer dafür entwickelten VHDL-Prozedur \textit{fixlen}, welche in der Datei \textcolor{red}{/src/mandel-zybo.srcs/sources\_1/imports/new/mbcore.vhd} zu finden ist.
 
 \begin{figure}[H]
 	\centering
@@ -398,8 +400,8 @@ Da das Ergebnis der 16-Bit Multiplikation in Zeile 10 32 Bit breit ist, kann die
 Stattdessen muss dieses Ergebnis wie in Zeile 11 gezeigt wieder auf eine Breite von 16 Bit gekürzt werden.
 
 \paragraph{Umwandlung zwischen Zahlensystemen}
-Die Verfahren zur Umwandlung zwischen dem im Rahmen dieser Arbeit vorgestellten Zahlensystem und dem Dezimalsystem soll im folgenden aufgezeigt werden.
-%TODO schreiben 
+Funktionen zur Umwandlung zwischen dem Dezimalsystem und dem verwendeten Festkommasystem sind im Skript \textcolor{red}{/scripts/utils.py} enthalten.
+%TODO schreiben?
 
 \section{Systemüberblick}
 \label{sec:überblick}
@@ -424,7 +426,7 @@ Die Koordinatoren erhalten Informationen wie z.B. den aktuell darzustellenden Be
 Die genaue Funktion und Umsetzung aller genannten Module wird in den folgenden Abschnitten gezeigt.
 Alle Signale der vorgestellten Bauteile sind high-aktiv,
 %todo: erklären?
-wenn dies nicht der Fall ist, wird es explizit deklariert.
+wenn dies nicht der Fall ist, wird dies explizit deklariert.
 Zudem sind alle Inputs/Outpus \textbf{fettgedruckt}, um sie von Variablen in Gleichungen unterscheiden zu können.
 
 \subsection{Mandelbrot-Core}
@@ -501,7 +503,8 @@ Die Quadrate von $z_r$ und $z_i$ kommen sowohl in \autoref{eq:bedingung} als auc
 Auch das Ersetzen der Multiplikation mit zwei in \autoref{eq:zi} durch eine Addition erspart eine Multiplikation.
 Der nicht optimierte Iterationsschritt (B) enthält eine Wurzel, sechs Multiplikationen und vier Additionen.
 Durch Wiederverwenden bereits berechneter Werte und algebraische Optimierung sind nun lediglich 3 Multiplikationen und fünf Additionen nötig.\\
-Das optimierte Iterationsverfahren läuft bei einer maximalen Clockfrequenz von 50MHz stabil, was bedeutet dass eine einzelne Iteration maximal 20ns in Anspruch nimmt.
+Das optimierte Iterationsverfahren läuft bei einer maximalen Clockfrequenz von 50MHz stabil, was bedeutet dass eine einzelne Iteration maximal 20ns in Anspruch nimmt.\\
+Prinzipiell können beliebig viele Mandelbrot-Cores in das Gesamtsystem integriert werden, jedoch wurde bisher nur der einkernige Betrieb realisiert.
 
 \subsection{Mandelbrot-Koordinator}
 Der in \autoref{fig:schem_mandelbrotkoord} gezeigte Mandelbrot-Koordinator verwaltet einen Mandelbrot-Core und schreibt dessen Ergebnisse in den in \autoref{subsec:ram} beschriebenen RAM.
@@ -538,9 +541,7 @@ Dem Pixel (250/100) würde folgender Punkt $c: -0,75 -1,5i$ zugeordnet werden:
 \[c_i = -2 + 0,005 * 100 = -1,5\]
 Diese Werte werden an die zugehörigen Outputsignale \textbf{c0\_c\_real} und \textbf{c0\_c\_imag} angelegt und anschließen durch Aktivieren des Ausgangs \textbf{c0\_ready} bestätigt.\\
 Im Anschluss wartet der Mandelbrot-Koordinator bis das Eingangssignal \textbf{c0\_waiting} aktiv wird und schreibt den an \textbf{c0\_iter} anliegenden Wert in den RAM.\\
-Hierfür werden die Signale \textbf{adr},\textbf{we} und \textbf{it} verwendet,wobei deren genaue Funktionsweise im Kapitel
-%TODO: linken
-näher erläutert wird.
+Hierfür werden die Signale \textbf{adr},\textbf{we} und \textbf{it} verwendet,wobei deren genaue Funktionsweise im Kapitel \autoref{subsec:ram} näher erläutert wird.
 Wenn jeder Pixel abgearbeitet wurde, wird dies durch das Signal \textbf{done} signalisiert und der Koordinator ist bereit, neue Eingangssignale aufzunehmen.\\
 %TODO: State-Machine
 
@@ -552,8 +553,7 @@ Wenn jeder Pixel abgearbeitet wurde, wird dies durch das Signal \textbf{done} si
 	\caption{Block Memory Generator, IP-Bauteil}
 	\label{fig:schem_bram}
 \end{figure}
-Der Block Memory Generator ist ein mit Vivado %TODO erklären
-mitgeliefertes IP-Bauteil, welches ermöglicht den auf FPGA-Boards verfügbaren Block-RAM zu verwenden.\\
+Der Block Memory Generator ist ein mit der Vivado Design Suite mitgeliefertes IP-Bauteil, welches ermöglicht den auf FPGA-Boards verfügbaren Block-RAM zu verwenden.\\
 Verwendet wird der Block-RAM im Rahmen dieses Projekts, um die Iterationswerte, die jedem Pixel zugeordnet werden (s. \autoref{subsec:mandelcore}) zu speichern.\\
 Der Block-RAM des Zybo-Board setzt sich aus 60 32768-Bit RAMB18E1-Blöcken zusammen, verfügt also über 1966080 Bit (240 KB) Speicher \cite[S. 14]{bram} \cite{zyboref}.
 Da in diesem Speicher ein 800x600 Pixel Bild gespeichert (und ausgelesen) werden soll, ergeben sich 4 Bit Speicher pro Pixel:
@@ -566,7 +566,7 @@ Im Betrieb wird der Speicher permanent vom VGA-Modul ausgelesen, während die Ma
 Ein Speicher im Dual-Port-Modus verfügt über zwei Ports, welche völlig unabhängig voneinander agieren (\textbf{BRAM\_PORTA}, \textbf{BRAM\_PORTB}; fortan \textbf{Port A} bzw. \textbf{Port B} genannt). 
 Jeder dieser Ports verfügt über einen eigenen Takt (\textbf{clka},\textbf{clkb}) und einen eigenen Adressbus.
 \textbf{Port A} wird rein zum Schreibzugriff verwendet, während \textbf{Port B} rein zum Lesezugriff konfiguriert ist. Dies äußert sich darin, dass \textbf{Port A} einen \textit{Write Enable}-Eingang (Schreibzugriffsaktivierung) \textbf{wea} hat, jedoch keinen Datenausgang. 
-\textbf{Port B} verfügt wiederum über einen Datenausgang \textbf{doutb}, jedoch über %TODO: hier weiter
+\textbf{Port B} verfügt wiederum über ein Adresssignal \textbf{addrb} und einen zugehörigen Datenausgang \textbf{doutb}, jedoch über keinen Write-Enable.
 \subsection{Lookup Tables}
 \label{subsec:luts}
 Lookup Tables (kurz LUTs) sind Bausteine, welche für einen Index $i$ einen bestimmten Tabelleneintrag als Output liefern können.
@@ -585,7 +585,7 @@ Farbtabelle hinterlegt.
 Sei die maximale Iterationszahl $i_{max} = 100$.
 Zur Ermittlung der Farbe eines Pixels muss zunächst der Farbindex $I_F$ errechnet werden. Wenn etwa 33 Iterationen genötigt wurden sieht ergibt sich:
 \[I_F = \ceil{\frac{33}{100}*15} = \ceil{4,95} = 5\]
-Nun kann der zugehörige RGB-Wert aus einer Farbtabelle (z.B. \autoref{tab:farben}) entnommen und an das VGA-Modul weitergeleitet werden\footnote{Die hier dargestellten RGB-Werte sind 24 Bit breit, da dies die übliche RGB-Notation ist. Die RGB-Werte auf dem Zybo-Board sind nur 16 Bit breit.}:
+Nun kann der zugehörige RGB-Wert aus einer Farbtabelle (z.B. \autoref{tab:farben01}) entnommen und an das VGA-Modul weitergeleitet werden\footnote{Die hier dargestellten RGB-Werte sind 24 Bit breit, da dies die übliche RGB-Notation ist. Die RGB-Werte auf dem Zybo-Board sind nur 16 Bit breit.}:
 
 \begin{table}[H]
 	\centering
@@ -616,13 +616,11 @@ Nun kann der zugehörige RGB-Wert aus einer Farbtabelle (z.B. \autoref{tab:farbe
 			15	& \colorbox[RGB]{0,255,0}		{\#00FF00}\\ \hline
 		\end{tabular}
 	\end{tabular}
-	\caption{Farbtabelle, Übergang von Rot nach Grün }
-	\label{tab:farben}
+	\caption{Farbtabelle für den Modus 2, Übergang von Rot nach Grün}
+	\label{tab:farben01}
 \end{table}
 Zwischen den verschiedenen Farbtabellen kann im laufenden Betrieb jederzeit umgeschalten werden, hierfür erhält \textbf{LUT1} noch den Input zweier, auf dem Board integrierten, Schalter.
-Insgesamt sind also vier verschieden Farbtabellen auswählbar, welche im %ANHANG
-dargestellt sind.
-%TODO: implmentierte Farbtabellen, auch in den Anhang
+Insgesamt sind also vier verschieden Farbtabellen auswählbar, welche in \autoref{chap:farbtabellen} dargestellt sind.
 
 \subsection{VGA-Modul}
 \label{subsec:vga-modul}
@@ -734,16 +732,128 @@ Auf dem Board werden zwei verschiedene Takte verwendet, welche mit Hilfe der \te
 Der erste Takt ist das vom VGA-Modul verwendete Signal \textbf{clk\_vga}, welches mit 40 MHz betrieben werden muss (vgl. hierfür \autoref{subsec:vga-modul} und \autoref{tab:vga-timings}).\\
 Der zweite Takt \textbf{clk} wird von allen anderen Komponenten verwendet und muss langsam genug sein, um die aufwändigen Berechnungen der Mandelbrot-Cores in nur einem Zyklus zu ermöglichen.
 Die hierbei empirisch ermittelte maximale Taktrate, bei der das System stabil läuft beträgt 50 MHz.
-Bei höheren Taktraten können die Mandelbrot-Cores ihre Berechnungen der neuen $z$-Werte nicht abschließen, was zu undefinierten Zuständen der Ergebnisse führt, was sich in der Darstellung durch stark verrauschte Bilder äußert.
+Bei höheren Taktraten können die Mandelbrot-Cores ihre Berechnungen der neuen $z$-Werte nicht abschließen, was zu undefinierten Zuständen der Ergebnisse führt.
+Dies äußert sich dann in stark verrauschten Darstellungen mit massiven Rechenfehlern.
 
-%TODO: erklären, dass nur single core betrieb umgesetzt, wie multicore
+\chapter{Ausblick}
+In diesem Kapitel sollen einige Erweiterungen/Verbesserungen vorgestellt werden, die aufgrund des begrenzten Zeitraums der Projektbearbeitung noch nicht umgesetzt werden konnten.
 
-\chapter{Ausblick \& Fazit}
+\paragraph{Mehrkerniger Betrieb}
+Prinzipiell könnnen beliebig viele Mandelbrot-Cores parallel arbeiten, da diese keine gemeinsamen Ressourcen verwenden. Auch greifen die verschiedenen Mandelbrot-Koordinatoren nie auf den selben Speicherbereich zu, was Synchronisationsprobleme ausschließt. Da der mehrkernige Betrieb jedoch aufwändig zu implementieren ist, wurde er zum Zeitpunkt der Abgabe dieser Arbeit nicht umgesetzt.
 
-%TODO: ehrenwörtliche erklärung
+\paragraph{Hinzufügen neuer Farbmodi}
+Das Zybo Board verfügt über vier Hebel, von denen bisher zwei für die Auswahl der vier Farbmodi verwendet werden. Eine Erweiterung auf 16 auswählbare Farbmodi durch Verwendung aller vier Hebel wäre relativ einfach möglich.
+
+\paragraph{Effizienterer Mandelbrot-Algorithmus}
+Die Verwendung des Algorithmus aus \cite{SUPERFRACTALTHINGMATHS} würde noch extremere Vergrößerungen der Mandelbrotmenge erlauben, ist jedoch komplexer umzusetzen. Siehe hierzu \autoref{sec:zahlenformat}.
+
+%TODO mehr
+
+\chapter{Fazit}
+Die in \autoref{sec:aufgabenstellung} definierte Aufgabenstellung konnte komplett umgesetzt werden.
+Das entwickelte FPGA-Design kann über eine VGA-Schnittstelle beliebige Teile der Mandelbrotmenge darstellen und ist hierbei durch Hardwaretaster steuerbar.
+Das Design hat auf dem verwendeten Zybo 7000 Board folgende Ressourcenauslastung:
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|c|c|}
+		\hline
+		Ressource & Auslastung \% \\ \hline
+		LUT & 27,7 \\ \hline
+		Flipflop & 2,15 \\ \hline
+		BRAM & 98,33 \\ \hline
+		DSP & 22,5 \\ \hline
+	\end{tabular}
+\end{table}
+
+Eine Erweiterung um weitere Rechenkerne wäre ressourcentechnisch also ohne Probleme möglich.\\
+Das reine Logikdesign nimmt hierfür nur 0.258 Watt Leistung auf und ist somit enorm energieeffizient.\footnote{Wert aus dem Power Report der von der Vivado Design Suite bei jedem Projekt generiert wird.}\\
+Die Wahl des Zybo Boards in Verbindung mit der Vivado Design Suite erwieß sich als praktikabel, jedoch verfügt die Entwicklungssoftware über einige Fehler, welche das Projekt teilweise in einen korrupten Zustand versetzten.
+Insgesamt stellte sich der Ansatz, alle Berechnungen in Hardware stattfinden zu lassen als herausfordernd aber auch enorm lehrreich dar.
+
+
+
+
 
 % Literaturverzeichnis
 \bibliography{bib}{}
 \bibliographystyle{unsrt}
 
+\appendix
+\chapter{Farbtabellen}
+\label{chap:farbtabellen}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ll}
+		\begin{tabular}{|c|c|}
+			\hline
+			Index $I_F$ & Farbe(RGB)	\\ \hline
+			0	& \colorbox[RGB]{255,255,255}	{\#FFFFFF}\\ \hline
+			1	& \colorbox[RGB]{238,238,238}	{\#EEEEEE}\\ \hline
+			2	& \colorbox[RGB]{221,221,221}	{\#DDDDDD}\\ \hline
+			3	& \colorbox[RGB]{204,204,204}	{\#CCCCCC}\\ \hline
+			4	& \colorbox[RGB]{187,187,187}	{\#BBBBBB}\\ \hline
+			5	& \colorbox[RGB]{170,170,170}	{\#AAAAAA}\\ \hline
+			6	& \colorbox[RGB]{153,153,153}	{\#999999}\\ \hline
+			7	& \colorbox[RGB]{136,136,136}	{\#888888}\\ \hline
+		\end{tabular}
+
+		\begin{tabular}{|c|c|}
+			\hline
+			Index $I_F$ & Farbe(RGB)	\\ \hline
+			8	& \colorbox[RGB]{119,119,119}	{\textcolor{white}{\#777777}}\\ \hline
+			9	& \colorbox[RGB]{102,102,102}	{\textcolor{white}{\#666666}}\\ \hline
+			10	& \colorbox[RGB]{85,85,85}		{\textcolor{white}{\#555555}}\\ \hline
+			11	& \colorbox[RGB]{68,68,68}		{\textcolor{white}{\#444444}}\\ \hline
+			12	& \colorbox[RGB]{51,51,51}		{\textcolor{white}{\#333333}}\\ \hline
+			13	& \colorbox[RGB]{34,34,34}		{\textcolor{white}{\#222222}}\\ \hline
+			14	& \colorbox[RGB]{17,17,17}		{\textcolor{white}{\#111111}}\\ \hline
+			15	& \colorbox[RGB]{0,0,0}			{\textcolor{white}{\#000000}}\\ \hline
+		\end{tabular}
+	\end{tabular}
+	\caption{Farbtabelle für den Modus 1, Übergang von Weiß (in Menge enthalten) nach Schwarz}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ll}
+		\begin{tabular}{|c|c|}
+			\hline
+			Index $I_F$ & Farbe(RGB)	\\ \hline
+			0	& \colorbox[RGB]{255,0,0}		{\#FF0000}\\ \hline
+			1	& \colorbox[RGB]{238,17,0}		{\#EE1100}\\ \hline
+			2	& \colorbox[RGB]{221,34,0}		{\#DD2200}\\ \hline
+			3	& \colorbox[RGB]{204,51,0}		{\#CC3300}\\ \hline
+			4	& \colorbox[RGB]{187,68,0}		{\#BB4400}\\ \hline
+			5	& \colorbox[RGB]{170,85,0}		{\#AA5500}\\ \hline
+			6	& \colorbox[RGB]{153,102,0}		{\#996600}\\ \hline
+			7	& \colorbox[RGB]{136,119,0}		{\#887700}\\ \hline
+		\end{tabular}
+
+		\begin{tabular}{|c|c|}
+			\hline
+			Index $I_F$ & Farbe(RGB)	\\ \hline
+			8	& \colorbox[RGB]{119,136,0}		{\#778800}\\ \hline
+			9	& \colorbox[RGB]{102,153,0}		{\#669900}\\ \hline
+			10	& \colorbox[RGB]{85,170,0}		{\#55AA00}\\ \hline
+			11	& \colorbox[RGB]{68,187,0}		{\#44BB00}\\ \hline
+			12	& \colorbox[RGB]{51,204,0}		{\#33CC00}\\ \hline
+			13	& \colorbox[RGB]{34,221,0}		{\#22DD00}\\ \hline
+			14	& \colorbox[RGB]{17,238,0}		{\#11EE00}\\ \hline
+			15	& \colorbox[RGB]{0,255,0}		{\#00FF00}\\ \hline
+		\end{tabular}
+	\end{tabular}
+	\caption{Farbtabelle für den Modus 2, Übergang von Rot (in Menge enthalten) nach Grün}
+\end{table}
+
+Die Farbtabellen der Modi 3 und 4 sind die beiden hier gezeigten Tabellen in umgeherter Farbreihenfolge (also z.B. \textcolor{red}{rot} $\rightarrow$ \textcolor{green}{grün} wird zu \textcolor{green}{grün} $\rightarrow$ \textcolor{red}{rot}).
+
+\chapter{Ehrenwörtliche Erklärung}
+Hiermit versichere ich, dass ich diese Bachelorarbeit selbstständig verfasst, keine anderen als die angegebenen Quellen und Hilfsmittel benutzt, sowie nich an anderer Stelle als Prüfungsarbeit vorgelegt habe.
+
+\vspace{4cm}
+\rule[-0.2cm]{6cm}{0.5pt}\hfill
+\rule[-0.2cm]{6cm}{0.5pt}\\
+\hspace{2cm} Ort, Datum \hfill Unterschrift
 \end{document}

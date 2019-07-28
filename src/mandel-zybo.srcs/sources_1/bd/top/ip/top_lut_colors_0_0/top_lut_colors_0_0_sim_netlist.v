@@ -1,7 +1,7 @@
 // Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2018.3 (lin64) Build 2405991 Thu Dec  6 23:36:41 MST 2018
-// Date        : Sun Jul 14 17:17:23 2019
+// Date        : Sun Jul 28 17:09:34 2019
 // Host        : daniel-pc running 64-bit unknown
 // Command     : write_verilog -force -mode funcsim
 //               /home/daniel/prg/uni/bachelor/src/mandel-zybo.srcs/sources_1/bd/top/ip/top_lut_colors_0_0/top_lut_colors_0_0_sim_netlist.v
@@ -28,44 +28,104 @@ module top_lut_colors_0_0
   output [4:0]b;
 
   wire [4:1]\^b ;
-  wire [0:0]\^g ;
+  wire [5:0]\^g ;
   wire [3:0]index;
+  wire [1:0]mode;
+  wire [4:1]\^r ;
 
   assign b[4:1] = \^b [4:1];
   assign b[0] = \^b [4];
-  assign g[5:2] = \^b [4:1];
-  assign g[1] = \^b [4];
+  assign g[5:2] = \^g [5:2];
+  assign g[1] = \^g [5];
   assign g[0] = \^g [0];
-  assign r[4:1] = \^b [4:1];
-  assign r[0] = \^b [4];
-  LUT1 #(
-    .INIT(2'h1)) 
+  assign r[4:1] = \^r [4:1];
+  assign r[0] = \^r [4];
+  LUT3 #(
+    .INIT(8'h0D)) 
     \b[0]_INST_0 
-       (.I0(index[3]),
+       (.I0(mode[0]),
+        .I1(mode[1]),
+        .I2(index[3]),
         .O(\^b [4]));
-  LUT1 #(
-    .INIT(2'h1)) 
+  LUT3 #(
+    .INIT(8'h0D)) 
     \b[1]_INST_0 
-       (.I0(index[0]),
+       (.I0(mode[0]),
+        .I1(mode[1]),
+        .I2(index[0]),
         .O(\^b [1]));
-  LUT1 #(
-    .INIT(2'h1)) 
+  LUT3 #(
+    .INIT(8'h0D)) 
     \b[2]_INST_0 
-       (.I0(index[1]),
+       (.I0(mode[0]),
+        .I1(mode[1]),
+        .I2(index[1]),
         .O(\^b [2]));
-  LUT1 #(
-    .INIT(2'h1)) 
+  LUT3 #(
+    .INIT(8'h0D)) 
     \b[3]_INST_0 
-       (.I0(index[2]),
+       (.I0(mode[0]),
+        .I1(mode[1]),
+        .I2(index[2]),
         .O(\^b [3]));
-  LUT4 #(
-    .INIT(16'h10F7)) 
+  LUT6 #(
+    .INIT(64'h10F7EF0810F710F7)) 
     \g[0]_INST_0 
        (.I0(index[0]),
         .I1(index[1]),
         .I2(index[3]),
         .I3(index[2]),
-        .O(\^g ));
+        .I4(mode[1]),
+        .I5(mode[0]),
+        .O(\^g [0]));
+  LUT3 #(
+    .INIT(8'h59)) 
+    \g[1]_INST_0 
+       (.I0(index[3]),
+        .I1(mode[0]),
+        .I2(mode[1]),
+        .O(\^g [5]));
+  LUT3 #(
+    .INIT(8'h59)) 
+    \g[2]_INST_0 
+       (.I0(index[0]),
+        .I1(mode[0]),
+        .I2(mode[1]),
+        .O(\^g [2]));
+  LUT3 #(
+    .INIT(8'h59)) 
+    \g[3]_INST_0 
+       (.I0(index[1]),
+        .I1(mode[0]),
+        .I2(mode[1]),
+        .O(\^g [3]));
+  LUT3 #(
+    .INIT(8'h59)) 
+    \g[4]_INST_0 
+       (.I0(index[2]),
+        .I1(mode[0]),
+        .I2(mode[1]),
+        .O(\^g [4]));
+  LUT1 #(
+    .INIT(2'h1)) 
+    \r[0]_INST_0 
+       (.I0(index[3]),
+        .O(\^r [4]));
+  LUT1 #(
+    .INIT(2'h1)) 
+    \r[1]_INST_0 
+       (.I0(index[0]),
+        .O(\^r [1]));
+  LUT1 #(
+    .INIT(2'h1)) 
+    \r[2]_INST_0 
+       (.I0(index[1]),
+        .O(\^r [2]));
+  LUT1 #(
+    .INIT(2'h1)) 
+    \r[3]_INST_0 
+       (.I0(index[2]),
+        .O(\^r [3]));
 endmodule
 `ifndef GLBL
 `define GLBL
