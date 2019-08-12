@@ -1,7 +1,13 @@
 - Wie sehr auf VHDL, Vivado eingehen
-- Wie viele Codebeispiele
+
 - Ehrenwörtliche Erklärung
-- passen Motivation/Aufgabenstellung?
+
 - Umfang passt?
-- Fazit Vivado Kritik?
+
 - Reihenfolge Fazit Ausblick
+    Zusammenfassung dann Ausblick
+
+- VHDL welcher Umfang
+
+hardwaremäßig schwierig bilder zu extrahieren
+clock/reset in systemüberblickp

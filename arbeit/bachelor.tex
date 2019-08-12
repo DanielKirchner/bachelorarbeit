@@ -31,7 +31,7 @@ Im Rahmen dieser Bachelorarbeit wurde eine hardwarebasierte Visualisierung der M
 Hierfür werden diverse mathematische und designtechnische Performanceoptimierungen vorgestellt, welche in einem parallelen FPGA-Design implementiert wurden.
 Das Projekt wurde für das Zybo Zynq-7000 Trainer Board entwickelt, welches über einen VGA-Output die Repräsentation des Mandelbrotfraktals in Form eines 800x600@60Hz Videosignals ausgibt.\\
 Zur optimalen Ausnutzung der auf diesem Board gegebenen Ressourcen (DSPs, BRAM) wurde die \textit{Vivado Design Suite} mit dem integrierten IP-Katalog verwendet.\\
-Die entwickelte Hardware kann mittels Knöpfen über eine PMOD-Schnittstelle gesteuert werden.\\\\\\
+Die entwickelte Hardware kann mit Tasern, welche über eine PMOD-Schnittstelle angeschlossen sind, gesteuert werden.\\\\\\
 
 In the context of this Bachelor thesis, a hardware-based visualization of the Mandelbrot set was realized on an FPGA.\\
 Various performance optimizations are presented, which were implemented into a parallel FPGA design.
@@ -88,7 +88,7 @@ Ein Beispiel hierfür ist die moderne Grafikkarte (GPU), welche dem Prozessor Da
 Auch andere Hardwarekomponenten, wie die Netzwerkkarte, kryptographische Beschleuniger, oder Soundkarten sind in fast allen Computersystemen verbaut und entlasten den Hauptprozessor. Man spricht auch von heterogenen Computersystemen.
 
 Die im Rahmen dieser Arbeit vorgestellte Hardware soll ein Beispiel für eine derartige heterogene Komponente sein. Auf einem Field Programmable Gate Array (FPGA, s. \autoref{sec:fpga}) soll eine performante und energieffiziente Visualisierung der sogenannten Mandelbrotmenge realisiert werden.
-Diese Problemstellung ist auch durch einen ordinären Prozessor lösbar, lastet diesen jedoch enorm aus und ist somit auch nicht sehr energieineffizient. %TODO Kapitel linken
+Diese Problemstellung ist auch durch einen ordinären Prozessor lösbar, lastet diesen jedoch enorm aus und ist somit auch nicht sehr energieineffizient.
 
 \section{Aufgabenstellung}
 \label{sec:aufgabenstellung}
@@ -116,7 +116,7 @@ Zum besseren Verständnis des Gesamtprojektes sollen in diesem Kapitel einige te
 
 \section{FPGAs}
 \label{sec:fpga}
-Ein \textit{Field Programmable Gate Array} (kurz FPGA) ist ein Schaltkreis, welcher mit Hilfe von Hardwarebeschreibungssprachen %TODO Kapitel, VHDL erklären
+Ein \textit{Field Programmable Gate Array} (kurz FPGA) ist ein Schaltkreis, welcher mit Hilfe von Hardwarebeschreibungssprachen (s. \autoref{sec:vhdl})
 konfiguriert werden kann, um beliebig komplexe logische Schaltungen zu realisieren.\\
 Das Grundelement eines solchen Bausteines bilden die sogenannten \textit{Lookup Tables} (kurz LUTs), welche zu einem beliebigen n-bit Input ein 1-bit Output Signal produzieren. Die zugrundeliegende Logiktabelle einer LUT ist hierbei frei programmierbar.
 
@@ -154,7 +154,19 @@ Diese sind so angebunden, dass ihre Signale direkt in Logikschaltungen von LUTs 
 %TODO weitere wichtige komponenten
 
 \section{VHDL}
-%TODO: schreiben
+\label{sec:vhdl}
+VHDL \footnote{VHDL steht ausgeschrieben für \textit{Very High Speed Integrated Circuit Hardware Description Language}} ist eine Sprache zur Beschreibung und Simulation von digitalen Schaltkreisen.
+Spezifiziert wird diese über IEEE-Standards, der neueste zum Zeitpunkt der Abgabe dieser Arbeit ist der Standard IEEE-1076c-2007\cite{ieeevhdl}.\\
+Die Sprache verfügt über eine Standardbibilothek mit verschiedenen Datentypen, wobei im Rahmen dieser Arbeit die in Tabelle 
+
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|r|l|}
+		\hline
+		Test & Test \\ \hline
+	\end{tabular}
+\end{table}
 
 \section{VGA-Schnittstelle}
 \label{sec:vga}
@@ -174,8 +186,9 @@ Während dieser Pausen werden keine RGB-Werte übertragen, man nennt diese zeitl
 \end{figure}
 
 Eine 640x480 Pixel Bild baut sich dann wie in \autoref{fig:vga} gezeigt auf:
-Zuerst werden 640 Pixel RGB Daten für die erste Reihe empfangen, danach kommen 160 Pixel inaktiver Bereich ($\Rightarrow$ Porch). Das Ende dieses Bereiches wird durch das Ansteigen des low-aktiven Signal HSYNC signalisiert. Dieser Vorgang wird nun 480 mal wiederholt, bis das gesamte Bild übertragen wurde. Draufhin wird analog zur horizonalen Synchronisation das VSYNC Signal für 45 Pixel auf auf 0 gesetzt, um den vertikalen inaktiven zu signalisieren. Die Länge des inaktiven Bereiches setzt sich aus Front-, bzw. Backporch und der Länge des Sync-Pulses zusammen. Die Bedeutungen der einzelnen Signale können fügen jedoch dem nötigen Verständnis nicht mehr hinzu, weswegen die Summe dieser Bereiche als Ganzes angesehen werden kann.
-Wie schon erwähnt ist 640x480 jedoch nicht die einzige Auflösung, die mit einem VGA-Anschluss realisierbar ist. Andere Auflösungen (mit anderen Widerholungsraten) müssen vom verwendeten Bildschirm unterstützt sein, und werden durch verschieden schnelle Pixelclocks und Porches realisiert.\\
+Zuerst werden 640 Pixel RGB Daten für die erste Reihe empfangen, danach kommen 160 Pixel inaktiver Bereich ($\Rightarrow$ Porch). Das Ende dieses Bereiches wird durch das Ansteigen des low-aktiven Signal HSYNC signalisiert. Dieser Vorgang wird nun 480 mal wiederholt, bis das gesamte Bild übertragen wurde. Draufhin wird analog zur horizonalen Synchronisation das VSYNC Signal für 45 Pixel auf auf 0 gesetzt, um den vertikalen inaktiven zu signalisieren. Die Länge des inaktiven Bereiches setzt sich aus Front-, bzw. Backporch und der Länge des Sync-Pulses zusammen. 
+Die Bedeutungen der einzelnen Signale fügen jedoch dem nötigen Verständnis nicht mehr hinzu, weswegen die Summe dieser Bereiche als Ganzes angesehen werden kann.
+Wie schon erwähnt ist 640x480 jedoch nicht die einzige Auflösung, die mit einem VGA-Anschluss realisierbar ist. Andere Auflösungen (mit anderen Wiederholungsraten) müssen vom verwendeten Bildschirm unterstützt sein, und werden durch verschieden schnelle Pixelclocks und Porches realisiert.\\
 Die in dieser Arbeit verwendete Auflösung von 800x600 Pixeln bei 60Hz benötigt die in \autoref{tab:vga-timings} dargestellten Werte.
 
 \begin{table}[H]
@@ -321,10 +334,10 @@ Diese Funktion würde nun für jeden Pixel (bzw. einem dazugehörigen $c$ Wert) 
 \end{figure}
 
 Die eigentliche Faszination der Mandelbrotmenge liegt in ihrem Detailgrad, welcher beim Vergrößern des Randes der Menge (in \autoref{fig:mandelbrot_1} weiß dargestellt), sichtbar wird. Es sind diverse (oft selbstähnliche) Strukturen zu sehen, wobei kein eindeutig visuelles Muster vorhanden zu Sein scheint. Da mit einem Vergrößern des Detailgrades präzisere Berechnungen und höhere maximale Iterationszahlen einhergehen, liegt ein enormer Rechenaufwand vor.\\
-Einige besonders sehenswerte Teile der Mandelbrotmenge sind im %ANHANG
+Einige besonders sehenswerte Teile der Mandelbrotmenge sind im %TODO: ANHANG
 dargestellt.
 
-\chapter{Umsetzung} %TODO vllt bessere ÜBerschrift
+\chapter{Umsetzung}
 In diesem Kapitel soll gezeigt werden, wie die in \autoref{sec:aufgabenstellung} formulierte Aufgabenstellung umgesetzt wurde. Hierfür wird zuerst in \autoref{sec:zahlenformat} das für die zugrundeliegenden Berechnungen verwendete Zahlenformat vorgestellt. Danach wird das in \autoref{sec:überblick} gezeigte Gesamtsystem in den folgenden Abschnitten in seinen Einzelteilen erklärt.
 
 \section{Gewähltes Zahlenformat}
@@ -380,8 +393,7 @@ Die aus der Multiplikation in Schritt 1. entstehende 80 Bit zahl besteht aus 8 B
 Um diese Zahl nun wieder in das normale Format zurückzuführen werden die ersten 4 Bit des Vorkommateils und die letzten 36 Bits des Nachkommateils abgeschnitten (Schritt 2.).\\
 Hierbei verliert das Ergebnis der Multiplikation an Präzision, was jedoch unvermeidbar ist, da sich die Länge der Datenworte sonst bei jeder Multiplikation verdoppeln würde.\\
 Umgesetzt wird dieses Verfahren in einer VHDL-Funktion \textit{fixlen} (\autoref{lst:fixlen}), welche durch die Konstante \textit{N\_BITS} parametrisierbar ist.
-%TODO: Dateireferenz
-\begin{lstlisting}[label=lst:fixlen,caption=VHDL-Funktion \textit{fixlen}]
+\begin{lstlisting}[label=lst:fixlen,caption=VHDL-Funktion \textit{fixlen} aus \textcolor{red}{/src/mandel-zybo.srcs/sources\_1/imports/new/mbcore.vhd}]
 --N_BITS sei hier 16
 function fixlen (input : signed(N_BITS*2-1 downto 0)) return signed is
 	variable ret : signed(N_BITS-1 downto 0);
@@ -401,7 +413,6 @@ Stattdessen muss dieses Ergebnis wie in Zeile 11 gezeigt wieder auf eine Breite 
 
 \paragraph{Umwandlung zwischen Zahlensystemen}
 Funktionen zur Umwandlung zwischen dem Dezimalsystem und dem verwendeten Festkommasystem sind im Skript \textcolor{red}{/scripts/utils.py} enthalten.
-%TODO schreiben?
 
 \section{Systemüberblick}
 \label{sec:überblick}
@@ -420,13 +431,11 @@ Die Darstellung erfolgt über eine VGA-Schnittstelle, welche durch das VGA-Modul
 Dieses liest stetig Pixelwerte aus den vorhandenen Speicherblöcken aus und generiert aus diesen ein gültiges VGA-Signal.\\
 Der Speicher wird wiederum von den sogenannten \textit{Koordinatoren} gefüllt.
 Jeder Koordinator verwaltet die Berechnungen eines \textit{Mandelbrot-Cores} und schreibt dessen Rechenergebnisse in seinen eigenen Speicher.\\
-Die Koordinatoren erhalten Informationen wie z.B. den aktuell darzustellenden Bereich von der Inputverwaltung, welche die externen Peripheriegeräte wie Hebel und Knöpfe verwaltet.\\
+Die Koordinatoren erhalten Informationen wie z.B. den aktuell darzustellenden Bereich von der Inputverwaltung, welche die externen Peripheriegeräte wie Hebel und Taster verwaltet.\\
 
 \section{Komponentenbeschreibung}
 Die genaue Funktion und Umsetzung aller genannten Module wird in den folgenden Abschnitten gezeigt.
-Alle Signale der vorgestellten Bauteile sind high-aktiv,
-%todo: erklären?
-wenn dies nicht der Fall ist, wird dies explizit deklariert.
+Alle Signale der vorgestellten Bauteile sind high-aktiv, wenn dies nicht der Fall ist, wird dies explizit deklariert.
 Zudem sind alle Inputs/Outpus \textbf{fettgedruckt}, um sie von Variablen in Gleichungen unterscheiden zu können.
 
 \subsection{Mandelbrot-Core}
@@ -543,7 +552,6 @@ Diese Werte werden an die zugehörigen Outputsignale \textbf{c0\_c\_real} und \t
 Im Anschluss wartet der Mandelbrot-Koordinator bis das Eingangssignal \textbf{c0\_waiting} aktiv wird und schreibt den an \textbf{c0\_iter} anliegenden Wert in den RAM.\\
 Hierfür werden die Signale \textbf{adr},\textbf{we} und \textbf{it} verwendet,wobei deren genaue Funktionsweise im Kapitel \autoref{subsec:ram} näher erläutert wird.
 Wenn jeder Pixel abgearbeitet wurde, wird dies durch das Signal \textbf{done} signalisiert und der Koordinator ist bereit, neue Eingangssignale aufzunehmen.\\
-%TODO: State-Machine
 
 \subsection{Speicher}
 \label{subsec:ram}
@@ -571,7 +579,7 @@ Jeder dieser Ports verfügt über einen eigenen Takt (\textbf{clka},\textbf{clkb
 \label{subsec:luts}
 Lookup Tables (kurz LUTs) sind Bausteine, welche für einen Index $i$ einen bestimmten Tabelleneintrag als Output liefern können.
 Die Tabelleneinträge sind hierbei vordefiniert, was einige Berechnungen, die sonst in Hardware durchgeführt werden müssten, erspart.\\
-Im folgenden werden die im Rahmen dieses Projekts %$TODO: projekts/Projektes nachschauen
+Im Folgenden werden die im Rahmen dieses Projekts %$TODO: projekts/Projektes nachschauen
 verwendeten LUTs vorgestellt.\\
 Da in dem in \autoref{subsec:ram} beschrieben Speicher nur 4-Bit Datenworte gespeichert werden können, ist es nicht möglich, für jeden einzelnen Pixel RGB-Werte zu hinterlegen, da diese auf dem Zybo-Board 16 Bit breit sind \cite{zyboref}. Es muss also eine Farbtabelle existieren, welche von 4-Bit Iterations-Werten auf 16-Bit RGB-Werte übersetzt (\textbf{LUT1}).\\
 Da der Mandelbrot-Koordinator 14-Bit Iterationswerte liefert, der Speicher jedoch nur 4-Bit %TODO: bitschreibweise konsistent
@@ -580,8 +588,7 @@ Für die Umsetzung von \textbf{LUT2} wird folgende Formel verwendet:
 \[I_F = \ceil{\frac{i}{i_{max}}*15}\]
 Hierbei sind $i$ und $i_{max}$ 14-Bit Zahlen, wobei $I_F$ eine 4 Bit Zahl ist, wodurch $I_F$ in den Speicher geschrieben werden kann.\\
 Beim Auslesen wird wiederum \textbf{LUT1} verwendet, um die per VGA dargestellten RGB-Werte zu erhalten.
-Die verwendeten RGB-Werte sind in einer frei konfigurierbaren %datei linken
-Farbtabelle hinterlegt.
+Die verwendeten RGB-Werte sind in einer frei konfigurierbaren Farbtabelle (Datei \textcolor{red}{/src/mandel-zybo.srcs/sources\_1/imports/new/lut\_colors.vhd}) hinterlegt.
 Sei die maximale Iterationszahl $i_{max} = 100$.
 Zur Ermittlung der Farbe eines Pixels muss zunächst der Farbindex $I_F$ errechnet werden. Wenn etwa 33 Iterationen genötigt wurden sieht ergibt sich:
 \[I_F = \ceil{\frac{33}{100}*15} = \ceil{4,95} = 5\]
@@ -654,7 +661,7 @@ Dieses Fadenkreuz wird vom VGA-Modul erzeugt, indem immer, wenn eine der folgend
 
 \section{Peripherie und Steuerung}
 \label{sec:peripheriesteuerung}
-Die Darstellung lässt sich über die an einer PMOD-Schnittstelle angeschlossenen Knöpfe manipulieren.
+Die Darstellung lässt sich über die an einer PMOD-Schnittstelle angeschlossenen Taster manipulieren.
 Alle Inputs werden vom Input-Modul (\autoref{fig:schem_input}) verwaltet:
 \begin{figure}[H]
 	\centering
@@ -663,15 +670,15 @@ Alle Inputs werden vom Input-Modul (\autoref{fig:schem_input}) verwaltet:
 	\label{fig:schem_input}
 \end{figure}
 %TODO: vllt alle darstellungen deutsch("Buttons")
-Das Input-Modul fragt zu jedem Takt von \textbf{clk} den Zustand der Knöpfe vom Debouncer ab.
-Wenn einer (oder mehrere) Knöpfe gedrückt sind wird eine der folgenden Aktionen ausgeführt:
+Das Input-Modul fragt zu jedem Takt von \textbf{clk} den Zustand der Taster vom Debouncer ab.
+Wenn einer (oder mehrere) Taster gedrückt sind wird eine der folgenden Aktionen ausgeführt:
 \begin{itemize}
 	\item Bewegen des Bildbereichs
 	\item Vergrößern/Verkleinern des aktuellen Ausschnitts
 	\item Ein-/Ausschalten Hochauflösungsmodus
 \end{itemize}
-Für das Bewegen des Bildbereichs werden vier Knöpfe verwendet.
-Ein Drücken dieser Knöpfe bewirkt, dass der gesammte dargestellte Bereich der Mandelbrotmenge um einen bestimmten Wert verschoben wird.
+Für das Bewegen des Bildbereichs werden vier Taster verwendet.
+Ein Drücken dieser Taster bewirkt, dass der gesammte dargestellte Bereich der Mandelbrotmenge um einen bestimmten Wert verschoben wird.
 Dies wird dadurch erreicht, dass die dem Mandelbrot-Koordinator übergeben Koordinaten (\textbf{x1},\textbf{y1},\textbf{x2},\textbf{y2}) um einen bestimmten Wert erhöht/verringert werden.
 Wird z.B. der Taster "`RECHTS"' gedrückt, werden die \textbf{x1} und \textbf{x2} erhöht, was zur Folge hat, dass sich der dargestellte Bereich auf dem Bildschirm nach rechts verschiebt.\\
 Das Vergrößern/Verkleinern des aktuellen Ausschnitts der Mandelbrotmenge geschieht stets realtiv zum Mittelpunkt der dargestellten Fläche (s. \autoref{subsec:vga-modul}).
@@ -713,7 +720,7 @@ Um dies zu umgehen wird dem Input-Modul ein Entpreller vorgeschaltet, welcher ei
 Umgesetzt wird dies durch ein Schieberegister, in welches jedem Takt der aktuelle (potentiell prellende) Zustand des Tasters geschoben wird.\\
 Liegt dann ein bestimmtes Muster an, wird der entsprechende Bit von \textbf{buttons\_out} für einen Takt von \textbf{clk} auf logisch 1 gesetzt.
 Das hierfür abefragte Muster besteht aus 7 Takten logisch 1, gefolgt von 2 Takten logisch 0.
-Dies stellt sicher, dass pro Tasterdruck nur ein Signal geschickt wird (beim loslassen des Tasters), was die weitere logische Verarbeitung einfacher macht.
+Dies stellt sicher, dass pro Tasterdruck nur ein Signal geschickt wird (beim Loslassen des Tasters), was die weitere logische Verarbeitung einfacher macht.
 
 \section{Clock- und Resetsignal}
 Alle Bauteile (ausser die LUTs) erhalten sowohl ein Clocksignal \textbf{clk}, als auch ein Resetsignal \textbf{reset}.
@@ -731,25 +738,11 @@ Wenn dem so ist, werden in jedem Modul einige Aktionen ausgeführt:
 Auf dem Board werden zwei verschiedene Takte verwendet, welche mit Hilfe der \textit{Clock Generator}-IP\footnote{s. hierzu: \url{https://www.xilinx.com/products/intellectual-property/clock_generator.html}} von Xilinx generiert werden.
 Der erste Takt ist das vom VGA-Modul verwendete Signal \textbf{clk\_vga}, welches mit 40 MHz betrieben werden muss (vgl. hierfür \autoref{subsec:vga-modul} und \autoref{tab:vga-timings}).\\
 Der zweite Takt \textbf{clk} wird von allen anderen Komponenten verwendet und muss langsam genug sein, um die aufwändigen Berechnungen der Mandelbrot-Cores in nur einem Zyklus zu ermöglichen.
-Die hierbei empirisch ermittelte maximale Taktrate, bei der das System stabil läuft beträgt 50 MHz.
+Die hierbei empirisch ermittelte maximale Taktrate, bei der das System stabil läuft,beträgt 50 MHz.
 Bei höheren Taktraten können die Mandelbrot-Cores ihre Berechnungen der neuen $z$-Werte nicht abschließen, was zu undefinierten Zuständen der Ergebnisse führt.
 Dies äußert sich dann in stark verrauschten Darstellungen mit massiven Rechenfehlern.
 
-\chapter{Ausblick}
-In diesem Kapitel sollen einige Erweiterungen/Verbesserungen vorgestellt werden, die aufgrund des begrenzten Zeitraums der Projektbearbeitung noch nicht umgesetzt werden konnten.
-
-\paragraph{Mehrkerniger Betrieb}
-Prinzipiell könnnen beliebig viele Mandelbrot-Cores parallel arbeiten, da diese keine gemeinsamen Ressourcen verwenden. Auch greifen die verschiedenen Mandelbrot-Koordinatoren nie auf den selben Speicherbereich zu, was Synchronisationsprobleme ausschließt. Da der mehrkernige Betrieb jedoch aufwändig zu implementieren ist, wurde er zum Zeitpunkt der Abgabe dieser Arbeit nicht umgesetzt.
-
-\paragraph{Hinzufügen neuer Farbmodi}
-Das Zybo Board verfügt über vier Hebel, von denen bisher zwei für die Auswahl der vier Farbmodi verwendet werden. Eine Erweiterung auf 16 auswählbare Farbmodi durch Verwendung aller vier Hebel wäre relativ einfach möglich.
-
-\paragraph{Effizienterer Mandelbrot-Algorithmus}
-Die Verwendung des Algorithmus aus \cite{SUPERFRACTALTHINGMATHS} würde noch extremere Vergrößerungen der Mandelbrotmenge erlauben, ist jedoch komplexer umzusetzen. Siehe hierzu \autoref{sec:zahlenformat}.
-
-%TODO mehr
-
-\chapter{Fazit}
+\chapter{Zusammenfassung}
 Die in \autoref{sec:aufgabenstellung} definierte Aufgabenstellung konnte komplett umgesetzt werden.
 Das entwickelte FPGA-Design kann über eine VGA-Schnittstelle beliebige Teile der Mandelbrotmenge darstellen und ist hierbei durch Hardwaretaster steuerbar.
 Das Design hat auf dem verwendeten Zybo 7000 Board folgende Ressourcenauslastung:
@@ -769,11 +762,20 @@ Das Design hat auf dem verwendeten Zybo 7000 Board folgende Ressourcenauslastung
 Eine Erweiterung um weitere Rechenkerne wäre ressourcentechnisch also ohne Probleme möglich.\\
 Das reine Logikdesign nimmt hierfür nur 0.258 Watt Leistung auf und ist somit enorm energieeffizient.\footnote{Wert aus dem Power Report der von der Vivado Design Suite bei jedem Projekt generiert wird.}\\
 Die Wahl des Zybo Boards in Verbindung mit der Vivado Design Suite erwieß sich als praktikabel, jedoch verfügt die Entwicklungssoftware über einige Fehler, welche das Projekt teilweise in einen korrupten Zustand versetzten.
-Insgesamt stellte sich der Ansatz, alle Berechnungen in Hardware stattfinden zu lassen als herausfordernd aber auch enorm lehrreich dar.
+Insgesamt stellte sich der Ansatz, alle Berechnungen in Hardware stattfinden zu lassen als herausfordernd, aber auch enorm lehrreich heraus.
 
 
+\chapter{Ausblick}
+In diesem Kapitel sollen einige Erweiterungen/Verbesserungen vorgestellt werden, die aufgrund des begrenzten Zeitraums der Projektbearbeitung noch nicht umgesetzt werden konnten.
 
+\paragraph{Mehrkerniger Betrieb}
+Prinzipiell könnnen beliebig viele Mandelbrot-Cores parallel arbeiten, da diese keine gemeinsamen Ressourcen verwenden. Auch greifen die verschiedenen Mandelbrot-Koordinatoren nie auf den selben Speicherbereich zu, was Synchronisationsprobleme ausschließt. Da der mehrkernige Betrieb jedoch aufwändig zu implementieren ist, wurde er zum Zeitpunkt der Abgabe dieser Arbeit nicht umgesetzt.
 
+\paragraph{Hinzufügen neuer Farbmodi}
+Das Zybo Board verfügt über vier Hebel, von denen bisher zwei für die Auswahl der vier Farbmodi verwendet werden. Eine Erweiterung auf 16 auswählbare Farbmodi durch Verwendung aller vier Hebel wäre relativ einfach möglich.
+
+\paragraph{Effizienterer Mandelbrot-Algorithmus}
+Die Verwendung des Algorithmus aus \cite{SUPERFRACTALTHINGMATHS} würde noch extremere Vergrößerungen der Mandelbrotmenge erlauben, ist jedoch komplexer umzusetzen. Siehe hierzu \autoref{sec:zahlenformat}.
 
 % Literaturverzeichnis
 \bibliography{bib}{}
@@ -850,7 +852,7 @@ Insgesamt stellte sich der Ansatz, alle Berechnungen in Hardware stattfinden zu 
 Die Farbtabellen der Modi 3 und 4 sind die beiden hier gezeigten Tabellen in umgeherter Farbreihenfolge (also z.B. \textcolor{red}{rot} $\rightarrow$ \textcolor{green}{grün} wird zu \textcolor{green}{grün} $\rightarrow$ \textcolor{red}{rot}).
 
 \chapter{Ehrenwörtliche Erklärung}
-Hiermit versichere ich, dass ich diese Bachelorarbeit selbstständig verfasst, keine anderen als die angegebenen Quellen und Hilfsmittel benutzt, sowie nich an anderer Stelle als Prüfungsarbeit vorgelegt habe.
+Hiermit versichere ich, dass ich diese Bachelorarbeit selbstständig verfasst, keine anderen als die angegebenen Quellen und Hilfsmittel benutzt, sowie nicht an anderer Stelle als Prüfungsarbeit vorgelegt habe.
 
 \vspace{4cm}
 \rule[-0.2cm]{6cm}{0.5pt}\hfill
