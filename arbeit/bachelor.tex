@@ -2,8 +2,6 @@
 \input{macros.tex}
 \begin{document}
 
-%TODO: Test,VHDL-Kapitel,
-
 % Titelseite
 \begin{titlepage}
 	\centering
@@ -27,11 +25,11 @@
 \end{titlepage}
 
 \begin{abstract}
-Im Rahmen dieser Bachelorarbeit wurde eine hardwarebasierte Visualisierung der Mandelbrotmenge auf einem FPGA realisiert.\\
-Hierfür werden diverse mathematische und designtechnische Performanceoptimierungen vorgestellt, welche in einem parallelen FPGA-Design implementiert wurden.
-Das Projekt wurde für das Zybo Zynq-7000 Trainer Board entwickelt, welches über einen VGA-Output die Repräsentation des Mandelbrotfraktals in Form eines 800x600@60Hz Videosignals ausgibt.\\
-Zur optimalen Ausnutzung der auf diesem Board gegebenen Ressourcen (DSPs, BRAM) wurde die \textit{Vivado Design Suite} mit dem integrierten IP-Katalog verwendet.\\
-Die entwickelte Hardware kann mit Tasern, welche über eine PMOD-Schnittstelle angeschlossen sind, gesteuert werden.\\\\\\
+Im Rahmen dieser Bachelorarbeit wird eine hardwarebasierte Visualisierung der Mandelbrotmenge auf einem FPGA realisiert.\\
+Hierfür werden diverse mathematische und designtechnische Performanceoptimierungen vorgestellt, welche in einem parallelen FPGA-Design implementiert werden.
+Das Projekt wird für das Zybo Zynq-7000 Trainer Board entwickelt, welches über einen VGA-Output die Repräsentation des Mandelbrotfraktals in Form eines 800x600@60Hz Videosignals ausgibt.\\
+Zur optimalen Ausnutzung der auf diesem Board gegebenen Ressourcen (DSPs, BRAM) wird die \textit{Vivado Design Suite} mit dem integrierten IP-Katalog verwendet.\\
+Die entwickelte Hardware kann mit Tastern, welche über eine PMOD-Schnittstelle angeschlossen sind, gesteuert werden.\\\\\\
 
 In the context of this Bachelor thesis, a hardware-based visualization of the Mandelbrot set was realized on an FPGA.\\
 Various performance optimizations are presented, which were implemented into a parallel FPGA design.
@@ -74,17 +72,14 @@ The developed Hardware can be controlled through buttons, which are hooked up vi
 % Beginn Arbeit
 \newpage
 \chapter{Einleitung}
-
-%TODO vllt aufbau erklären
 \section{Motivation}
 Die stets wachsende Zahl von Komponenten, die auf einem mikroelektronischen Bauteil pro Zeiteinheit untergebracht wird, ist ein Phänomen, welches Gordon Moore schon im Jahr 1965 aufgefallen ist \cite{moore1965cramming}. Die populäre, nach ihm benannte Beobachtung, dass die Anzahl der Transistoren pro integriertem Schaltkreis exponentiell mit der Zeit ansteigt, ist allgemein als das Mooresche Gesetz bekannt.
 
 Diese Gesetzlichkeit machte es möglich den stets wachsenden Leistungsanforderungen an moderne Hardware gerecht zu werden, indem immer mehr (und komplexere) identische Allzweck-Prozessoren (Kerne) pro CPU verbaut wurden.
+Dieses Vorgehen kann jedoch nicht unbegrenzt lange betrieben werden, da die heute verwendeten MOS-Transistoren sich rapide ihren physikalischen Grenzen annähern \cite{MOSScaling}.
 
-Dieses Vorgehen kann jedoch nicht unbegrenzt lange betrieben werden, da die heute verwendeten MOS-Transistoren sich rapide ihren physikalischen Grenzen annähern. Ein besserer Umgang mit dem stetig steigenden Bedarf an Rechenleistung ist die Entwicklung von spezialisierter Hardware, welche zwar nur ein kleines Aufgabenspektrum abdeckt, dies jedoch mit hoher Performanz und Energieeffizienz tut.
-
+Ein besserer Umgang mit dem stetig steigenden Bedarf an Rechenleistung ist die Entwicklung von spezialisierter Hardware, welche zwar nur ein kleines Aufgabenspektrum abdeckt, dies jedoch mit hoher Performanz und Energieeffizienz tut.
 Ein Beispiel hierfür ist die moderne Grafikkarte (GPU), welche dem Prozessor Darstellungsberchnungen abnimmt, wodurch dieser mehr Zeit hat, andere Aufgaben zu übernehmen. Die Grafikkarte führt diese Aufgaben mit enorm hohem Durchsatz und niedrigen Berechnungszeiten durch, welche ein herkömmlicher Prozessor alleine nicht erreichen könnte.
-
 Auch andere Hardwarekomponenten, wie die Netzwerkkarte, kryptographische Beschleuniger, oder Soundkarten sind in fast allen Computersystemen verbaut und entlasten den Hauptprozessor. Man spricht auch von heterogenen Computersystemen.
 
 Die im Rahmen dieser Arbeit vorgestellte Hardware soll ein Beispiel für eine derartige heterogene Komponente sein. Auf einem Field Programmable Gate Array (FPGA, s. \autoref{sec:fpga}) soll eine performante und energieffiziente Visualisierung der sogenannten Mandelbrotmenge realisiert werden.
@@ -92,7 +87,7 @@ Diese Problemstellung ist auch durch einen ordinären Prozessor lösbar, lastet 
 
 \section{Aufgabenstellung}
 \label{sec:aufgabenstellung}
-Die Aufgabe dieses Projektes ist es, eine komplett in Hardware stattfindende Berechnung der Mandelbrotmenge durchzuführen und die Ergebnisse über eine VGA-Schnittstelle darzustellen.
+Die Aufgabe dieses Projektes ist es, eine komplett in Hardware stattfindende Berechnung der Mandelbrotmenge (s. \autoref{fig:mandelbrotmenge}) durchzuführen und die Ergebnisse über eine VGA-Schnittstelle darzustellen.
 
 \begin{figure}[H]
 	\centering
@@ -107,7 +102,7 @@ So soll etwa aktuell abgebildete Bereich der Mandelbrotmenge oder auch die Farbg
 Hierfür wurde das FPGA-Trainer Board \textit{Zybo Zynq-7000} zur Verfügung gestellt, welches in \autoref{sec:zybo-specs} genauer vorgestellt wird.
 
 \section{Mitgelieferte Skripts}
-Im Git-Repository \textit{bachelorarbeit}\footnote{\url{https://github.com/DanielKirchner/bachelorarbeit}} sind sämtliche Python-Skripts, die zur Erstellung von selbsterstellten Bildern verwendet wurden, enthalten. Des weiteren gibt die dort enhaltene Datei \textit{README.md} Aufschluss über nützliche Skripts, die im Rahmen dieser Arbeit verwendet wurden.\\
+Im Git-Repository \textit{bachelorarbeit}\footnote{\url{https://github.com/DanielKirchner/bachelorarbeit}} sind sämtliche Python-Skripts, die zur Erstellung von selbsterstellten Bildern verwendet wurden, enthalten. Des Weiteren gibt die dort abgelegte Datei \textit{README.md} Aufschluss über nützliche Skripts, die im Rahmen dieser Arbeit verwendet wurden.\\
 Das in dieser Arbeit beschriebene System ist als VHDL-Umsetzung im Ordner \textit{/src/} zu finden, während der \LaTeX-Code dieser Arbeit im Ordner \textit{/arbeit/} liegt.
 Wenn eine Datei aus genanntem Repository referenziert wird, wird der Pfad der Datei in \textcolor{red}{rot} dargestellt.
 
@@ -127,7 +122,7 @@ Das Grundelement eines solchen Bausteines bilden die sogenannten \textit{Lookup 
 	\label{fig:LUT}
 \end{figure}
 
-Eine LUT, welche die Operation $C = A \oplus B$ implementiert ist in \autoref{fig:LUT} zu sehen. In dieser wird in einem SRAM-Speicher für jede Inputkombination ein Outputwert hinterlegt, wodurch jede 2-Bit Funktion abgebildet werden kann. In Verbindung mit einem Flipflop \footnote{Ein Flipflop ist ein Speicherelement, welches einen einzigen Bit Daten halten kann.} bildet eine LUT dann einen sogenannten Logikblock (s. \autoref{fig:logikblock}).\cite{fpgaDesign}
+Eine LUT, welche die Operation $C = A \oplus B$ implementiert, ist in \autoref{fig:LUT} zu sehen. In dieser wird in einem SRAM-Speicher für jede Inputkombination ein Outputwert hinterlegt, wodurch jede 2-Bit Funktion abgebildet werden kann. In Verbindung mit einem Flipflop \footnote{Ein Flipflop ist ein Speicherelement, welches einen einzigen Bit Daten halten kann.} bildet eine LUT dann einen sogenannten Logikblock (s. \autoref{fig:logikblock}).\cite{fpgaDesign}
 
 \begin{figure}[H]
 	\centering
@@ -137,7 +132,7 @@ Eine LUT, welche die Operation $C = A \oplus B$ implementiert ist in \autoref{fi
 \end{figure}
 
 Ein FPGA verbindet nun durch ebenfalls konfigurierbare Bussysteme viele solcher Logikblöcke um komplexere Schaltkreise abzubilden.\\
-Weiterhin verfügen FPGA-Boards oft noch über ergänzende Hardwarekomponenten, von denen die im Falle dieses Projektes vorhandenen im Folgenden gezeigt werden sollen.
+Weiterhin verfügen FPGA-Boards oft noch über ergänzende Hardwarekomponenten, von denen die in diesem Projekt vorhandenen im Folgenden gezeigt werden sollen.
 
 \paragraph{DSP}
 Ein \textit{Digitaler Signalprozessor} (DSP) ist ein fest integrierter Baustein, welcher durch Multiplizierer und Akkumulatoren binäre Algorithmen beschleunigt.
@@ -151,22 +146,15 @@ FPGAs verfügen meist über \textit{Block RAM} (BRAM), welcher zur Speicherung b
 \paragraph{IO-Komponenten}
 Zur Kommunikation mit der Außenwelt verfügen FPGAs über diverse Schnittstellen wie z.B. Knöpfe, Schalter, aber auch komplexere Anbindungen wie etwa VGA (s. hierzu \autoref{sec:vga}) oder PMOD-Anschlüsse.
 Diese sind so angebunden, dass ihre Signale direkt in Logikschaltungen von LUTs integriert werden können.
-%TODO weitere wichtige komponenten
 
 \section{VHDL}
 \label{sec:vhdl}
 VHDL \footnote{VHDL steht ausgeschrieben für \textit{Very High Speed Integrated Circuit Hardware Description Language}} ist eine Sprache zur Beschreibung und Simulation von digitalen Schaltkreisen.
 Spezifiziert wird diese über IEEE-Standards, der neueste zum Zeitpunkt der Abgabe dieser Arbeit ist der Standard IEEE-1076c-2007\cite{ieeevhdl}.\\
-Die Sprache verfügt über eine Standardbibilothek mit verschiedenen Datentypen, wobei im Rahmen dieser Arbeit die in Tabelle 
-
-
-\begin{table}[H]
-	\centering
-	\begin{tabular}{|r|l|}
-		\hline
-		Test & Test \\ \hline
-	\end{tabular}
-\end{table}
+Die Sprache verfügt über eine Standardbibilothek mit verschiedenen Datentypen, die einzelne Signale oder eine Menge von Signalen repräsentieren können.\\
+Es gibt in VHDL einige Sprachbestandteile, die nicht in Hardware umsetzbar (synthesefähig) sind und darum nur für Simulationen verwendet werden können.
+Verwendet wird diese Sprache in diesem Projekt sowohl zur Umsetzung der beschriebenen Schaltkreise, als auch zum Simulieren dieser.
+Die zugehörigen Dateien befinden sich im Ordner \textcolor{red}{/src/mandel-zybo.srcs/}.
 
 \section{VGA-Schnittstelle}
 \label{sec:vga}
@@ -175,7 +163,7 @@ Das Darstellungsverfahren verwendet einen 15-poligen Anschluss, um Videosignale 
 Hierbei liegen die RGB-Werte eines jeden Pixels als analoge Spannungen an und werden zu bestimmten Zeitpunkten vom Bildschirm ausgelesen. 
 Da der VGA-Standard im Jahre 1987 aufkam, war er ursprünglich noch für  Kathodenstrahlröhrenbildschirme (auch Röhrenbildschirme genannt) ausgelegt. 
 Die Elektronenstrahlen dieser Bildschirme konnten sich nicht ohne kurze Verzögerungen über die Anzeigefläche bewegen, was bedeutet, dass der VGA-Standard dies berücksichtigt und dem Bildschirm einige $\mu s$ für größere Sprünge des Strahls einräumen muss.
-Die größten solchen Sprünge finden statt, wenn eine Pixelreihe übertragen wurde und der Strahl an die erste Pixelposition der nächsten Reihe bewegt werden muss oder wenn das gesamte Bild übertragen wurde und wieder zum oberen linken Pixel gesprungen werden muss.
+Die größten Sprünge finden statt, wenn eine Pixelreihe komplett übertragen wurde und der Strahl an die erste Pixelposition der nächsten Reihe bewegt werden muss oder wenn das gesamte Bild übertragen wurde und wieder zum oberen linken Pixel gesprungen werden muss.
 Während dieser Pausen werden keine RGB-Werte übertragen, man nennt diese zeitlich gedachten Bereiche auch "Porch" (engl. Vorbau).\\
 
 \begin{figure}[H]
@@ -185,10 +173,10 @@ Während dieser Pausen werden keine RGB-Werte übertragen, man nennt diese zeitl
 	\label{fig:vga}
 \end{figure}
 
-Eine 640x480 Pixel Bild baut sich dann wie in \autoref{fig:vga} gezeigt auf:
-Zuerst werden 640 Pixel RGB Daten für die erste Reihe empfangen, danach kommen 160 Pixel inaktiver Bereich ($\Rightarrow$ Porch). Das Ende dieses Bereiches wird durch das Ansteigen des low-aktiven Signal HSYNC signalisiert. Dieser Vorgang wird nun 480 mal wiederholt, bis das gesamte Bild übertragen wurde. Draufhin wird analog zur horizonalen Synchronisation das VSYNC Signal für 45 Pixel auf auf 0 gesetzt, um den vertikalen inaktiven zu signalisieren. Die Länge des inaktiven Bereiches setzt sich aus Front-, bzw. Backporch und der Länge des Sync-Pulses zusammen. 
+Ein 640x480 Pixel Bild baut sich dann wie in \autoref{fig:vga} gezeigt auf:
+Zuerst werden 640 Pixel RGB Daten für die erste Reihe empfangen, danach kommen 160 Pixel inaktiver Bereich ($\Rightarrow$ Porch). Das Ende dieses Bereiches wird durch das Ansteigen des low-aktiven Signal HSYNC signalisiert. Dieser Vorgang wird nun 480 mal wiederholt, bis das gesamte Bild übertragen wurde. Draufhin wird analog zur horizontalen Synchronisation das VSYNC Signal für 45 Pixel auf 0 gesetzt, um den vertikalen inaktiven Bereich zu signalisieren. Die Länge des inaktiven Bereiches setzt sich aus Front-, bzw. Backporch und der Länge des Sync-Pulses zusammen. 
 Die Bedeutungen der einzelnen Signale fügen jedoch dem nötigen Verständnis nicht mehr hinzu, weswegen die Summe dieser Bereiche als Ganzes angesehen werden kann.
-Wie schon erwähnt ist 640x480 jedoch nicht die einzige Auflösung, die mit einem VGA-Anschluss realisierbar ist. Andere Auflösungen (mit anderen Wiederholungsraten) müssen vom verwendeten Bildschirm unterstützt sein, und werden durch verschieden schnelle Pixelclocks und Porches realisiert.\\
+Wie schon erwähnt ist 640x480 jedoch nicht die einzige Auflösung, die mit einem VGA-Anschluss realisierbar ist. Andere Auflösungen (mit anderen Wiederholungsraten) müssen vom verwendeten Bildschirm unterstützt sein und werden durch verschieden schnelle Pixelclocks und Porches realisiert.\\
 Die in dieser Arbeit verwendete Auflösung von 800x600 Pixeln bei 60Hz benötigt die in \autoref{tab:vga-timings} dargestellten Werte.
 
 \begin{table}[H]
@@ -213,7 +201,7 @@ Zur Umsetzung der Aufgabenstellung wird ein \textit{Zybo Zynq-7000 ARM/FPGA SoC 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{zybo.png}
-	\caption{Zybo Zynq-7000 ARM/FPGA SoC Trainer Board, aus }
+	\caption{Zybo Zynq-7000 ARM/FPGA SoC Trainer Board, aus \cite{zybo}}
 	\label{fig:zybo}
 \end{figure}
 Dieses verfügt unter anderem über folgende technischen Daten:
@@ -228,7 +216,7 @@ Dieses verfügt unter anderem über folgende technischen Daten:
 Der verbaute Zweikernprozessor kommt jedoch im Rahmen dieses Projektes nicht zum Einsatz.
 
 \chapter{Theoretische Grundlagen}
-Die dieser Arbeit zugrundelegenden mathematischen Grundlagen und Definitionen sollen in diesem Kapitel näher erläutert werden.
+Die dieser Arbeit zugrundeliegenden mathematischen Grundlagen und Definitionen sollen in diesem Kapitel näher erläutert werden.
 
 \section{Fraktale}
 Der Begriff \textit{Fraktal} wurde vom französisch-US-amerikanischen Mathematiker Benoît Mandelbrot geprägt und leitet sich vom lateinischen Adjektiv \textit{fractus} ab, was \glqq in Stücke gebrochen\grqq{} oder \glqq irregulär\grqq{} bedeutet. Allgmein ist hiermit entweder eine natürlich vorkommende Strukur mit gewissen Eigenschaften oder eine genau definierte mathematische Menge gemeint. \cite[S. 16]{mandelbrot2013fraktale}\\
@@ -236,7 +224,7 @@ Für ein intuitives Verständnis des Begriffes sollen im folgenden zuerst einige
 
 \subsection{Natürlich vorkommende Fraktale}
 \label{sec:natfrac}
-Fraktale besitzen oft selbstähnliche Strukturen, d.h. dass sich die Gesamtstruktur eines Objektes in kleinerem Maßstab immer wieder findet. Ein Beispiel hierfür ist ein fraktal definierter Baum wie er in \autoref{fig:tree} dargestellt ist. Der Baum wird hierbei über ein einfaches rekursives Verfahren definiert, bei dem immer wieder von jedem Teilbaum aus mit einem festen Winkel in jeweils zwei Äste abgebogen wird.
+Fraktale besitzen oft selbstähnliche Strukturen, d.h. dass sich die Gesamtstruktur eines Objektes in kleinerem Maßstab immer wiederholt. Ein Beispiel hierfür ist ein fraktal definierter Baum wie er in \autoref{fig:tree} dargestellt ist. Der Baum wird hierbei über ein einfaches rekursives Verfahren definiert, bei dem immer wieder von jedem Teilbaum aus mit einem festen Winkel in jeweils zwei Äste abgebogen wird.
 
 \begin{figure}[H]
 	\centering
@@ -256,7 +244,7 @@ Auch bei diesem wiederholt sich die Gesamtstruktur in kleinerem Maßstab in den 
 	\label{fig:blumenkohl}
 \end{figure}
 
-Auch auf höheren Maßstäben, wie etwa bei Bergen oder ganzen Landschaften können Fraktale Strukturen immer wieder beobachtet werden. 
+Auch auf höheren Maßstäben, wie etwa bei Bergen oder ganzen Landschaften können fraktale Strukturen immer wieder beobachtet werden. 
 Die relativ einfachen Regeln, die diesen Fraktalen zu Grunde liegen machten sich bereits im Jahre 1980 Computergrafiker wie etwa Loren Carpenter zu Nutzen. Die relativ begrenzten Rechnerleistungen zwangen Animatoren zu diesem Zeitpunkt dazu, komplexe Landschaften Bild für Bild von Hand zu zeichnen. Durch Mandelbrot's Arbeit in fraktaler Geometrie inspiriert animierte Carpenter eine Landschaft für den Film \textit{Star Trek II: The Wrath of Khan}, wobei er hierfür fraktale Verfahren verwendete. \cite{startrekFractals}\\
 Die hierfür angestellten Berechnungen waren so simpel, dass pro Bildpunkt nur etwa 20 bis 40 Minuten Rechenaufwand betrieben werden mussten, was einen großen Fortschritt gegenüber der manuellen Animation darstellte. \cite{carpenterVolLibre}\\
 
@@ -269,24 +257,23 @@ Die formale Definition eines Fraktals lautet hierbei nach Mandelbrot:
 	\\ - Benoît Mandelbrot, aus \cite[S. 27]{mandelbrot2013fraktale}
 \end{quotation}
 Die hier erwähnte Hausdorff-Besicovitch Dimension ist ein Maß, welches einem beliebigen geometrischen Raum zugeordnet werden kann, wobei die Dimension hier keine natürliche Zahl sein muss. In vereinfachter Form ermittelt sich die Hausdorff-Dimension folgendermaßen:\\
-Man betrachte die Anzahl Kugeln (oder Kreisen) $N$ mit Radius $R$, die nötig sind, um eine Punktmenge vollständig abzudecken.
+Man betrachte die Anzahl Kugeln (oder Kreise) $N$ mit Radius $R$ die nötig sind, um eine Punktmenge vollständig abzudecken.
 Geht nun $R$ gegen 0 werden immer mehr Kugeln benötigt, um die Punktmenge abzudecken. Beobachtet wird nun in welcher Relation $N$ zu $R$ wächst, mit Hilfe der Formel:
 \[D = - \lim_{R \to 0} \frac{\log{N}}{\log{R}}\]
 wobei D die Hausdorff-Dimension ist. Betrachtet man etwa eine Linie der Länge 1, kann diese zunächst mit $N = 1$ Kreisen des Radius $R = 1$ abdecken. Halbiert man nun $R$ sind doppelt so viele Kreise nötig um die Linie abzudecken. Allgemein lässt sich sagen, dass in diesem Fall $N$ umgekehrt proportional zu $R$ wächst. Drückt man nun $N$ in Abhängigkeit von R aus erhält man für die Dimension einer Kurve:
 \[D = - \lim_{R \to 0} \frac{\log{\frac{1}{R}}}{\log{R}} = 1\]
 Analog werden etwa bei einem Rechteck $1/R^2$ Kugeln zur Abdeckung benötigt, wenn $R$ gegen 0 läuft. Die Dimension eines Rechtecks ist daher:
 \[D = - \lim_{R \to 0} \frac{\log{\frac{1}{R^2}}}{\log{R}} = 2\]
-Bei den hier gezeigten Formen ist die Hausdorff Dimension nicht höher als deren topologische Dimension \footnote{s. hierzu \url{https://www.math.tu-cottbus.de/~froehner/sonstiges/skripte/node9.html}} 
-Nimmt man jedoch nun ein Fraktal, wie etwa das Sierpinski-Dreieck %TODO vllt erklären
-herbei, hat dieses oft einen gebrochenen Dimensionwert, in diesem Fall:
+Bei den hier gezeigten Formen ist die Hausdorff Dimension nicht höher als deren topologische Dimension \footnote{s. hierzu \url{https://www.math.tu-cottbus.de/~froehner/sonstiges/skripte/node9.html}}.
+Nimmt man jedoch nun ein Fraktal, wie etwa das Sierpinski-Dreieck herbei, hat dieses oft einen gebrochenen Dimensionwert, in diesem Fall:
 \[\frac{\log{3}}{\log{2}}\approx 1.585\]
 Zusätzlich zu der bereits gezeigten Definition gilt:
-Jede Menge, die einen nichtganzzahligen Dimensionwert hat, ist ein Fraktal\cite[S. 27]{mandelbrot2013fraktale}.
+Jede Menge, die einen nicht ganzzahligen Dimensionwert hat, ist ein Fraktal\cite[S. 27]{mandelbrot2013fraktale}.
 
 \section{Die Mandelbrotmenge}
 \label{sec:mandelbrotmath}
-Nachdem nun die formale Definition eines Fraktales bekannt ist, soll im folgenden Mandelbrotmenge erläutert werden.\\
-Es gilt: Teil der Menge sind alle komplexen Zahlen $c$, für die die Iteration
+Nachdem nun die formale Definition eines Fraktales bekannt ist, soll im folgenden die Mandelbrotmenge erläutert werden.\\
+Es gilt: Teil der Menge sind alle komplexen Zahlen $c$, für welche die Iteration
 \[z_0=0\]
 \[z_{n+1}=z_n^2 + c\]
 nicht divergiert.
@@ -295,9 +282,9 @@ Im folgenden sind Iterationen für einige $c$ gezeigt:
 \[c_2=-1 ; z=0 \rightarrow -1 \rightarrow 0 \rightarrow -1\]
 \[c_3=1+1i ; z=1+3i \rightarrow -7+7i \rightarrow 1-97i \rightarrow -9407-193i\]
 
-Für $c1$ und $c3$ sieht man schnell, dass der Betrag dieser Zahlen divergiert, während es bei $c2$ klar ist, dass $z$ nur zwischen 0 und -1 wechselt. Also ist $c2$ Teil der Menge, während es $c1$ und $c3$ nicht sind. Jedoch ist die Divergenz nicht für alle Werte so einfach festzustellen. Man betrachte folgendes $c$:
+Für $c_1$ und $c_3$ sieht man schnell, dass der Betrag dieser Zahlen divergiert, während es bei $c_2$ klar ist, dass $z$ nur zwischen 0 und -1 wechselt. Also ist $c_2$ Teil der Menge, während es $c_1$ und $c_3$ nicht sind. Jedoch ist die Divergenz nicht für alle Werte so einfach festzustellen. Man betrachte folgendes $c$:
 \[c_4=-0.55 + 0.46i ; z=0.45 - 0.04i \rightarrow -0.34 + 0.05i \rightarrow -0.68 + 0.11i \rightarrow -0.09 + 0.29i\]
-Hier ist es zunächst unklar ob eine Divergenz stattfinden wird, es müssten erst viele Iterationsschritte angestellt werden, um eine Aussage treffen zu könnnen. Nach 200 Schritten ergibt sich die in \autoref{fig:mandel_c4} gezeigte Struktur, bei der man erkennen kann, dass $z$ gegen einen bestimmten Punkt konvergieren zu scheint.
+Hier ist es zunächst unklar ob eine Divergenz stattfinden wird, es müssten erst viele Iterationsschritte angestellt werden, um eine Aussage treffen zu können. Nach 200 Schritten ergibt sich die in \autoref{fig:mandel_c4} gezeigte Struktur, bei der man erkennen kann, dass $z$ gegen einen bestimmten Punkt konvergieren zu scheint.
 
 \begin{figure}[H]
 	\centering
@@ -324,7 +311,7 @@ funktion mandelbrot(c):
   return iteration //maximale Iteration erreicht
 \end{lstlisting}
 
-Diese Funktion würde nun für jeden Pixel (bzw. einem dazugehörigen $c$ Wert) aufgerufen werden, um ein Bild wie in \autoref{fig:mandelbrot_1} darzustellen.
+Diese Funktion würde nun für jeden Pixel (bzw. einem dazugehörigen Wert $c$) aufgerufen werden, um ein Bild wie in \autoref{fig:mandelbrot_1} darzustellen.
 
 \begin{figure}[H]
 	\centering
@@ -342,7 +329,7 @@ In diesem Kapitel soll gezeigt werden, wie die in \autoref{sec:aufgabenstellung}
 
 \section{Gewähltes Zahlenformat}
 \label{sec:zahlenformat}
-Die Beobachtung eines komplexzahligen Punktes hinsichtlich seiner Zugehörigkeit zur Mandelbrotmenge setzt ein sehr präzises Datenformat vorraus, damit sich auch bei hohen Vergrößerunsgfaktoren Rechenungenauigkeiten nicht visuell bemerkbar machen.\\
+Die Beobachtung eines komplexzahligen Punktes hinsichtlich seiner Zugehörigkeit zur Mandelbrotmenge setzt ein sehr präzises Datenformat vorraus, damit sich auch bei hohen Vergrößerungsfaktoren Rechenungenauigkeiten nicht visuell bemerkbar machen.\\
 Da die Mandelbrotmenge vollständig in dem in \autoref{tab:minmaxmandel} gezeigten Bereich liegt, muss das verwendete Datenformat nur einen kleinen Teil seiner Bits für den ganzzahligen Teil der verschiedenen Berechnungen verwenden. \\
 
 \begin{table}[H]
@@ -358,8 +345,8 @@ Da die Mandelbrotmenge vollständig in dem in \autoref{tab:minmaxmandel} gezeigt
 	\label{tab:minmaxmandel}
 \end{table}
 
-Der große Teil des Bitvektors sollte also für die Darstellung der Nachkommastellen verwendet werden.
-Die Sprache VHDL liefert im Packet \textit{IEEE\_numeric\_std} den Typ \textit{signed}, welcher dazu dient vorzeichenbehaftete Ganzzahlen in einem beliebig breiten Bitvektor darzustellen. \footnote{s. hierzu die Definition in: \cite{ieeeNumeric}}.\\
+Der Großteil des Bitvektors sollte also für die Darstellung der Nachkommastellen verwendet werden.
+Die Sprache VHDL liefert im Packet \textit{IEEE\_numeric\_std} den Typ \textit{signed}, welcher dazu dient vorzeichenbehaftete Ganzzahlen in einem beliebig breiten Bitvektor darzustellen \footnote{s. hierzu die Definition in: \cite{ieeeNumeric}}.\\
 Da die Rechenoperationen auf binärer Ebene für eben solche Festkommazahlen und Ganzzahlen (jeweils mit Vorzeichen) identisch sind, ist der signed-Typ gut zur Verwendung geeignet.
 Intern rechnet das FPGA also mit großen Ganzzahlen, welche jedoch eigentlich Festkommazahlen repräsentieren.\\
 Hierbei gilt es, die Breite der signed Zahlen so festzulegen, dass zum einen eine maximale Präzision erreicht wird und zum Anderen die mit ihnen durchgeführten Multiplikationen von den eingebauten DSPs durchgeführt werden können (s. \autoref{sec:fpga}).\\
@@ -376,7 +363,7 @@ Die Zahl wird im Einerkomplement dargestellt, was bedeutet, dass bei negativen Z
 Selbst bei einer 134217728-fachen Vergrößerung (27 Zooms um Faktor 2) ergeben sich mit dieser Präzision noch keine visuell wahrnehmbaren Rechenfehler.\\
 Um noch tiefere Zooms zu realisieren müsste entweder eine variable Breite der einzelnen Datenworte realisiert werden, oder der grundlegende Algorithmus zur Berechnung der Mandelbrotmenge geändert werden.
 Hierfür würde sich der relativ neue Algorithmus von K.I. Martin (s. \cite{SUPERFRACTALTHINGMATHS}) eignen, welcher größtenteils unabhängig von aktueller Zoomtiefe und ohne die Verwendung von beliebig präzisen Datentypen auskommt \cite{SUPERFRACTALTHINGMATHS}.\\
-Da die Umsetzung dieses Algorithmus jedoch um einiges komplexer als die in dieser Arbeit verwendete Methode ist und die aktuelle Präzision zufriedenstellend ist, wird von dessen Imlmentierung abgesehen, jedoch ist die Bitbreite der einzelnen Datenworte in der Datei \textit{constants.vhd} konfigurierbar.\\
+Da die Umsetzung dieses Algorithmus jedoch um einiges komplexer als die in dieser Arbeit verwendete Methode ist und die aktuelle Präzision zufriedenstellend ist, wird von dessen Implentierung abgesehen, jedoch ist die Bitbreite der einzelnen Datenworte in der Datei \textit{constants.vhd} konfigurierbar.\\
 \paragraph{Bitbreite bei Multiplikationen}
 Da bei der Multiplikation zweier 40-Bit-Zahlen das Ergebnis 80 Bit lang ist, muss dieses wieder in ein 40-Bit Format zurückgeführt werden.
 Dies geschieht mittels einer dafür entwickelten VHDL-Prozedur \textit{fixlen}, welche in der Datei \textcolor{red}{/src/mandel-zybo.srcs/sources\_1/imports/new/mbcore.vhd} zu finden ist.
@@ -389,7 +376,7 @@ Dies geschieht mittels einer dafür entwickelten VHDL-Prozedur \textit{fixlen}, 
 \end{figure}
 
 Die Funktionsweise dieser Prozesdur ist in \autoref{fig:fixlen} dargestellt.
-Die aus der Multiplikation in Schritt 1. entstehende 80 Bit zahl besteht aus 8 Bits Vorkommateil und 72 Bit Nachkommateil.
+Die aus der Multiplikation in Schritt 1 entstehende 80 Bit Zahl besteht aus 8 Bits Vorkommateil und 72 Bit Nachkommateil.
 Um diese Zahl nun wieder in das normale Format zurückzuführen werden die ersten 4 Bit des Vorkommateils und die letzten 36 Bits des Nachkommateils abgeschnitten (Schritt 2.).\\
 Hierbei verliert das Ergebnis der Multiplikation an Präzision, was jedoch unvermeidbar ist, da sich die Länge der Datenworte sonst bei jeder Multiplikation verdoppeln würde.\\
 Umgesetzt wird dieses Verfahren in einer VHDL-Funktion \textit{fixlen} (\autoref{lst:fixlen}), welche durch die Konstante \textit{N\_BITS} parametrisierbar ist.
@@ -408,8 +395,8 @@ b <= "0000111100001111";
 a <= a*b; --Fehler!
 a <= fixlen(a*b);
 \end{lstlisting}
-Da das Ergebnis der 16-Bit Multiplikation in Zeile 10 32 Bit breit ist, kann dieses nicht dem 16-Bit Wert \textit{a} zugewiesen werden.
-Stattdessen muss dieses Ergebnis wie in Zeile 11 gezeigt wieder auf eine Breite von 16 Bit gekürzt werden.
+Da das Ergebnis der 16-Bit Multiplikation in Zeile 12 32 Bit breit ist, kann dieses nicht dem 16-Bit Wert \textit{a} zugewiesen werden.
+Stattdessen muss dieses Ergebnis wie in Zeile 13 gezeigt wieder auf eine Breite von 16 Bit gekürzt werden.
 
 \paragraph{Umwandlung zwischen Zahlensystemen}
 Funktionen zur Umwandlung zwischen dem Dezimalsystem und dem verwendeten Festkommasystem sind im Skript \textcolor{red}{/scripts/utils.py} enthalten.
@@ -467,7 +454,7 @@ Nach einigen Zyklen des Clocksignals liegt dann die Iterationszahl (in diesem Fa
 \end{figure}
 Vor diesem Zeitpunkt ist der Zustand von \textbf{iter} undefiniert, erst nach der steigenden Taktflanke von \textbf{waiting} liegt das richtige Ergebnis an.
 Ab diesem Zeitpunkt ist der Core auch wieder bereit, neue Werte von $c$ zu verarbeiten.\\
-Da der Mandelbrot-Core über einen den Eingang \textbf{max\_iter} verfügt und diesen auch bei jeder Berechnung neu ausliest, kann die maximale Iterationszahl im laufenden Betrieb jederzeit geändert werden,
+Da der Mandelbrot-Core über einen Eingang \textbf{max\_iter} verfügt und diesen auch bei jeder Berechnung neu ausliest, kann die maximale Iterationszahl im laufenden Betrieb jederzeit geändert werden,
 \footnote{Neue Werte für die Signale \textbf{c\_real}, \textbf{c\_imag} und \textbf{max\_iter} werden erst beim nächsten \textbf{ready} Puls übernommen}
 was nützlich ist um bei steigender Vergrößerungsstufe den Detailgrad der Berechnung erhöhen zu können.\\
 Die Mandelbrot-Cores werden mit einer eigenen Clock, die unabhängig von z.B. der VGA-Clock läuft, getaktet.
@@ -481,7 +468,7 @@ Eine Iteration besteht aus folgenen Bestandteilen:
 Die Abfrage (A) der aktuellen Iterationszahl und der Vergleich mit der maximal zulässigen ist hierbei sehr trivial und nimmt deshalb auch keine nennenswerte Zeit in Anspruch, muss also auch nicht weiter optimiert werden.\\
 Der komplexzahlige Iterationsteil (B) besteht jedoch aus mehreren Multiplikationen, Additionen und Vergleichen, weswegen hier ein großer Teil der pro Iteration entstehenden Verzögerung entsteht.
 Es gilt, diesen Bestandteil (B) weitesgehend zu optimieren, was durch einfache algebraische Umformungen geschehen kann.\\
-In jedem Schritt muss überprüft werden, ob $z$ kleiner 2 ist:
+In jedem Schritt muss überprüft werden, ob der Betrag von $z$ kleiner 2 ist:
 \[abs(z) <= 2\]
 Der Betrag (abs) einer komplexen Zahl mit Realteil $z_r$ und Imaginärteil $z_i$ ist als ihr Abstand vom Ursprung definiert:
 \[abs(z) = \sqrt{z_r^2 + z_i^2}\]
@@ -570,7 +557,8 @@ Ein Datenwort in diesem Speicher kann also 16 ($2^4$) Zustände annehmen, wodurc
 Um alle Datenworte adressieren zu können wird ein 19-Bit Adresswort benötigt:
 \[\ceil{log_2{(800*600)}}=19\]
 Da die Mandelbrot-Koordinatoren einen 14-Bit Iterationswert liefern, muss dieser zur Einspeicherung auf eine Breite von 4 Bit gemappt werden. Diese Problemstellung wird in \autoref{subsec:luts} behandelt.\\
-Im Betrieb wird der Speicher permanent vom VGA-Modul ausgelesen, während die Mandelbrot-Koordinatoren neue Werte im Speicher ablegen. Da die Synchronisation dieser beiden Vorgänge enorm aufwändig wäre und die Anzahl der Lese-/Schreibzugriffe pro Sekunde eingeschränken würde, muss der Speicher im sog. \textit{Dual-Port}-Modus betrieben werden.\\
+Im Betrieb wird der Speicher permanent vom VGA-Modul ausgelesen, während die Mandelbrot-Koordinatoren neue Werte im Speicher ablegen. 
+Da die Synchronisation dieser beiden Vorgänge enorm aufwändig wäre und die Anzahl der Lese-/Schreibzugriffe pro Sekunde einschränken würde, muss der Speicher im sog. \textit{Dual-Port}-Modus betrieben werden.\\
 Ein Speicher im Dual-Port-Modus verfügt über zwei Ports, welche völlig unabhängig voneinander agieren (\textbf{BRAM\_PORTA}, \textbf{BRAM\_PORTB}; fortan \textbf{Port A} bzw. \textbf{Port B} genannt). 
 Jeder dieser Ports verfügt über einen eigenen Takt (\textbf{clka},\textbf{clkb}) und einen eigenen Adressbus.
 \textbf{Port A} wird rein zum Schreibzugriff verwendet, während \textbf{Port B} rein zum Lesezugriff konfiguriert ist. Dies äußert sich darin, dass \textbf{Port A} einen \textit{Write Enable}-Eingang (Schreibzugriffsaktivierung) \textbf{wea} hat, jedoch keinen Datenausgang. 
@@ -579,8 +567,7 @@ Jeder dieser Ports verfügt über einen eigenen Takt (\textbf{clka},\textbf{clkb
 \label{subsec:luts}
 Lookup Tables (kurz LUTs) sind Bausteine, welche für einen Index $i$ einen bestimmten Tabelleneintrag als Output liefern können.
 Die Tabelleneinträge sind hierbei vordefiniert, was einige Berechnungen, die sonst in Hardware durchgeführt werden müssten, erspart.\\
-Im Folgenden werden die im Rahmen dieses Projekts %$TODO: projekts/Projektes nachschauen
-verwendeten LUTs vorgestellt.\\
+Im Folgenden werden die im Rahmen dieses Projekts verwendeten LUTs vorgestellt.\\
 Da in dem in \autoref{subsec:ram} beschrieben Speicher nur 4-Bit Datenworte gespeichert werden können, ist es nicht möglich, für jeden einzelnen Pixel RGB-Werte zu hinterlegen, da diese auf dem Zybo-Board 16 Bit breit sind \cite{zyboref}. Es muss also eine Farbtabelle existieren, welche von 4-Bit Iterations-Werten auf 16-Bit RGB-Werte übersetzt (\textbf{LUT1}).\\
 Da der Mandelbrot-Koordinator 14-Bit Iterationswerte liefert, der Speicher jedoch nur 4-Bit %TODO: bitschreibweise konsistent
 Datenworte speichern kann, muss auch hier eine Übersetzung stattfinden (\textbf{LUT2}).\\
@@ -592,7 +579,7 @@ Die verwendeten RGB-Werte sind in einer frei konfigurierbaren Farbtabelle (Datei
 Sei die maximale Iterationszahl $i_{max} = 100$.
 Zur Ermittlung der Farbe eines Pixels muss zunächst der Farbindex $I_F$ errechnet werden. Wenn etwa 33 Iterationen genötigt wurden sieht ergibt sich:
 \[I_F = \ceil{\frac{33}{100}*15} = \ceil{4,95} = 5\]
-Nun kann der zugehörige RGB-Wert aus einer Farbtabelle (z.B. \autoref{tab:farben01}) entnommen und an das VGA-Modul weitergeleitet werden\footnote{Die hier dargestellten RGB-Werte sind 24 Bit breit, da dies die übliche RGB-Notation ist. Die RGB-Werte auf dem Zybo-Board sind nur 16 Bit breit.}:
+Nun kann der zugehörige RGB-Wert aus einer Farbtabelle (z.B. \autoref{tab:farben01}) entnommen und an das VGA-Modul weitergeleitet werden\footnote{Der Übersichtlichkeit halber wurden die in Hardware verwendeten 16-Bit Werte in dieser Tabelle in 24-Bit Werte umgerechnet, da diese sich leichter in einer hexadezimalen Schreibweise darstellen lassen.}:
 
 \begin{table}[H]
 	\centering
@@ -646,7 +633,7 @@ Sobald diese Adresse an den Output \textbf{adr} angelegt wird, liegen die korrek
 Diese Signale werden dann direkt an die Ausgänge \textbf{r},\textbf{g} und \textbf{b} weitergeleitet.\\
 Um mit dem Bildschirmtakt synchron zu arbeiten werden die Signale \textbf{hsync} bzw. \textbf{vsync} wie in \autoref{sec:vga} beschrieben betrieben.\\
 Da die in \autoref{sec:peripheriesteuerung} vorgestellte Steuerung stets den Mittelpunkt des Bildschirms als Referenzpunkt verwendet, ist es nützlich diesen zu kennzeichnen.
-Dies geschieht durch ein Farbenkreuz, welches aus zwei roten Linien besteht (s. \autoref{fig:fadenkreuz}).
+Dies geschieht durch ein Fadenkreuz, welches aus zwei roten Linien besteht (s. \autoref{fig:fadenkreuz}).
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{fadenkreuz.jpg}
@@ -687,8 +674,7 @@ Da immer um Faktor 2 vergrößert werden soll, werden die Koordinaten folgenderm
 \[y1_{neu} = y1 + (y2-y1)/4\]
 \[x2_{neu} = x2 - (x2-x1)/4\]
 \[y2_{neu} = y2 - (y2-y1)/4\]
-Zum intuitiven Verständnis ist der Vergrößerungsvorgang in \autoref{fig:zoom} (nächste Seite) %TODO: schauen ob das stimmt
-dargestellt.
+Zum intuitiven Verständnis ist der Vergrößerungsvorgang in \autoref{fig:zoom} (nächste Seite) dargestellt.
 Zum Verkleinern werden die Koordinaten analog angepasst:
 \[x1_{neu} = x1 - (x2-x1)/2\]
 \[y1_{neu} = y1 - (y2-y1)/2\]
@@ -728,7 +714,7 @@ Das Clocksignal ist hierbei ein periodisches Signal (s. z.B. \autoref{fig:wave_m
 Zu jeder steigenden Flanke von \textbf{clk} durchlaufen alle Module ihre Schaltlogik und speichern ihre Ergebnisse in verschiedene Formen von Speichereinheiten.
 Eine Ausnahme hiervon sind die LUTs, welche ihren Output direkt abhängig vom Input ändern, und somit völlig taktunabhängig arbeiten.\\
 Das Resetsignal dient dazu, einen definierten Anfangszustand des Gesamtsystems herzustellen.
-So wird bei jedem Takt von \textbf{clk} abgefragt, ob das Resetsignal aktiv ist
+So wird bei jedem Takt von \textbf{clk} abgefragt, ob das Resetsignal aktiv ist.
 Wenn dem so ist, werden in jedem Modul einige Aktionen ausgeführt:
 \begin{enumerate}
 	\item Alle Outputs werden auf einen bestimmten Wert gesetzt (meist 0)
