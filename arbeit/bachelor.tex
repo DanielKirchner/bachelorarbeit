@@ -1,7 +1,6 @@
 \documentclass[a4paper,12pt,onesided]{report}
 \input{macros.tex}
 \begin{document}
-
 % Titelseite
 \begin{titlepage}
 	\centering
@@ -65,8 +64,20 @@ The developed Hardware can be controlled through buttons, which are hooked up vi
 \section*{Abkürzungsverzeichnis}
 \addcontentsline{toc}{chapter}{Abkürzungsverzeichnis}
 \begin{tabular}{ll}
-  JAX-RS&Java API for RESTful Web Services\\
-  % TODO: updaten
+  VGA & Video Graphics Array \\
+  RAM & Random-Access Memory \\
+  IO & Input/Output \\
+  IP & Intellectual Property \\
+  VHDL & Very High Speed Integrated Circuit Hardware Description Language \\
+  DSP & Digital Signal Processor \\
+  CPU & Central Processing Unit \\
+  GPU & Graphics Processing Unit \\
+  BRAM & Block Random-Access Memory \\
+  PMOD & Peripheral Module interface \\
+  FPGA & Field Programmable Gate Array \\
+  LUT & Lookup Table \\
+  SRAM & Static Random-Access Memory \\
+  RGB & Rot Grün Blau \\
 \end{tabular}
 
 % Beginn Arbeit
@@ -321,7 +332,7 @@ Diese Funktion würde nun für jeden Pixel (bzw. einem dazugehörigen Wert $c$) 
 \end{figure}
 
 Die eigentliche Faszination der Mandelbrotmenge liegt in ihrem Detailgrad, welcher beim Vergrößern des Randes der Menge (in \autoref{fig:mandelbrot_1} weiß dargestellt), sichtbar wird. Es sind diverse (oft selbstähnliche) Strukturen zu sehen, wobei kein eindeutig visuelles Muster vorhanden zu Sein scheint. Da mit einem Vergrößern des Detailgrades präzisere Berechnungen und höhere maximale Iterationszahlen einhergehen, liegt ein enormer Rechenaufwand vor.\\
-Einige besonders sehenswerte Teile der Mandelbrotmenge sind im %TODO: ANHANG
+Einige besonders sehenswerte Teile der Mandelbrotmenge sind in \autoref{chap:mandelpics}
 dargestellt.
 
 \chapter{Umsetzung}
@@ -412,7 +423,6 @@ In diesem Abschnitt soll ein Überblick über das entwickelte Gesamtsystem gegeb
 	\label{fig:top}
 \end{figure}
 
-%TODO in bildern mandelbrot-core (bindestrich)
 In \autoref{fig:top} ist der konzeptuelle 2-kernige Aufbau des Gesamtsystems dargestellt.\\
 Die Darstellung erfolgt über eine VGA-Schnittstelle, welche durch das VGA-Modul bedient wird.
 Dieses liest stetig Pixelwerte aus den vorhandenen Speicherblöcken aus und generiert aus diesen ein gültiges VGA-Signal.\\
@@ -569,8 +579,7 @@ Lookup Tables (kurz LUTs) sind Bausteine, welche für einen Index $i$ einen best
 Die Tabelleneinträge sind hierbei vordefiniert, was einige Berechnungen, die sonst in Hardware durchgeführt werden müssten, erspart.\\
 Im Folgenden werden die im Rahmen dieses Projekts verwendeten LUTs vorgestellt.\\
 Da in dem in \autoref{subsec:ram} beschrieben Speicher nur 4-Bit Datenworte gespeichert werden können, ist es nicht möglich, für jeden einzelnen Pixel RGB-Werte zu hinterlegen, da diese auf dem Zybo-Board 16 Bit breit sind \cite{zyboref}. Es muss also eine Farbtabelle existieren, welche von 4-Bit Iterations-Werten auf 16-Bit RGB-Werte übersetzt (\textbf{LUT1}).\\
-Da der Mandelbrot-Koordinator 14-Bit Iterationswerte liefert, der Speicher jedoch nur 4-Bit %TODO: bitschreibweise konsistent
-Datenworte speichern kann, muss auch hier eine Übersetzung stattfinden (\textbf{LUT2}).\\
+Da der Mandelbrot-Koordinator 14-Bit Iterationswerte liefert, der Speicher jedoch nur 4-Bit Datenworte speichern kann, muss auch hier eine Übersetzung stattfinden (\textbf{LUT2}).\\
 Für die Umsetzung von \textbf{LUT2} wird folgende Formel verwendet:
 \[I_F = \ceil{\frac{i}{i_{max}}*15}\]
 Hierbei sind $i$ und $i_{max}$ 14-Bit Zahlen, wobei $I_F$ eine 4 Bit Zahl ist, wodurch $I_F$ in den Speicher geschrieben werden kann.\\
@@ -656,7 +665,6 @@ Alle Inputs werden vom Input-Modul (\autoref{fig:schem_input}) verwaltet:
 	\caption{Debouncer und Input-Modul, schematische Darstellung}
 	\label{fig:schem_input}
 \end{figure}
-%TODO: vllt alle darstellungen deutsch("Buttons")
 Das Input-Modul fragt zu jedem Takt von \textbf{clk} den Zustand der Taster vom Debouncer ab.
 Wenn einer (oder mehrere) Taster gedrückt sind wird eine der folgenden Aktionen ausgeführt:
 \begin{itemize}
@@ -836,6 +844,25 @@ Die Verwendung des Algorithmus aus \cite{SUPERFRACTALTHINGMATHS} würde noch ext
 \end{table}
 
 Die Farbtabellen der Modi 3 und 4 sind die beiden hier gezeigten Tabellen in umgeherter Farbreihenfolge (also z.B. \textcolor{red}{rot} $\rightarrow$ \textcolor{green}{grün} wird zu \textcolor{green}{grün} $\rightarrow$ \textcolor{red}{rot}).
+
+\chapter{Ausschnitte der Mandelbrotmenge}
+\label{chap:mandelpics}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{mb1.png}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{mb2.png}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{mb3.png}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{mb4.png}
+\end{figure}
 
 \chapter{Ehrenwörtliche Erklärung}
 Hiermit versichere ich, dass ich diese Bachelorarbeit selbstständig verfasst, keine anderen als die angegebenen Quellen und Hilfsmittel benutzt, sowie nicht an anderer Stelle als Prüfungsarbeit vorgelegt habe.
